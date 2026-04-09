@@ -1,9 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { ResumeData, TemplateType, Experience, Education, Skill, Project } from '../types/resume';
+import type { ResumeData, TemplateType } from '../types/resume';
 import { resumeToMarkdown, markdownToResume } from '../utils/markdown';
 
 export type EditorMode = 'markdown' | 'visual';
+
+export type Language = 'zh' | 'en' | 'de';
 
 interface SectionOrder {
   id: string;
@@ -12,10 +14,10 @@ interface SectionOrder {
   visible: boolean;
 }
 
-const initialResumeData: ResumeData = {
+const zhSample: ResumeData = {
   personalInfo: {
-    fullName: '张三',
-    email: 'zhangsan@example.com',
+    fullName: '张明',
+    email: 'zhangming@example.com',
     phone: '138-0000-0000',
     location: '北京市',
     linkedin: '',
@@ -74,6 +76,132 @@ const initialResumeData: ResumeData = {
   ],
 };
 
+const enSample: ResumeData = {
+  personalInfo: {
+    fullName: 'John Smith',
+    email: 'john@example.com',
+    phone: '+1 234 567 8900',
+    location: 'San Francisco, CA',
+    linkedin: 'linkedin.com/in/johnsmith',
+    website: 'johnsmith.dev',
+    summary: '5+ years of full-stack development experience, specializing in React and Node.js ecosystems. Passionate about open source and active in the developer community.',
+  },
+  experience: [
+    {
+      id: '1',
+      company: 'Tech Corp',
+      position: 'Senior Frontend Engineer',
+      startDate: '2022-01',
+      endDate: '',
+      current: true,
+      description: 'Led frontend architecture design for core products\nManaged a team of 5 engineers on critical projects\nOptimized frontend performance, reducing FCP by 50%',
+    },
+    {
+      id: '2',
+      company: 'StartupXYZ',
+      position: 'Frontend Engineer',
+      startDate: '2020-06',
+      endDate: '2021-12',
+      current: false,
+      description: 'Built e-commerce platform frontend\nImplemented complex interactive features and animations\nCollaborated with designers to ensure UI/UX quality',
+    },
+  ],
+  education: [
+    {
+      id: '1',
+      school: 'MIT',
+      degree: "Bachelor's",
+      field: 'Computer Science',
+      startDate: '2016-09',
+      endDate: '2020-06',
+      current: false,
+    },
+  ],
+  skills: [
+    { id: '1', name: 'React', level: 'expert' },
+    { id: '2', name: 'TypeScript', level: 'expert' },
+    { id: '3', name: 'Node.js', level: 'advanced' },
+    { id: '4', name: 'Python', level: 'intermediate' },
+  ],
+  projects: [
+    {
+      id: '1',
+      name: 'Open Source UI Library',
+      description: 'React-based UI component library with 50+ high-quality components, 2k+ GitHub Stars',
+      link: 'https://github.com/example/ui-lib',
+      technologies: ['React', 'TypeScript', 'Rollup'],
+    },
+  ],
+  languages: [
+    { id: '1', name: 'English', level: 'Native' },
+    { id: '2', name: 'Chinese', level: 'Fluent' },
+    { id: '3', name: 'German', level: 'Basic' },
+  ],
+};
+
+const deSample: ResumeData = {
+  personalInfo: {
+    fullName: 'Max Müller',
+    email: 'max.mueller@example.de',
+    phone: '+49 170 1234567',
+    location: 'Berlin, Deutschland',
+    linkedin: 'linkedin.com/in/maxmueller',
+    website: 'maxmueller.de',
+    summary: 'Erfahrener Full-Stack-Entwickler mit 5+ Jahren Erfahrung, spezialisiert auf React und Node.js. Leidenschaftlich für Open Source und aktive Teilnahme an der Entwickler-Community.',
+  },
+  experience: [
+    {
+      id: '1',
+      company: 'Tech GmbH',
+      position: 'Senior Frontend-Entwickler',
+      startDate: '2022-01',
+      endDate: '',
+      current: true,
+      description: 'Verantwortlich für die Frontend-Architektur und Entwicklung\nLeitung eines 5-köpfigen Teams für wichtige Projekte\nOptimierung der Frontend-Performance, FCP um 50% reduziert',
+    },
+    {
+      id: '2',
+      company: 'Digital AG',
+      position: 'Frontend-Entwickler',
+      startDate: '2020-06',
+      endDate: '2021-12',
+      current: false,
+      description: 'Mitwirkung an der E-Commerce-Plattform-Entwicklung\nImplementierung komplexer interaktiver Features\nEnge Zusammenarbeit mit Designern für beste UI/UX-Qualität',
+    },
+  ],
+  education: [
+    {
+      id: '1',
+      school: 'TU Berlin',
+      degree: 'Bachelor',
+      field: 'Informatik',
+      startDate: '2016-09',
+      endDate: '2020-06',
+      current: false,
+    },
+  ],
+  skills: [
+    { id: '1', name: 'React', level: 'expert' },
+    { id: '2', name: 'TypeScript', level: 'expert' },
+    { id: '3', name: 'Node.js', level: 'advanced' },
+    { id: '4', name: 'Python', level: 'intermediate' },
+  ],
+  projects: [
+    {
+      id: '1',
+      name: 'Open-Source-UI-Bibliothek',
+      description: 'React-basierte UI-Komponentenbibliothek mit über 50 hochwertigen Komponenten, 2k+ GitHub Stars',
+      link: 'https://github.com/example/ui-lib',
+      technologies: ['React', 'TypeScript', 'Rollup'],
+    },
+  ],
+  languages: [
+    { id: '1', name: 'Deutsch', level: 'Muttersprache' },
+    { id: '2', name: 'Englisch', level: 'Fließend' },
+    { id: '3', name: 'Chinesisch', level: 'Grundkenntnisse' },
+  ],
+};
+
 const defaultSectionOrder: SectionOrder[] = [
   { id: 'personal', type: 'personal', label: '个人信息', visible: true },
   { id: 'summary', type: 'summary', label: '个人简介', visible: true },
@@ -84,74 +212,93 @@ const defaultSectionOrder: SectionOrder[] = [
   { id: 'languages', type: 'languages', label: '语言能力', visible: true },
 ];
 
+function getSampleData(lang: Language): ResumeData {
+  if (lang === 'en') return enSample;
+  if (lang === 'de') return deSample;
+  return zhSample;
+}
+
 interface ResumeState {
-  // 数据
   resumeData: ResumeData;
   markdownContent: string;
-  
-  // UI 状态
   editorMode: EditorMode;
   template: TemplateType;
   sectionOrder: SectionOrder[];
+  language: Language;
   editingSection: string | null;
   editingField: { section: string; field: string; index?: number } | null;
-  
-  // 操作方法
+
   setEditorMode: (mode: EditorMode) => void;
   setTemplate: (template: TemplateType) => void;
-  
-  // Markdown 相关
+  setLanguage: (language: Language) => void;
   updateMarkdown: (content: string) => void;
   syncFromMarkdown: () => void;
   syncToMarkdown: () => void;
-  
-  // 数据更新
   setResumeData: (data: ResumeData) => void;
   updatePersonalInfo: (info: Partial<ResumeData['personalInfo']>) => void;
   updateSectionLabel: (sectionType: string, newLabel: string) => void;
   toggleSectionVisibility: (sectionType: string) => void;
   reorderSections: (newOrder: SectionOrder[]) => void;
-  
-  // 编辑状态
   setEditingSection: (section: string | null) => void;
   setEditingField: (field: { section: string; field: string; index?: number } | null) => void;
-  
-  // 条目操作
-  addExperience: (exp: Omit<Experience, 'id'>) => void;
-  updateExperience: (id: string, exp: Partial<Experience>) => void;
+  addExperience: (exp: Omit<ResumeData['experience'][0], 'id'>) => void;
+  updateExperience: (id: string, exp: Partial<ResumeData['experience'][0]>) => void;
   removeExperience: (id: string) => void;
-  addEducation: (edu: Omit<Education, 'id'>) => void;
-  updateEducation: (id: string, edu: Partial<Education>) => void;
+  addEducation: (edu: Omit<ResumeData['education'][0], 'id'>) => void;
+  updateEducation: (id: string, edu: Partial<ResumeData['education'][0]>) => void;
   removeEducation: (id: string) => void;
-  addSkill: (skill: Omit<Skill, 'id'>) => void;
-  updateSkill: (id: string, skill: Partial<Skill>) => void;
+  addSkill: (skill: Omit<ResumeData['skills'][0], 'id'>) => void;
+  updateSkill: (id: string, skill: Partial<ResumeData['skills'][0]>) => void;
   removeSkill: (id: string) => void;
-  addProject: (project: Omit<Project, 'id'>) => void;
-  updateProject: (id: string, project: Partial<Project>) => void;
+  addProject: (project: Omit<ResumeData['projects'][0], 'id'>) => void;
+  updateProject: (id: string, project: Partial<ResumeData['projects'][0]>) => void;
   removeProject: (id: string) => void;
   addLanguage: (lang: { name: string; level: string }) => void;
   updateLanguage: (id: string, lang: Partial<{ name: string; level: string }>) => void;
   removeLanguage: (id: string) => void;
-  
-  resetResume: () => void;
+  fillSampleData: () => void;
+  clearData: () => void;
 }
+
+const emptyResume: ResumeData = {
+  personalInfo: { fullName: '', email: '', phone: '', location: '', linkedin: '', website: '', summary: '' },
+  experience: [],
+  education: [],
+  skills: [],
+  projects: [],
+  languages: [],
+};
 
 export const useResumeStore = create<ResumeState>()(
   persist(
     (set, get) => ({
-      resumeData: initialResumeData,
-      markdownContent: resumeToMarkdown(initialResumeData),
-      editorMode: 'markdown',
+      resumeData: zhSample,
+      markdownContent: resumeToMarkdown(zhSample),
+      editorMode: 'visual',
       template: 'modern',
       sectionOrder: defaultSectionOrder,
+      language: 'zh',
       editingSection: null,
       editingField: null,
-      
+
       setEditorMode: (mode) => set({ editorMode: mode }),
       setTemplate: (template) => set({ template }),
-      
+
+      setLanguage: (language) => {
+        const labels = {
+          zh: { personal: '个人信息', summary: '个人简介', experience: '工作经验', education: '教育背景', projects: '项目经历', skills: '技能', languages: '语言能力' },
+          en: { personal: 'Personal Info', summary: 'Summary', experience: 'Experience', education: 'Education', projects: 'Projects', skills: 'Skills', languages: 'Languages' },
+          de: { personal: 'Persönliche Daten', summary: 'Zusammenfassung', experience: 'Berufserfahrung', education: 'Ausbildung', projects: 'Projekte', skills: 'Fähigkeiten', languages: 'Sprachen' },
+        };
+        const sectionOrder = defaultSectionOrder.map(s => ({
+          ...s,
+          label: labels[language][s.type as keyof typeof labels.zh],
+        }));
+        set({ language, sectionOrder });
+      },
+
       updateMarkdown: (content) => set({ markdownContent: content }),
-      
+
       syncFromMarkdown: () => {
         const { markdownContent } = get();
         const parsed = markdownToResume(markdownContent);
@@ -159,14 +306,14 @@ export const useResumeStore = create<ResumeState>()(
           resumeData: { ...state.resumeData, ...parsed } as ResumeData,
         }));
       },
-      
+
       syncToMarkdown: () => {
         const { resumeData } = get();
         set({ markdownContent: resumeToMarkdown(resumeData) });
       },
-      
+
       setResumeData: (data) => set({ resumeData: data }),
-      
+
       updatePersonalInfo: (info) =>
         set((state) => ({
           resumeData: {
@@ -174,26 +321,26 @@ export const useResumeStore = create<ResumeState>()(
             personalInfo: { ...state.resumeData.personalInfo, ...info },
           },
         })),
-      
+
       updateSectionLabel: (sectionType, newLabel) =>
         set((state) => ({
           sectionOrder: state.sectionOrder.map((s) =>
             s.type === sectionType ? { ...s, label: newLabel } : s
           ),
         })),
-      
+
       toggleSectionVisibility: (sectionType) =>
         set((state) => ({
           sectionOrder: state.sectionOrder.map((s) =>
             s.type === sectionType ? { ...s, visible: !s.visible } : s
           ),
         })),
-      
+
       reorderSections: (newOrder) => set({ sectionOrder: newOrder }),
-      
+
       setEditingSection: (section) => set({ editingSection: section }),
       setEditingField: (field) => set({ editingField: field }),
-      
+
       addExperience: (exp) =>
         set((state) => ({
           resumeData: {
@@ -201,17 +348,15 @@ export const useResumeStore = create<ResumeState>()(
             experience: [...state.resumeData.experience, { ...exp, id: crypto.randomUUID() }],
           },
         })),
-      
+
       updateExperience: (id, exp) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            experience: state.resumeData.experience.map((e) =>
-              e.id === id ? { ...e, ...exp } : e
-            ),
+            experience: state.resumeData.experience.map((e) => (e.id === id ? { ...e, ...exp } : e)),
           },
         })),
-      
+
       removeExperience: (id) =>
         set((state) => ({
           resumeData: {
@@ -219,7 +364,7 @@ export const useResumeStore = create<ResumeState>()(
             experience: state.resumeData.experience.filter((e) => e.id !== id),
           },
         })),
-      
+
       addEducation: (edu) =>
         set((state) => ({
           resumeData: {
@@ -227,17 +372,15 @@ export const useResumeStore = create<ResumeState>()(
             education: [...state.resumeData.education, { ...edu, id: crypto.randomUUID() }],
           },
         })),
-      
+
       updateEducation: (id, edu) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            education: state.resumeData.education.map((e) =>
-              e.id === id ? { ...e, ...edu } : e
-            ),
+            education: state.resumeData.education.map((e) => (e.id === id ? { ...e, ...edu } : e)),
           },
         })),
-      
+
       removeEducation: (id) =>
         set((state) => ({
           resumeData: {
@@ -245,7 +388,7 @@ export const useResumeStore = create<ResumeState>()(
             education: state.resumeData.education.filter((e) => e.id !== id),
           },
         })),
-      
+
       addSkill: (skill) =>
         set((state) => ({
           resumeData: {
@@ -253,17 +396,15 @@ export const useResumeStore = create<ResumeState>()(
             skills: [...state.resumeData.skills, { ...skill, id: crypto.randomUUID() }],
           },
         })),
-      
+
       updateSkill: (id, skill) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            skills: state.resumeData.skills.map((s) =>
-              s.id === id ? { ...s, ...skill } : s
-            ),
+            skills: state.resumeData.skills.map((s) => (s.id === id ? { ...s, ...skill } : s)),
           },
         })),
-      
+
       removeSkill: (id) =>
         set((state) => ({
           resumeData: {
@@ -271,7 +412,7 @@ export const useResumeStore = create<ResumeState>()(
             skills: state.resumeData.skills.filter((s) => s.id !== id),
           },
         })),
-      
+
       addProject: (project) =>
         set((state) => ({
           resumeData: {
@@ -279,57 +420,9 @@ export const useResumeStore = create<ResumeState>()(
             projects: [...state.resumeData.projects, { ...project, id: crypto.randomUUID() }],
           },
         })),
-      
+
       updateProject: (id, project) =>
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            projects: state.resumeData.projects.map((p) =>
-              p.id === id ? { ...p, ...project } : p
-            ),
-          },
-        })),
-      
-      removeProject: (id) =>
-        set((state) => ({
-          resumeData: {
-            ...state.resumeData,
-            projects: state.resumeData.projects.filter((p) => p.id !== id),
-          },
-        })),
-      
-      addLanguage: (lang) =>
-        set((state) => ({
-          resumeData: {
-            ...state.resumeData,
-            languages: [...state.resumeData.languages, { ...lang, id: crypto.randomUUID() }],
-          },
-        })),
-      
-      updateLanguage: (id, lang) =>
-        set((state) => ({
-          resumeData: {
-            ...state.resumeData,
-            languages: state.resumeData.languages.map((l) =>
-              l.id === id ? { ...l, ...lang } : l
-            ),
-          },
-        })),
-      
-      removeLanguage: (id) =>
-        set((state) => ({
-          resumeData: {
-            ...state.resumeData,
-            languages: state.resumeData.languages.filter((l) => l.id !== id),
-          },
-        })),
-      
-      resetResume: () => {
-        set({ resumeData: initialResumeData, markdownContent: resumeToMarkdown(initialResumeData) });
-      },
-    }),
-    {
-      name: 'resume-storage-v2',
-    }
-  )
-);
+            projects: state.resumeData.projects.map((p) => (p.id === id ? { ...p, ...project } :
