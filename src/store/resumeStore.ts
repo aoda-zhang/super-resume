@@ -425,4 +425,55 @@ export const useResumeStore = create<ResumeState>()(
         set((state) => ({
           resumeData: {
             ...state.resumeData,
-            projects: state.resumeData.projects.map((p) => (p.id === id ? { ...p, ...project } :
+            projects: state.resumeData.projects.map((p) => (p.id === id ? { ...p, ...project } : p)),
+          },
+        })),
+
+      removeProject: (id) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            projects: state.resumeData.projects.filter((p) => p.id !== id),
+          },
+        })),
+
+      addLanguage: (lang) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            languages: [...state.resumeData.languages, { ...lang, id: crypto.randomUUID() }],
+          },
+        })),
+
+      updateLanguage: (id, lang) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            languages: state.resumeData.languages.map((l) => (l.id === id ? { ...l, ...lang } : l)),
+          },
+        })),
+
+      removeLanguage: (id) =>
+        set((state) => ({
+          resumeData: {
+            ...state.resumeData,
+            languages: state.resumeData.languages.filter((l) => l.id !== id),
+          },
+        })),
+
+      fillSampleData: () => {
+        const lang = get().language;
+        const sample = getSampleData(lang);
+        set({ resumeData: sample, markdownContent: resumeToMarkdown(sample) });
+      },
+
+      clearData: () => {
+        set({ resumeData: emptyResume, markdownContent: resumeToMarkdown(emptyResume) });
+      },
+    }),
+    {
+      name: 'super-resume-storage',
+      version: 1,
+    }
+  )
+);
