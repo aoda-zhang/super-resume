@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+/* Custom styles for resume editor */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* A4 paper size simulation */
+[data-resume-preview] {
+  min-width: 210mm;
+}
+
+[data-resume-preview] > div {
+  width: 210mm;
+  min-height: 297mm;
+}
+
+/* Print styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  [data-resume-preview],
+  [data-resume-preview] * {
+    visibility: visible;
+  }
+  [data-resume-preview] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Focus styles */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
+/* Drag and drop styles */
+.dragging {
+  opacity: 0.5;
+}
+
+.drag-over {
+  border-color: #6366f1;
+  background-color: #eef2ff;
+}
