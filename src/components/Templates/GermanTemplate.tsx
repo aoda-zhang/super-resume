@@ -143,7 +143,7 @@ export function GermanTemplate() {
   };
 
   return (
-    <div className="bg-white p-10 min-h-[297mm] shadow-lg">
+    <div className="bg-white p-10 min-h-[1123px] shadow-lg">
       {visibleSections.map((section) => (
         <div key={section.id}>{renderSection(section)}</div>
       ))}

@@ -2,19 +2,32 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 export async function exportToPDF(element: HTMLElement, fileName: string = 'resume.pdf'): Promise<void> {
-  // Clone the element to avoid layout issues
-  const clone = element.cloneNode(true) as HTMLElement;
-  clone.style.position = 'absolute';
-  clone.style.left = '-9999px';
-  clone.style.top = '0';
-  document.body.appendChild(clone);
-
   try {
-    const canvas = await html2canvas(clone, {
+    // Use onclone to fix styles on the cloned element before rendering
+    const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
       logging: false,
       backgroundColor: '#ffffff',
+      width: element.scrollWidth,
+      height: element.scrollHeight,
+      windowWidth: element.scrollWidth,
+      windowHeight: element.scrollHeight,
+      onclone: (clonedDoc, clonedEl) => {
+        // Ensure the cloned element is visible and properly sized
+        const el = clonedEl as HTMLElement;
+        el.style.position = 'fixed';
+        el.style.left = '0';
+        el.style.top = '0';
+        el.style.width = `${element.scrollWidth}px`;
+        el.style.height = `${element.scrollHeight}px`;
+        el.style.zIndex = '-1';
+        // Remove any hover/transition effects that could mess up the render
+        el.querySelectorAll('*').forEach((node) => {
+          (node as HTMLElement).style.transition = 'none';
+          (node as HTMLElement).style.animation = 'none';
+        });
+      },
     });
 
     const imgData = canvas.toDataURL('image/png');
@@ -25,7 +38,6 @@ export async function exportToPDF(element: HTMLElement, fileName: string = 'resu
     const imgWidth = pdfWidth;
     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-    // If content is longer than one page, we need multiple pages
     let heightLeft = imgHeight;
     let position = 0;
 
@@ -33,14 +45,15 @@ export async function exportToPDF(element: HTMLElement, fileName: string = 'resu
     heightLeft -= pdfHeight;
 
     while (heightLeft > 0) {
-      position = -(pdfHeight * (imgHeight - heightLeft) / imgHeight);
+      position -= pdfHeight;
       pdf.addPage();
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pdfHeight;
     }
 
     pdf.save(fileName);
-  } finally {
-    document.body.removeChild(clone);
+  } catch (err) {
+    console.error('PDF export failed:', err);
+    throw err;
   }
 }

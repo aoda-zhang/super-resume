@@ -11,11 +11,13 @@ html, body, #root {
 /* A4 paper size simulation */
 [data-resume-preview] {
   min-width: 210mm;
+  width: 210mm;
 }
 
 [data-resume-preview] > div {
   width: 210mm;
   min-height: 297mm;
+  box-sizing: border-box;
 }
 
 /* Print styles */

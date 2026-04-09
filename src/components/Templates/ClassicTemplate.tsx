@@ -174,7 +174,7 @@ export function ClassicTemplate() {
   };
 
   return (
-    <div className="bg-white p-10 min-h-[297mm] shadow-lg font-serif">
+    <div className="bg-white p-10 min-h-[1123px] shadow-lg font-serif">
       {visibleSections.map((section) => (
         <div key={section.id}>{renderSection(section)}</div>
       ))}

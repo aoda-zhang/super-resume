@@ -430,7 +430,7 @@ export function ModernTemplate() {
   };
 
   return (
-    <div className="bg-white p-8 min-h-[297mm] shadow-lg">
+    <div className="bg-white p-8 min-h-[1123px] shadow-lg">
       {visibleSections.map((section) => (
         <div key={section.id}>{renderSection(section)}</div>
       ))}
