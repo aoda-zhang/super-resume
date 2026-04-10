@@ -27,29 +27,49 @@ import { FileJson, ChevronDown, ChevronRight, GripVertical } from 'lucide-react'
 
 type SectionKey = 'personalInfo' | 'experience' | 'education' | 'skills' | 'projects' | 'languages';
 
-interface Section {
-  key: SectionKey;
-  label: string;
-  icon: string;
-}
+// 编辑器用的章节配置（含图标）
+const sectionConfig: Record<SectionKey, { label: string; icon: string }> = {
+  personalInfo: { label: '个人信息', icon: '👤' },
+  experience: { label: '工作经历', icon: '💼' },
+  education: { label: '教育背景', icon: '🎓' },
+  skills: { label: '技能', icon: '🛠️' },
+  projects: { label: '项目', icon: '🚀' },
+  languages: { label: '语言', icon: '🌐' },
+};
 
-const defaultSections: Section[] = [
-  { key: 'personalInfo', label: '个人信息', icon: '👤' },
-  { key: 'experience', label: '工作经历', icon: '💼' },
-  { key: 'education', label: '教育背景', icon: '🎓' },
-  { key: 'skills', label: '技能', icon: '🛠️' },
-  { key: 'projects', label: '项目', icon: '🚀' },
-  { key: 'languages', label: '语言', icon: '🌐' },
-];
+// store type 到 editor type 的映射
+const storeToEditor: Record<string, SectionKey> = {
+  personal: 'personalInfo',
+  summary: 'personalInfo', // summary 合并到 personalInfo
+  experience: 'experience',
+  education: 'education',
+  projects: 'projects',
+  skills: 'skills',
+  languages: 'languages',
+};
+
+// editor type 到 store type 的映射
+const editorToStore: Record<SectionKey, string> = {
+  personalInfo: 'personal',
+  experience: 'experience',
+  education: 'education',
+  skills: 'skills',
+  projects: 'projects',
+  languages: 'languages',
+};
 
 // 可排序的章节项组件
 function SortableSectionItem({
-  section,
+  sectionKey,
+  label,
+  icon,
   isExpanded,
   onToggle,
   children,
 }: {
-  section: Section;
+  sectionKey: SectionKey;
+  label: string;
+  icon: string;
   isExpanded: boolean;
   onToggle: () => void;
   children: React.ReactNode;
@@ -61,7 +81,7 @@ function SortableSectionItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: section.key });
+  } = useSortable({ id: sectionKey });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -88,8 +108,8 @@ function SortableSectionItem({
             className="flex-1 py-3 pr-4 flex items-center justify-between hover:bg-slate-50 transition-colors"
           >
             <div className="flex items-center gap-2">
-              <span>{section.icon}</span>
-              <span className="font-medium text-slate-700">{section.label}</span>
+              <span>{icon}</span>
+              <span className="font-medium text-slate-700">{label}</span>
             </div>
             {isExpanded ? (
               <ChevronDown className="w-5 h-5 text-slate-400" />
@@ -111,10 +131,15 @@ function SortableSectionItem({
 }
 
 export function SectionEditor() {
-  const { resumeData, updateResumeData } = useResumeStore();
+  const { resumeData, updateResumeData, sectionOrder, reorderSections } = useResumeStore();
   const [expandedSection, setExpandedSection] = useState<SectionKey>('personalInfo');
   const [showJson, setShowJson] = useState(false);
-  const [sections, setSections] = useState<Section[]>(defaultSections);
+
+  // 从 store 的 sectionOrder 生成编辑器用的章节列表（过滤掉 summary，它合并到 personalInfo）
+  const editorSections: SectionKey[] = sectionOrder
+    .filter(s => s.visible && s.type !== 'summary')
+    .map(s => storeToEditor[s.type] || 'personalInfo')
+    .filter((key, i, arr) => arr.indexOf(key) === i); // 去重
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -131,11 +156,24 @@ export function SectionEditor() {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      setSections((items) => {
-        const oldIndex = items.findIndex((item) => item.key === active.id);
-        const newIndex = items.findIndex((item) => item.key === over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
+      // 找到旧位置和新位置
+      const oldIndex = editorSections.indexOf(active.id as SectionKey);
+      const newIndex = editorSections.indexOf(over.id as SectionKey);
+      
+      // 重新排列 editorSections
+      const newEditorOrder = arrayMove(editorSections, oldIndex, newIndex);
+      
+      // 同步到 store：把新的顺序转换为 store 的 sectionOrder 格式
+      const newSectionOrder = sectionOrder
+        .filter(s => s.type === 'summary') // summary 保持原位
+        .concat(
+          newEditorOrder
+            .map(key => editorToStore[key])
+            .filter(storeType => storeType !== 'personal') // personal 不在 sectionOrder 里
+            .map(storeType => sectionOrder.find(s => s.type === storeType)!)
+        );
+      
+      reorderSections(newSectionOrder);
     }
   };
 
@@ -203,21 +241,26 @@ export function SectionEditor() {
             onDragEnd={handleDragEnd}
           >
             <SortableContext
-              items={sections.map(s => s.key)}
+              items={editorSections}
               strategy={verticalListSortingStrategy}
             >
-              {sections.map((section) => (
-                <SortableSectionItem
-                  key={section.key}
-                  section={section}
-                  isExpanded={expandedSection === section.key}
-                  onToggle={() => setExpandedSection(
-                    expandedSection === section.key ? '' as SectionKey : section.key
-                  )}
-                >
-                  {renderSectionContent(section.key)}
-                </SortableSectionItem>
-              ))}
+              {editorSections.map((key) => {
+                const config = sectionConfig[key];
+                return (
+                  <SortableSectionItem
+                    key={key}
+                    sectionKey={key}
+                    label={config.label}
+                    icon={config.icon}
+                    isExpanded={expandedSection === key}
+                    onToggle={() => setExpandedSection(
+                      expandedSection === key ? '' as SectionKey : key
+                    )}
+                  >
+                    {renderSectionContent(key)}
+                  </SortableSectionItem>
+                );
+              })}
             </SortableContext>
           </DndContext>
         </div>
