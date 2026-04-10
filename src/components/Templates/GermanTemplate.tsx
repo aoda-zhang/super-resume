@@ -23,8 +23,8 @@ function Page1({ data }: { data: ResumeData }) {
 
   return (
     <div className="relative min-h-[1123px] bg-white font-sans" data-resume-preview>
-      {/* 右侧紫色装饰竖条 */}
-      <div className="absolute top-0 right-0 w-[60px] h-full bg-[#4834e3]" />
+      {/* 右侧装饰竖条 */}
+      <div className="absolute top-0 right-0 w-[60px] h-full bg-slate-100" />
 
       <div className="relative pr-[60px]">
         {/* === 顶部：姓名+照片+联系方式 === */}
@@ -161,8 +161,8 @@ function Page2({ data }: { data: ResumeData }) {
 
   return (
     <div className="relative min-h-[1123px] bg-white font-sans" data-resume-preview>
-      {/* 左侧紫色装饰竖条 */}
-      <div className="absolute top-0 left-0 w-[60px] h-full bg-[#4834e3]" />
+      {/* 左侧装饰竖条 */}
+      <div className="absolute top-0 left-0 w-[60px] h-full bg-slate-100" />
 
       <div className="relative pl-[60px] pr-8">
         <div className="pt-8">
@@ -257,8 +257,8 @@ function Page2({ data }: { data: ResumeData }) {
           )}
         </div>
 
-        {/* 紫色页脚 */}
-        <div className="h-[40px] bg-[#4834e3] mt-6 mb-8" />
+        {/* 页脚 */}
+        <div className="h-[40px] bg-slate-100 mt-6 mb-8" />
       </div>
     </div>
   );
