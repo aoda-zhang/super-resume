@@ -126,17 +126,22 @@ export function GermanTemplate() {
                   <div className="text-slate-700" style={{ fontSize: '10pt' }}>
                     <EditableText value={exp.company} onChange={(v) => updateExperience(exp.id, { company: v })} placeholder="公司" />
                     {exp.location && <span> · <EditableText value={exp.location} onChange={(v) => updateExperience(exp.id, { location: v })} placeholder="地点" /></span>}
+                    {exp.country && <span> · <EditableText value={exp.country} onChange={(v) => updateExperience(exp.id, { country: v })} placeholder="国籍" /></span>}
+                    {exp.workMode && <span> · <EditableText value={exp.workMode} onChange={(v) => updateExperience(exp.id, { workMode: v })} placeholder="模式" /></span>}
                   </div>
                   {exp.techStack && (
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {exp.techStack.split(',').map((tech, idx) => (
-                        <span
-                          key={idx}
-                          className="px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded text-xs"
-                        >
-                          {tech.trim()}
-                        </span>
-                      ))}
+                    <div className="mt-2">
+                      <span className="text-slate-500 text-xs mr-1">技术栈:</span>
+                      <div className="inline-flex flex-wrap gap-1">
+                        {exp.techStack.split(',').map((tech, idx) => (
+                          <span
+                            key={idx}
+                            className="px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded text-xs"
+                          >
+                            {tech.trim()}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
                   <p className="mt-3 text-slate-600 whitespace-pre-line" style={{ fontSize: '9.5pt' }}>

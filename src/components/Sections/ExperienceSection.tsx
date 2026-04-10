@@ -21,6 +21,8 @@ export function ExperienceSection({ data, onChange }: Props) {
       description: '',
       location: '',
       techStack: '',
+      country: '',
+      workMode: '',
     };
     onChange([...data, newItem]);
     setExpandedId(newItem.id);
@@ -168,6 +170,26 @@ export function ExperienceSection({ data, onChange }: Props) {
                       onChange={(e) => updateItem(item.id, 'location', e.target.value)}
                       className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                       placeholder="城市, 国家"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-slate-600 mb-1">公司国籍</label>
+                    <input
+                      type="text"
+                      value={item.country || ''}
+                      onChange={(e) => updateItem(item.id, 'country', e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                      placeholder="Germany"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-slate-600 mb-1">工作模式</label>
+                    <input
+                      type="text"
+                      value={item.workMode || ''}
+                      onChange={(e) => updateItem(item.id, 'workMode', e.target.value)}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                      placeholder="Full-time"
                     />
                   </div>
                   <div className="col-span-2">

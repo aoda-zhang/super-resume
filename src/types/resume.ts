@@ -23,6 +23,8 @@ export interface Experience {
   description: string;
   location?: string;  // e.g. "Düsseldorf, Germany (Remote)"
   techStack?: string; // e.g. "React, Node.js, GraphQL, AWS"
+  country?: string;   // e.g. "Germany", "China"
+  workMode?: string;  // e.g. "Full-time", "Part-time", "Freelance", "Internship"
 }
 
 export interface Education {
