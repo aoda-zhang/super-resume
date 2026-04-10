@@ -15,7 +15,7 @@ export function GermanTemplate() {
               {/* 左侧：姓名+职位+联系方式 */}
               <div className="flex-1">
                 {/* 姓名 */}
-                <h1 className="font-bold text-slate-900 mb-1" style={{ fontSize: '22pt' }}>
+                <h1 className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 mb-1" style={{ fontSize: '22pt' }}>
                   <EditableText
                     value={personalInfo.fullName || ''}
                     onChange={(v) => updatePersonalInfo({ fullName: v })}
@@ -112,16 +112,17 @@ export function GermanTemplate() {
             <div className="space-y-3">
               {experience.map((exp) => (
                 <div key={exp.id}>
-                  <div className="flex justify-between items-baseline">
-                    <h3 className="font-semibold text-sky-600" style={{ fontSize: '10.5pt' }}>
-                      <EditableText value={exp.position} onChange={(v) => updateExperience(exp.id, { position: v })} placeholder="职位" className="font-semibold text-sky-600" />
-                    </h3>
-                    <span className="text-slate-500" style={{ fontSize: '9pt' }}>
+                  {/* 时间和职位在一行 */}
+                  <div className="flex items-baseline gap-3 mb-1">
+                    <span className="text-slate-500 flex-shrink-0" style={{ fontSize: '9pt' }}>
                       <EditableText value={`${exp.startDate} - ${exp.current ? '至今' : exp.endDate}`} onChange={(v) => {
                         const dates = v.split('-').map(s => s.trim());
                         updateExperience(exp.id, { startDate: dates[0] || '', endDate: dates[1] || '', current: dates[1]?.includes('至今') || false });
                       }} placeholder="时间" className="text-slate-500" />
                     </span>
+                    <h3 className="font-semibold text-sky-600 flex-1" style={{ fontSize: '10.5pt' }}>
+                      <EditableText value={exp.position} onChange={(v) => updateExperience(exp.id, { position: v })} placeholder="职位" className="font-semibold text-sky-600" />
+                    </h3>
                   </div>
                   <div className="text-slate-700" style={{ fontSize: '10pt' }}>
                     <EditableText value={exp.company} onChange={(v) => updateExperience(exp.id, { company: v })} placeholder="公司" />
