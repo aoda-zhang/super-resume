@@ -1,9 +1,10 @@
 import { EditableText, EditableLabel, useResumeEditing } from './EditableComponents';
 import type { ResumeData } from '../../types/resume';
 
-// 德国简历两页布局
-// Page 1: 左侧深色边栏(照片/联系/技能/语言) + 右侧(简介/工作经历摘要)
-// Page 2: 全宽布局(工作经历完整/项目/教育等)
+// 德国简历 - 标准 Lebel/CV 格式
+// Page 1: 左侧窄列(个人/联系/技能) + 右侧宽列(简介/经历)
+// Page 2: 延续布局，全部内容
+// 风格：纯白背景，藏青色标题，细线分隔
 
 function formatDate(start: string, end: string, current: boolean): string {
   if (!start && !end && !current) return '';
@@ -13,226 +14,244 @@ function formatDate(start: string, end: string, current: boolean): string {
   return `${start} – ${endText}`;
 }
 
-// 分割数据：判断内容应该在哪一页
+// 分割数据：第1页放前3条工作经历，第2页放剩余内容
 function splitContent(data: ResumeData) {
-  // Page 1: 最多显示前3条工作经历
-  // Page 2: 所有工作经历 + 项目 + 教育
   const page1Experience = data.experience.slice(0, 3);
   const page2Experience = data.experience.slice(3);
-  
   return { page1Experience, page2Experience };
 }
 
-// ==================== Page 1 ====================
-function Page1({ data }: { data: ResumeData }) {
+// ============ 左侧窄列 (Page 1 & 2 共用) ============
+function LeftColumn({ data }: { data: ResumeData }) {
   const { personalInfo, skills, languages } = data;
-  const { page1Experience } = splitContent(data);
 
   return (
-    <div className="flex min-h-[1123px] bg-white font-sans" data-resume-preview>
-      {/* === 左侧深色边栏 === */}
-      <aside className="w-[280px] flex-shrink-0 bg-[#1a2744] text-white p-6">
-        {/* 照片 */}
-        <div className="mb-6">
-          {personalInfo.photo ? (
-            <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-white/20">
-              <img src={personalInfo.photo} alt={personalInfo.fullName} className="w-full h-full object-cover" />
+    <div className="w-[200px] flex-shrink-0 pr-5">
+      {/* 姓名 */}
+      <div className="mb-6">
+        <EditableText
+          value={personalInfo.fullName}
+          onChange={() => {}}
+          placeholder="姓名"
+          className="text-xl font-bold text-[#1a365d] leading-tight mb-1"
+        />
+        {personalInfo.location && (
+          <EditableText
+            value={personalInfo.location}
+            onChange={() => {}}
+            placeholder="城市"
+            className="text-xs text-[#718096] mt-1"
+          />
+        )}
+        {personalInfo.nationality && (
+          <EditableText
+            value={personalInfo.nationality}
+            onChange={() => {}}
+            placeholder="国籍"
+            className="text-xs text-[#a0aec0]"
+          />
+        )}
+      </div>
+
+      {/* 联系方式 */}
+      <div className="mb-6">
+        <EditableLabel
+          sectionType="personal"
+          defaultLabel="KONTAKT"
+          className="text-[10px] font-bold text-[#1a365d] uppercase tracking-widest mb-3 block border-b border-[#1a365d] pb-1"
+        />
+        <div className="space-y-2">
+          {personalInfo.email && (
+            <div className="flex items-start gap-1.5">
+              <span className="text-[#a0aec0] text-[10px] mt-0.5 flex-shrink-0">✉</span>
+              <EditableText value={personalInfo.email} onChange={() => {}} placeholder="E-Mail" className="text-[10px] text-[#4a5568] break-all leading-tight" />
             </div>
-          ) : (
-            <div className="w-32 h-32 mx-auto rounded-full bg-[#2d3a5c] border-4 border-white/20 flex items-center justify-center">
-              <span className="text-4xl text-white/40">{personalInfo.fullName?.[0] || '?'}</span>
+          )}
+          {personalInfo.phone && (
+            <div className="flex items-start gap-1.5">
+              <span className="text-[#a0aec0] text-[10px] mt-0.5 flex-shrink-0">☎</span>
+              <EditableText value={personalInfo.phone} onChange={() => {}} placeholder="Telefon" className="text-[10px] text-[#4a5568] leading-tight" />
+            </div>
+          )}
+          {personalInfo.location && (
+            <div className="flex items-start gap-1.5">
+              <span className="text-[#a0aec0] text-[10px] mt-0.5 flex-shrink-0">⌖</span>
+              <EditableText value={personalInfo.location} onChange={() => {}} placeholder="Adresse" className="text-[10px] text-[#4a5568] leading-tight" />
+            </div>
+          )}
+          {personalInfo.linkedin && (
+            <div className="flex items-start gap-1.5">
+              <span className="text-[#a0aec0] text-[10px] mt-0.5 flex-shrink-0">🔗</span>
+              <EditableText value={personalInfo.linkedin} onChange={() => {}} placeholder="LinkedIn" className="text-[10px] text-[#4a5568] break-all leading-tight" />
+            </div>
+          )}
+          {personalInfo.github && (
+            <div className="flex items-start gap-1.5">
+              <span className="text-[#a0aec0] text-[10px] mt-0.5 flex-shrink-0">⌥</span>
+              <EditableText value={personalInfo.github} onChange={() => {}} placeholder="GitHub" className="text-[10px] text-[#4a5568] break-all leading-tight" />
+            </div>
+          )}
+          {personalInfo.website && (
+            <div className="flex items-start gap-1.5">
+              <span className="text-[#a0aec0] text-[10px] mt-0.5 flex-shrink-0">⊛</span>
+              <EditableText value={personalInfo.website} onChange={() => {}} placeholder="Web" className="text-[10px] text-[#4a5568] break-all leading-tight" />
             </div>
           )}
         </div>
+      </div>
 
-        {/* 姓名 */}
-        <div className="text-center mb-6">
-          <h1 className="text-xl font-bold text-white mb-1">{personalInfo.fullName || '姓名'}</h1>
-          <p className="text-sm text-white/70">{personalInfo.location || '城市'}</p>
-          {personalInfo.nationality && (
-            <p className="text-xs text-white/50 mt-1">{personalInfo.nationality}</p>
-          )}
-        </div>
-
-        {/* 联系方式 */}
+      {/* 专业技能 */}
+      {skills.length > 0 && (
         <div className="mb-6">
-          <EditableLabel sectionType="personal" defaultLabel="KONTAKT" className="text-xs font-bold text-white/50 uppercase tracking-widest mb-3 block" />
+          <EditableLabel
+            sectionType="skills"
+            defaultLabel="FÄHIGKEITEN"
+            className="text-[10px] font-bold text-[#1a365d] uppercase tracking-widest mb-3 block border-b border-[#1a365d] pb-1"
+          />
           <div className="space-y-2">
-            {personalInfo.email && (
-              <div className="flex items-start gap-2">
-                <span className="text-white/40 text-xs mt-0.5">✉</span>
-                <EditableText value={personalInfo.email} onChange={() => {}} placeholder="email" className="text-xs text-white/90 break-all" />
-              </div>
-            )}
-            {personalInfo.phone && (
-              <div className="flex items-start gap-2">
-                <span className="text-white/40 text-xs mt-0.5">☎</span>
-                <EditableText value={personalInfo.phone} onChange={() => {}} placeholder="电话" className="text-xs text-white/90" />
-              </div>
-            )}
-            {personalInfo.location && (
-              <div className="flex items-start gap-2">
-                <span className="text-white/40 text-xs mt-0.5">⌖</span>
-                <EditableText value={personalInfo.location} onChange={() => {}} placeholder="地址" className="text-xs text-white/90" />
-              </div>
-            )}
-            {personalInfo.linkedin && (
-              <div className="flex items-start gap-2">
-                <span className="text-white/40 text-xs mt-0.5">🔗</span>
-                <EditableText value={personalInfo.linkedin} onChange={() => {}} placeholder="LinkedIn" className="text-xs text-white/90 break-all" />
-              </div>
-            )}
-            {personalInfo.github && (
-              <div className="flex items-start gap-2">
-                <span className="text-white/40 text-xs mt-0.5">⌥</span>
-                <EditableText value={personalInfo.github} onChange={() => {}} placeholder="GitHub" className="text-xs text-white/90 break-all" />
-              </div>
-            )}
-            {personalInfo.website && (
-              <div className="flex items-start gap-2">
-                <span className="text-white/40 text-xs mt-0.5">⊛</span>
-                <EditableText value={personalInfo.website} onChange={() => {}} placeholder="网站" className="text-xs text-white/90 break-all" />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* 专业技能 */}
-        {skills.length > 0 && (
-          <div className="mb-6">
-            <EditableLabel sectionType="skills" defaultLabel="FÄHIGKEITEN" className="text-xs font-bold text-white/50 uppercase tracking-widest mb-3 block" />
-            <div className="space-y-2">
-              {skills.map((skill) => (
-                <div key={skill.id} className="flex items-center gap-2">
-                  <div className="flex-1">
-                    <EditableText value={skill.name} onChange={() => {}} placeholder="技能" className="text-xs text-white/90" />
-                  </div>
-                  <div className="flex gap-0.5">
-                    {[1, 2, 3, 4].map((level) => (
-                      <div key={level} className={`w-1.5 h-3 rounded-sm ${
+            {skills.map((skill) => (
+              <div key={skill.id} className="flex items-center gap-2">
+                <div className="flex-1">
+                  <EditableText value={skill.name} onChange={() => {}} placeholder="技能" className="text-[10px] text-[#2d3748]" />
+                </div>
+                <div className="flex gap-px">
+                  {[1, 2, 3, 4].map((level) => (
+                    <div
+                      key={level}
+                      className={`w-1 h-2 rounded-sm ${
                         (skill.level === 'expert' && level <= 4) ||
                         (skill.level === 'advanced' && level <= 3) ||
                         (skill.level === 'intermediate' && level <= 2) ||
                         (skill.level === 'beginner' && level <= 1)
-                          ? 'bg-blue-400' : 'bg-white/20'
-                      }`} />
-                    ))}
-                  </div>
+                          ? 'bg-[#1a365d]'
+                          : 'bg-[#e2e8f0]'
+                      }`}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* 语言能力 */}
-        {languages.length > 0 && (
-          <div className="mb-6">
-            <EditableLabel sectionType="languages" defaultLabel="SPRACHEN" className="text-xs font-bold text-white/50 uppercase tracking-widest mb-3 block" />
-            <div className="space-y-2">
-              {languages.map((lang) => (
-                <div key={lang.id} className="flex items-center justify-between">
-                  <EditableText value={lang.name} onChange={() => {}} placeholder="语言" className="text-xs text-white/90" />
-                  <EditableText value={lang.level} onChange={() => {}} placeholder="水平" className="text-xs text-white/50" />
-                </div>
-              ))}
-            </div>
+      {/* 语言能力 */}
+      {languages.length > 0 && (
+        <div className="mb-6">
+          <EditableLabel
+            sectionType="languages"
+            defaultLabel="SPRACHEN"
+            className="text-[10px] font-bold text-[#1a365d] uppercase tracking-widest mb-3 block border-b border-[#1a365d] pb-1"
+          />
+          <div className="space-y-2">
+            {languages.map((lang) => (
+              <div key={lang.id} className="flex items-center justify-between">
+                <EditableText value={lang.name} onChange={() => {}} placeholder="Sprache" className="text-[10px] text-[#2d3748]" />
+                <EditableText value={lang.level} onChange={() => {}} placeholder="Niveau" className="text-[10px] text-[#a0aec0]" />
+              </div>
+            ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* 兴趣爱好 */}
-        {personalInfo.interests && (
-          <div className="mb-6">
-            <span className="text-xs font-bold text-white/50 uppercase tracking-widest mb-3 block">INTERESSEN</span>
-            <EditableText value={personalInfo.interests} onChange={() => {}} multiline placeholder="兴趣爱好..." className="text-xs text-white/70 leading-relaxed" />
-          </div>
-        )}
-      </aside>
-
-      {/* === 右侧主内容 === */}
-      <main className="flex-1 bg-white p-8">
-        {/* 个人简介 */}
-        {personalInfo.summary && (
-          <section className="mb-8">
-            <EditableLabel sectionType="summary" defaultLabel="PROFIL" className="text-sm font-bold text-[#1a2744] border-b-2 border-[#1a2744] pb-1 mb-4 block" />
-            <EditableText value={personalInfo.summary} onChange={() => {}} multiline placeholder="个人简介..." className="text-sm text-slate-600 leading-relaxed" />
-          </section>
-        )}
-
-        {/* 工作经历（前3条） */}
-        {page1Experience.length > 0 && (
-          <section className="mb-8">
-            <EditableLabel sectionType="experience" defaultLabel="BERUFSERFAHRUNG" className="text-sm font-bold text-[#1a2744] border-b-2 border-[#1a2744] pb-1 mb-4 block" />
-            <div className="space-y-6">
-              {page1Experience.map((exp) => (
-                <div key={exp.id} className="flex gap-4">
-                  <div className="w-28 flex-shrink-0">
-                    <EditableText value={formatDate(exp.startDate, exp.endDate, exp.current)} onChange={() => {}} placeholder="时间" className="text-xs text-slate-500 leading-tight" />
-                  </div>
-                  <div className="flex-1 border-l-2 border-slate-200 pl-4">
-                    <h3 className="font-semibold text-slate-800 mb-0.5">
-                      <EditableText value={exp.position} onChange={() => {}} placeholder="职位" className="font-semibold text-slate-800" />
-                    </h3>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-sm text-[#1a2744] font-medium">
-                        <EditableText value={exp.company} onChange={() => {}} placeholder="公司" className="text-[#1a2744] font-medium" />
-                      </span>
-                      {exp.location && (
-                        <span className="text-xs text-slate-400">· <EditableText value={exp.location} onChange={() => {}} placeholder="地点" className="text-slate-400 text-xs" /></span>
-                      )}
-                    </div>
-                    {exp.techStack && (
-                      <div className="mb-2">
-                        <EditableText value={exp.techStack} onChange={() => {}} placeholder="技术栈" className="text-xs text-slate-400" />
-                      </div>
-                    )}
-                    <EditableText value={exp.description} onChange={() => {}} multiline placeholder="工作描述..." className="text-sm text-slate-600 leading-relaxed whitespace-pre-line" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-      </main>
+      {/* 兴趣爱好 */}
+      {personalInfo.interests && (
+        <div className="mb-6">
+          <span className="text-[10px] font-bold text-[#1a365d] uppercase tracking-widest mb-3 block border-b border-[#1a365d] pb-1">
+            INTERESSEN
+          </span>
+          <EditableText
+            value={personalInfo.interests}
+            onChange={() => {}}
+            multiline
+            placeholder="Interessen..."
+            className="text-[10px] text-[#718096] leading-relaxed"
+          />
+        </div>
+      )}
     </div>
   );
 }
 
-// ==================== Page 2 ====================
-function Page2({ data }: { data: ResumeData }) {
-  const { education, projects } = data;
-  const { page1Experience, page2Experience } = splitContent(data);
-  const remainingExperience = page2Experience.length > 0 ? page2Experience : page1Experience;
+// ============ 右侧宽列 - 内容 ============
+function RightColumn({
+  data,
+  experience,
+  showExperienceTitle = true,
+}: {
+  data: ResumeData;
+  experience: ResumeData['experience'];
+  showExperienceTitle?: boolean;
+}) {
+  const { personalInfo, education, projects } = data;
 
   return (
-    <div className="min-h-[1123px] bg-white font-sans p-8" data-resume-preview>
-      {/* 工作经历（续 / 或全部） */}
-      {remainingExperience.length > 0 && (
-        <section className="mb-8">
-          <EditableLabel sectionType="experience" defaultLabel="BERUFSERFAHRUNG (FORTSETZUNG)" className="text-sm font-bold text-[#1a2744] border-b-2 border-[#1a2744] pb-1 mb-4 block" />
-          <div className="space-y-6">
-            {remainingExperience.map((exp) => (
-              <div key={exp.id} className="flex gap-4">
-                <div className="w-28 flex-shrink-0">
-                  <EditableText value={formatDate(exp.startDate, exp.endDate, exp.current)} onChange={() => {}} placeholder="时间" className="text-xs text-slate-500 leading-tight" />
+    <div className="flex-1 pl-5 border-l border-[#e2e8f0]">
+      {/* 个人简介 */}
+      {personalInfo.summary && (
+        <section className="mb-5">
+          <EditableLabel
+            sectionType="summary"
+            defaultLabel="PROFIL"
+            className="text-[10px] font-bold text-[#1a365d] uppercase tracking-widest mb-3 block border-b border-[#1a365d] pb-1"
+          />
+          <EditableText
+            value={personalInfo.summary}
+            onChange={() => {}}
+            multiline
+            placeholder="Persönliche Zusammenfassung..."
+            className="text-[10px] text-[#2d3748] leading-relaxed"
+          />
+        </section>
+      )}
+
+      {/* 工作经历 */}
+      {experience.length > 0 && (
+        <section className="mb-5">
+          {showExperienceTitle && (
+            <EditableLabel
+              sectionType="experience"
+              defaultLabel="BERUFSERFAHRUNG"
+              className="text-[10px] font-bold text-[#1a365d] uppercase tracking-widest mb-3 block border-b border-[#1a365d] pb-1"
+            />
+          )}
+          <div className="space-y-4">
+            {experience.map((exp) => (
+              <div key={exp.id} className="flex gap-3">
+                <div className="w-20 flex-shrink-0 pt-0.5">
+                  <EditableText
+                    value={formatDate(exp.startDate, exp.endDate, exp.current)}
+                    onChange={() => {}}
+                    placeholder="Zeitraum"
+                    className="text-[9px] text-[#a0aec0] leading-tight"
+                  />
                 </div>
-                <div className="flex-1 border-l-2 border-slate-200 pl-4">
-                  <h3 className="font-semibold text-slate-800 mb-0.5">
-                    <EditableText value={exp.position} onChange={() => {}} placeholder="职位" className="font-semibold text-slate-800" />
+                <div className="flex-1">
+                  <h3 className="text-[10px] font-semibold text-[#1a365d] mb-0.5">
+                    <EditableText value={exp.position} onChange={() => {}} placeholder="Position" className="font-semibold text-[#1a365d]" />
                   </h3>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-sm text-[#1a2744] font-medium">
-                      <EditableText value={exp.company} onChange={() => {}} placeholder="公司" className="text-[#1a2744] font-medium" />
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span className="text-[10px] text-[#2d3748]">
+                      <EditableText value={exp.company} onChange={() => {}} placeholder="Unternehmen" className="text-[#2d3748]" />
                     </span>
                     {exp.location && (
-                      <span className="text-xs text-slate-400">· <EditableText value={exp.location} onChange={() => {}} placeholder="地点" className="text-slate-400 text-xs" /></span>
+                      <span className="text-[9px] text-[#a0aec0]">
+                        · <EditableText value={exp.location} onChange={() => {}} placeholder="Ort" className="text-[#a0aec0]" />
+                      </span>
                     )}
                   </div>
                   {exp.techStack && (
-                    <div className="mb-2">
-                      <EditableText value={exp.techStack} onChange={() => {}} placeholder="技术栈" className="text-xs text-slate-400" />
+                    <div className="mb-1">
+                      <EditableText value={exp.techStack} onChange={() => {}} placeholder="Technologien" className="text-[9px] text-[#a0aec0] italic" />
                     </div>
                   )}
-                  <EditableText value={exp.description} onChange={() => {}} multiline placeholder="工作描述..." className="text-sm text-slate-600 leading-relaxed whitespace-pre-line" />
+                  <EditableText
+                    value={exp.description}
+                    onChange={() => {}}
+                    multiline
+                    placeholder="Beschreibung..."
+                    className="text-[10px] text-[#4a5568] leading-relaxed whitespace-pre-line"
+                  />
                 </div>
               </div>
             ))}
@@ -242,28 +261,38 @@ function Page2({ data }: { data: ResumeData }) {
 
       {/* 项目经历 */}
       {projects.length > 0 && (
-        <section className="mb-8">
-          <EditableLabel sectionType="projects" defaultLabel="PROJEKTE" className="text-sm font-bold text-[#1a2744] border-b-2 border-[#1a2744] pb-1 mb-4 block" />
-          <div className="space-y-5">
+        <section className="mb-5">
+          <EditableLabel
+            sectionType="projects"
+            defaultLabel="PROJEKTE"
+            className="text-[10px] font-bold text-[#1a365d] uppercase tracking-widest mb-3 block border-b border-[#1a365d] pb-1"
+          />
+          <div className="space-y-3">
             {projects.map((proj) => (
-              <div key={proj.id} className="flex gap-4">
-                <div className="w-28 flex-shrink-0">
+              <div key={proj.id} className="flex gap-3">
+                <div className="w-20 flex-shrink-0 pt-0.5">
                   {proj.technologies && proj.technologies.length > 0 && (
-                    <div className="text-xs text-slate-400 leading-tight">
+                    <div className="text-[9px] text-[#a0aec0] leading-tight">
                       {proj.technologies.slice(0, 3).join(', ')}
                     </div>
                   )}
                 </div>
-                <div className="flex-1 border-l-2 border-slate-200 pl-4">
-                  <div className="flex items-start justify-between mb-1">
-                    <h3 className="font-semibold text-slate-800">
-                      <EditableText value={proj.name} onChange={() => {}} placeholder="项目名称" className="font-semibold text-slate-800" />
+                <div className="flex-1">
+                  <div className="flex items-start justify-between mb-0.5">
+                    <h3 className="text-[10px] font-semibold text-[#1a365d]">
+                      <EditableText value={proj.name} onChange={() => {}} placeholder="Projektname" className="font-semibold text-[#1a365d]" />
                     </h3>
                     {proj.link && (
-                      <EditableText value={proj.link} onChange={() => {}} placeholder="链接" className="text-xs text-[#1a2744] ml-2" />
+                      <EditableText value={proj.link} onChange={() => {}} placeholder="Link" className="text-[9px] text-[#a0aec0] ml-2 flex-shrink-0" />
                     )}
                   </div>
-                  <EditableText value={proj.description} onChange={() => {}} multiline placeholder="项目描述..." className="text-sm text-slate-600 leading-relaxed" />
+                  <EditableText
+                    value={proj.description}
+                    onChange={() => {}}
+                    multiline
+                    placeholder="Projektbeschreibung..."
+                    className="text-[10px] text-[#4a5568] leading-relaxed"
+                  />
                 </div>
               </div>
             ))}
@@ -273,23 +302,32 @@ function Page2({ data }: { data: ResumeData }) {
 
       {/* 教育背景 */}
       {education.length > 0 && (
-        <section className="mb-8">
-          <EditableLabel sectionType="education" defaultLabel="AUSBILDUNG" className="text-sm font-bold text-[#1a2744] border-b-2 border-[#1a2744] pb-1 mb-4 block" />
-          <div className="space-y-5">
+        <section className="mb-5">
+          <EditableLabel
+            sectionType="education"
+            defaultLabel="AUSBILDUNG"
+            className="text-[10px] font-bold text-[#1a365d] uppercase tracking-widest mb-3 block border-b border-[#1a365d] pb-1"
+          />
+          <div className="space-y-3">
             {education.map((edu) => (
-              <div key={edu.id} className="flex gap-4">
-                <div className="w-28 flex-shrink-0">
-                  <EditableText value={formatDate(edu.startDate, edu.endDate, edu.current)} onChange={() => {}} placeholder="时间" className="text-xs text-slate-500 leading-tight" />
+              <div key={edu.id} className="flex gap-3">
+                <div className="w-20 flex-shrink-0 pt-0.5">
+                  <EditableText
+                    value={formatDate(edu.startDate, edu.endDate, edu.current)}
+                    onChange={() => {}}
+                    placeholder="Zeitraum"
+                    className="text-[9px] text-[#a0aec0] leading-tight"
+                  />
                 </div>
-                <div className="flex-1 border-l-2 border-slate-200 pl-4">
-                  <h3 className="font-semibold text-slate-800 mb-0.5">
-                    <EditableText value={edu.school} onChange={() => {}} placeholder="学校" className="font-semibold text-slate-800" />
+                <div className="flex-1">
+                  <h3 className="text-[10px] font-semibold text-[#1a365d] mb-0.5">
+                    <EditableText value={edu.school} onChange={() => {}} placeholder="Schule / Universität" className="font-semibold text-[#1a365d]" />
                   </h3>
                   {(edu.degree || edu.field) && (
-                    <p className="text-sm text-slate-600">
-                      <EditableText value={edu.degree} onChange={() => {}} placeholder="学位" className="text-slate-600" />
+                    <p className="text-[10px] text-[#4a5568]">
+                      <EditableText value={edu.degree} onChange={() => {}} placeholder="Abschluss" className="text-[#4a5568]" />
                       {edu.degree && edu.field && ' · '}
-                      <EditableText value={edu.field} onChange={() => {}} placeholder="专业" className="text-slate-600" />
+                      <EditableText value={edu.field} onChange={() => {}} placeholder="Fachrichtung" className="text-[#4a5568]" />
                     </p>
                   )}
                 </div>
@@ -302,17 +340,50 @@ function Page2({ data }: { data: ResumeData }) {
   );
 }
 
-// ==================== 主组件 ====================
+// ============ Page 1 ============
+function Page1({ data }: { data: ResumeData }) {
+  const { page1Experience } = splitContent(data);
+
+  return (
+    <div className="flex min-h-[1123px] bg-white p-8 font-sans" data-resume-preview>
+      <LeftColumn data={data} />
+      <RightColumn data={data} experience={page1Experience} showExperienceTitle={true} />
+    </div>
+  );
+}
+
+// ============ Page 2 ============
+function Page2({ data }: { data: ResumeData }) {
+  const { page2Experience } = splitContent(data);
+  const page2HasMore = page2Experience.length > 0;
+  const experience = page2HasMore ? page2Experience : [];
+
+  return (
+    <div className="min-h-[1123px] bg-white p-8 font-sans" data-resume-preview>
+      {experience.length > 0 || data.education.length > 0 || data.projects.length > 0 ? (
+        <div className="flex">
+          <LeftColumn data={data} />
+          <RightColumn data={data} experience={experience} showExperienceTitle={page2HasMore} />
+        </div>
+      ) : (
+        <div className="flex">
+          <LeftColumn data={data} />
+          <RightColumn data={data} experience={[]} showExperienceTitle={false} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ============ 主组件 ============
 export function GermanTemplate() {
   const { resumeData } = useResumeEditing();
 
   return (
     <div className="flex flex-col gap-0">
-      {/* Page 1 */}
       <div className="break-inside-avoid">
         <Page1 data={resumeData} />
       </div>
-      {/* Page 2 */}
       <div className="break-inside-avoid">
         <Page2 data={resumeData} />
       </div>
