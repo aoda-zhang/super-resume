@@ -109,22 +109,24 @@ export function GermanTemplate() {
         return (
           <section className="mb-5">
             <EditableLabel sectionType="experience" defaultLabel="工作经验" className="font-bold text-slate-800 border-b-2 border-sky-600 pb-1 block mb-3" style={{ fontSize: '12pt' }} />
-            <div className="space-y-3">
+            <div className="space-y-4">
               {experience.map((exp) => (
-                <div key={exp.id}>
-                  {/* 时间和职位在一行 */}
-                  <div className="flex items-baseline gap-3 mb-1">
-                    <span className="text-slate-500 flex-shrink-0" style={{ fontSize: '9pt' }}>
+                <div key={exp.id} className="flex gap-6">
+                  {/* 左侧时间 */}
+                  <div className="w-28 flex-shrink-0">
+                    <span className="text-slate-500" style={{ fontSize: '9pt' }}>
                       <EditableText value={`${exp.startDate} - ${exp.current ? '至今' : exp.endDate}`} onChange={(v) => {
                         const dates = v.split('-').map(s => s.trim());
                         updateExperience(exp.id, { startDate: dates[0] || '', endDate: dates[1] || '', current: dates[1]?.includes('至今') || false });
                       }} placeholder="时间" className="text-slate-500" />
                     </span>
-                    <h3 className="font-semibold text-sky-600 flex-1" style={{ fontSize: '10.5pt' }}>
+                  </div>
+                  {/* 右侧内容 */}
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-sky-600" style={{ fontSize: '10.5pt' }}>
                       <EditableText value={exp.position} onChange={(v) => updateExperience(exp.id, { position: v })} placeholder="职位" className="font-semibold text-sky-600" />
                     </h3>
-                  </div>
-                  <div className="text-slate-700" style={{ fontSize: '10pt' }}>
+                    <div className="text-slate-700" style={{ fontSize: '10pt' }}>
                     <EditableText value={exp.company} onChange={(v) => updateExperience(exp.id, { company: v })} placeholder="公司" />
                     {exp.location && <span> · <EditableText value={exp.location} onChange={(v) => updateExperience(exp.id, { location: v })} placeholder="地点" /></span>}
                     {exp.country && <span> · <EditableText value={exp.country} onChange={(v) => updateExperience(exp.id, { country: v })} placeholder="国籍" /></span>}
@@ -148,6 +150,7 @@ export function GermanTemplate() {
                   <p className="mt-3 text-slate-600 whitespace-pre-line" style={{ fontSize: '9.5pt' }}>
                     <EditableText value={exp.description} onChange={(v) => updateExperience(exp.id, { description: v })} placeholder="工作描述..." multiline className="w-full" />
                   </p>
+                  </div>
                 </div>
               ))}
             </div>
