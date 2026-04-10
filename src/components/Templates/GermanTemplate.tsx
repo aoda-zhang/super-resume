@@ -26,12 +26,12 @@ export function GermanTemplate() {
                 
                 {/* 职位 */}
                 {personalInfo.title && (
-                  <p className="text-sky-500 mb-4" style={{ fontSize: '12pt' }}>
+                  <p className="text-sky-600 mb-4" style={{ fontSize: '12pt' }}>
                     <EditableText
                       value={personalInfo.title}
                       onChange={(v) => updatePersonalInfo({ title: v })}
                       placeholder="职位"
-                      className="text-sky-500"
+                      className="text-sky-600"
                     />
                   </p>
                 )}
@@ -97,7 +97,7 @@ export function GermanTemplate() {
         if (!personalInfo.summary) return null;
         return (
           <section className="mb-5">
-            <EditableLabel sectionType="summary" defaultLabel="个人简介" className="font-bold text-slate-800 border-b border-slate-300 pb-1 block mb-2" style={{ fontSize: '12pt' }} />
+            <EditableLabel sectionType="summary" defaultLabel="个人简介" className="font-bold text-slate-800 border-b-2 border-sky-600 pb-1 block mb-3" style={{ fontSize: '12pt' }} />
             <p className="text-slate-600 leading-relaxed" style={{ fontSize: '10pt' }}>
               <EditableText value={personalInfo.summary} onChange={(v) => updatePersonalInfo({ summary: v })} placeholder="个人简介..." multiline className="w-full" />
             </p>
@@ -108,13 +108,13 @@ export function GermanTemplate() {
         if (experience.length === 0) return null;
         return (
           <section className="mb-5">
-            <EditableLabel sectionType="experience" defaultLabel="工作经验" className="font-bold text-slate-800 border-b border-slate-300 pb-1 block mb-2" style={{ fontSize: '12pt' }} />
+            <EditableLabel sectionType="experience" defaultLabel="工作经验" className="font-bold text-slate-800 border-b-2 border-sky-600 pb-1 block mb-3" style={{ fontSize: '12pt' }} />
             <div className="space-y-3">
               {experience.map((exp) => (
                 <div key={exp.id}>
                   <div className="flex justify-between items-baseline">
-                    <h3 className="font-semibold text-slate-800" style={{ fontSize: '10.5pt' }}>
-                      <EditableText value={exp.position} onChange={(v) => updateExperience(exp.id, { position: v })} placeholder="职位" className="font-semibold" />
+                    <h3 className="font-semibold text-sky-600" style={{ fontSize: '10.5pt' }}>
+                      <EditableText value={exp.position} onChange={(v) => updateExperience(exp.id, { position: v })} placeholder="职位" className="font-semibold text-sky-600" />
                     </h3>
                     <span className="text-slate-500" style={{ fontSize: '9pt' }}>
                       <EditableText value={`${exp.startDate} - ${exp.current ? '至今' : exp.endDate}`} onChange={(v) => {
@@ -128,7 +128,7 @@ export function GermanTemplate() {
                     {exp.location && <span> · <EditableText value={exp.location} onChange={(v) => updateExperience(exp.id, { location: v })} placeholder="地点" /></span>}
                   </div>
                   {exp.techStack && (
-                    <div className="mt-1 flex flex-wrap gap-1">
+                    <div className="mt-2 flex flex-wrap gap-1">
                       {exp.techStack.split(',').map((tech, idx) => (
                         <span
                           key={idx}
@@ -139,7 +139,7 @@ export function GermanTemplate() {
                       ))}
                     </div>
                   )}
-                  <p className="mt-1 text-slate-600 whitespace-pre-line" style={{ fontSize: '9.5pt' }}>
+                  <p className="mt-3 text-slate-600 whitespace-pre-line" style={{ fontSize: '9.5pt' }}>
                     <EditableText value={exp.description} onChange={(v) => updateExperience(exp.id, { description: v })} placeholder="工作描述..." multiline className="w-full" />
                   </p>
                 </div>
@@ -152,7 +152,7 @@ export function GermanTemplate() {
         if (education.length === 0) return null;
         return (
           <section className="mb-5">
-            <EditableLabel sectionType="education" defaultLabel="教育背景" className="font-bold text-slate-800 border-b border-slate-300 pb-1 block mb-2" style={{ fontSize: '12pt' }} />
+            <EditableLabel sectionType="education" defaultLabel="教育背景" className="font-bold text-slate-800 border-b-2 border-sky-600 pb-1 block mb-3" style={{ fontSize: '12pt' }} />
             <div className="space-y-2">
               {education.map((edu) => (
                 <div key={edu.id}>
@@ -183,7 +183,7 @@ export function GermanTemplate() {
         if (projects.length === 0) return null;
         return (
           <section className="mb-5">
-            <EditableLabel sectionType="projects" defaultLabel="项目经历" className="font-bold text-slate-800 border-b border-slate-300 pb-1 block mb-2" style={{ fontSize: '12pt' }} />
+            <EditableLabel sectionType="projects" defaultLabel="项目经历" className="font-bold text-slate-800 border-b-2 border-sky-600 pb-1 block mb-3" style={{ fontSize: '12pt' }} />
             <div className="space-y-3">
               {projects.map((proj) => (
                 <div key={proj.id}>
@@ -222,7 +222,7 @@ export function GermanTemplate() {
         if (skills.length === 0) return null;
         return (
           <section className="mb-5">
-            <EditableLabel sectionType="skills" defaultLabel="技能" className="font-bold text-slate-800 border-b border-slate-300 pb-1 block mb-2" style={{ fontSize: '12pt' }} />
+            <EditableLabel sectionType="skills" defaultLabel="技能" className="font-bold text-slate-800 border-b-2 border-sky-600 pb-1 block mb-3" style={{ fontSize: '12pt' }} />
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-slate-700" style={{ fontSize: '9.5pt' }}>
               {skills.map((skill) => (
                 <span key={skill.id}>
@@ -237,7 +237,7 @@ export function GermanTemplate() {
         if (languages.length === 0) return null;
         return (
           <section className="mb-5">
-            <EditableLabel sectionType="languages" defaultLabel="语言能力" className="font-bold text-slate-800 border-b border-slate-300 pb-1 block mb-2" style={{ fontSize: '12pt' }} />
+            <EditableLabel sectionType="languages" defaultLabel="语言能力" className="font-bold text-slate-800 border-b-2 border-sky-600 pb-1 block mb-3" style={{ fontSize: '12pt' }} />
             <div className="space-y-0.5" style={{ fontSize: '9.5pt' }}>
               {languages.map((lang) => (
                 <div key={lang.id} className="text-slate-700">
