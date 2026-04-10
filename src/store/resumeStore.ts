@@ -269,6 +269,7 @@ interface ResumeState {
   syncFromMarkdown: () => void;
   syncToMarkdown: () => void;
   setResumeData: (data: ResumeData) => void;
+  updateResumeData: (data: Partial<ResumeData>) => void;
   updatePersonalInfo: (info: Partial<ResumeData['personalInfo']>) => void;
   updateSectionLabel: (sectionType: string, newLabel: string) => void;
   toggleSectionVisibility: (sectionType: string) => void;
@@ -347,6 +348,11 @@ export const useResumeStore = create<ResumeState>()(
       },
 
       setResumeData: (data) => set({ resumeData: data }),
+
+      updateResumeData: (data: Partial<ResumeData>) =>
+        set((state) => ({
+          resumeData: { ...state.resumeData, ...data },
+        })),
 
       updatePersonalInfo: (info) =>
         set((state) => ({

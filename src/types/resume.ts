@@ -49,13 +49,19 @@ export interface Project {
   technologies: string[];
 }
 
+export interface Language {
+  id: string;
+  name: string;
+  level: string;
+}
+
 export interface ResumeData {
   personalInfo: PersonalInfo;
   experience: Experience[];
   education: Education[];
   skills: Skill[];
   projects: Project[];
-  languages: { id: string; name: string; level: string }[];
+  languages: Language[];
 }
 
 export type TemplateType = 'modern' | 'classic' | 'minimal' | 'german';
