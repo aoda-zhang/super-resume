@@ -1,4 +1,4 @@
-import { EditableText, EditableLabel, useResumeEditing } from './EditableComponents';
+import { EditableText, useResumeEditing } from './EditableComponents';
 
 // 德国简历
 
@@ -25,7 +25,7 @@ export function GermanTemplate() {
             {/* 职位 - 浅蓝色 */}
             <p className="text-lg text-sky-500 mb-4">
               <EditableText
-                value={personalInfo.title}
+                value={personalInfo.title || ''}
                 onChange={() => {}}
                 placeholder="职位"
               />
