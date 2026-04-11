@@ -27,9 +27,12 @@ export function GermanTemplate() {
     resumeData;
 
   // Fields shown in the contact grid (excluding fullName & title which render separately)
-  const contactFields = personalInfoFields.filter(
-    (f) => f !== "fullName" && f !== "title"
-  );
+  // Only show fields that have a non-empty value
+  const contactFields = personalInfoFields.filter((f) => {
+    if (f === "fullName" || f === "title") return false;
+    const v = personalInfo[f as keyof typeof personalInfo];
+    return typeof v === "string" && v.trim() !== "";
+  });
 
   const fieldLabels: Record<PersonalInfoFieldType, string> = {
     fullName: t.name,
@@ -53,8 +56,8 @@ export function GermanTemplate() {
           <header className="mb-6">
             <div className="flex justify-between items-start">
               <div className="flex-1">
-                {/* Name & title rendered separately */}
-                {personalInfoFields.includes("fullName") && (
+                {/* Name & title rendered separately — only show if has value */}
+                {personalInfoFields.includes("fullName") && personalInfo.fullName && (
                   <h1 className="font-bold text-slate-900 mb-1" style={{ fontSize: "20pt" }}>
                     <EditableText
                       value={personalInfo.fullName || ""}
@@ -64,7 +67,7 @@ export function GermanTemplate() {
                     />
                   </h1>
                 )}
-                {personalInfoFields.includes("title") && (
+                {personalInfoFields.includes("title") && personalInfo.title && (
                   <p className="font-semibold text-slate-800 mb-3" style={{ fontSize: "13pt" }}>
                     <EditableText
                       value={personalInfo.title || ""}
@@ -435,7 +438,7 @@ export function GermanTemplate() {
               className="flex flex-wrap gap-x-4 gap-y-1"
               style={{ fontSize: "11pt" }}
             >
-              {skills.map((skill, idx) => (
+              {skills.map((skill) => (
                 <span key={skill.id}>
                   <EditableText
                     value={skill.name}
