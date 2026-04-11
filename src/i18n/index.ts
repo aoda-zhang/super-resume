@@ -1,101 +1,233 @@
-import type { Language } from '../types/resume';
-
-export interface I18n {
-  header: {
-    fillSample: string;
-    clear: string;
-    exportPdf: string;
-    exportImage: string;
-    template: string;
-  };
-  template: {
-    modern: string;
-    classic: string;
-    minimal: string;
-    german: string;
-  };
-  sections: {
-    personalInfo: string;
-    summary: string;
-    experience: string;
-    education: string;
-    skills: string;
-    projects: string;
-    languages: string;
-  };
-}
-
-export const translations: Record<Language, I18n> = {
+export const translations = {
   zh: {
+    app: {
+      title: 'Super Resume',
+      subtitle: '简历生成器',
+    },
     header: {
-      fillSample: '填充示例',
+      fillSample: '填入示例',
       clear: '清空',
+      template: '模板',
+      language: '语言',
       exportPdf: '导出 PDF',
       exportImage: '导出图片',
-      template: '模板',
+      print: '打印',
+      markdown: 'Markdown',
+      visual: '可视化',
+    },
+    editor: {
+      personalInfo: '基本信息',
+      summary: '自我评价',
+      education: '教育经历',
+      experience: '工作经历',
+      projects: '项目经验',
+      skills: '专业技能',
+      languages: '语言能力',
+      add: '添加',
+      remove: '删除',
+      moveUp: '上移',
+      moveDown: '下移',
+      sectionName: '区块名称',
+      show: '显示',
+      hide: '隐藏',
+    },
+    form: {
+      name: '姓名',
+      title: '职位',
+      email: '邮箱',
+      phone: '电话',
+      location: '所在地',
+      website: '网站',
+      github: 'GitHub',
+      linkedin: 'LinkedIn',
+      avatar: '头像链接',
+      school: '学校',
+      degree: '学位',
+      major: '专业',
+      startDate: '开始时间',
+      endDate: '结束时间',
+      current: '至今',
+      gpa: 'GPA',
+      description: '描述',
+      company: '公司',
+      position: '职位',
+      projectName: '项目名称',
+      role: '角色',
+      url: '链接',
+      category: '分类',
+      skills: '技能（逗号分隔）',
+      language: '语言',
+      level: '水平',
+      summaryPlaceholder: '简要介绍你的专业背景、核心优势和职业目标...',
     },
     template: {
-      modern: '现代',
       classic: '经典',
-      minimal: '简约',
+      modern: '现代',
+      minimal: '极简',
       german: '德式',
     },
-    sections: {
-      personalInfo: '个人信息',
-      summary: '个人简介',
-      experience: '工作经验',
-      education: '教育背景',
-      skills: '技能',
-      projects: '项目',
-      languages: '语言',
+    confirm: {
+      clear: '确定清空所有内容？此操作不可撤销。',
+      clearTitle: '清空确认',
+    },
+    sample: {
+      title: '示例数据',
+      description: '点击填入示例数据，体验完整功能',
     },
   },
   en: {
+    app: {
+      title: 'Super Resume',
+      subtitle: 'Resume Builder',
+    },
     header: {
       fillSample: 'Fill Sample',
       clear: 'Clear',
+      template: 'Template',
+      language: 'Language',
       exportPdf: 'Export PDF',
       exportImage: 'Export Image',
-      template: 'Template',
+      print: 'Print',
+      markdown: 'Markdown',
+      visual: 'Visual',
+    },
+    editor: {
+      personalInfo: 'Personal Info',
+      summary: 'Summary',
+      education: 'Education',
+      experience: 'Experience',
+      projects: 'Projects',
+      skills: 'Skills',
+      languages: 'Languages',
+      add: 'Add',
+      remove: 'Remove',
+      moveUp: 'Move Up',
+      moveDown: 'Move Down',
+      sectionName: 'Section Name',
+      show: 'Show',
+      hide: 'Hide',
+    },
+    form: {
+      name: 'Name',
+      title: 'Title',
+      email: 'Email',
+      phone: 'Phone',
+      location: 'Location',
+      website: 'Website',
+      github: 'GitHub',
+      linkedin: 'LinkedIn',
+      avatar: 'Avatar URL',
+      school: 'School',
+      degree: 'Degree',
+      major: 'Major',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+      current: 'Present',
+      gpa: 'GPA',
+      description: 'Description',
+      company: 'Company',
+      position: 'Position',
+      projectName: 'Project Name',
+      role: 'Role',
+      url: 'URL',
+      category: 'Category',
+      skills: 'Skills (comma separated)',
+      language: 'Language',
+      level: 'Level',
+      summaryPlaceholder: 'Brief overview of your background, strengths, and career goals...',
     },
     template: {
-      modern: 'Modern',
       classic: 'Classic',
+      modern: 'Modern',
       minimal: 'Minimal',
       german: 'German',
     },
-    sections: {
-      personalInfo: 'Personal Info',
-      summary: 'Summary',
-      experience: 'Experience',
-      education: 'Education',
-      skills: 'Skills',
-      projects: 'Projects',
-      languages: 'Languages',
+    confirm: {
+      clear: 'Are you sure you want to clear all content? This cannot be undone.',
+      clearTitle: 'Clear Confirmation',
+    },
+    sample: {
+      title: 'Sample Data',
+      description: 'Click to fill with sample data',
     },
   },
   de: {
+    app: {
+      title: 'Super Resume',
+      subtitle: 'Lebenslauf-Ersteller',
+    },
     header: {
-      fillSample: 'Beispiel',
-      clear: 'Leeren',
-      exportPdf: 'PDF Export',
-      exportImage: 'Bild Export',
+      fillSample: 'Beispieldaten',
+      clear: 'Löschen',
       template: 'Vorlage',
+      language: 'Sprache',
+      exportPdf: 'PDF exportieren',
+      exportImage: 'Bild exportieren',
+      print: 'Drucken',
+      markdown: 'Markdown',
+      visual: 'Visuell',
+    },
+    editor: {
+      personalInfo: 'Persönliche Daten',
+      summary: 'Zusammenfassung',
+      education: 'Ausbildung',
+      experience: 'Berufserfahrung',
+      projects: 'Projekte',
+      skills: 'Fähigkeiten',
+      languages: 'Sprachen',
+      add: 'Hinzufügen',
+      remove: 'Entfernen',
+      moveUp: 'Nach oben',
+      moveDown: 'Nach unten',
+      sectionName: 'Abschnittsname',
+      show: 'Anzeigen',
+      hide: 'Ausblenden',
+    },
+    form: {
+      name: 'Name',
+      title: 'Berufsbezeichnung',
+      email: 'E-Mail',
+      phone: 'Telefon',
+      location: 'Ort',
+      website: 'Website',
+      github: 'GitHub',
+      linkedin: 'LinkedIn',
+      avatar: 'Avatar-URL',
+      school: 'Schule/Universität',
+      degree: 'Abschluss',
+      major: 'Fachrichtung',
+      startDate: 'Startdatum',
+      endDate: 'Enddatum',
+      current: 'Bis heute',
+      gpa: 'Notendurchschnitt',
+      description: 'Beschreibung',
+      company: 'Unternehmen',
+      position: 'Position',
+      projectName: 'Projektname',
+      role: 'Rolle',
+      url: 'URL',
+      category: 'Kategorie',
+      skills: 'Fähigkeiten (kommagetrennt)',
+      language: 'Sprache',
+      level: 'Niveau',
+      summaryPlaceholder: 'Kurze Zusammenfassung Ihres Hintergrunds, Ihrer Stärken und Karriereziele...',
     },
     template: {
-      modern: 'Modern',
       classic: 'Klassisch',
+      modern: 'Modern',
       minimal: 'Minimal',
       german: 'Deutsch',
     },
-    sections: {
-      personalInfo: 'Persönliche Daten',
-      summary: 'Zusammenfassung',
-      experience: 'Berufserfahrung',
-      education: 'Bildung',
-      skills: 'Fähigkeiten',
-      projects: 'Projekte',
-      languages: 'Sprachen',
+    confirm: {
+      clear: 'Möchten Sie wirklich alle Inhalte löschen? Dies kann nicht rückgängig gemacht werden.',
+      clearTitle: 'Löschen bestätigen',
+    },
+    sample: {
+      title: 'Beispieldaten',
+      description: 'Klicken Sie hier, um Beispieldaten einzufügen',
     },
   },
-};
+} as const;
+
+export type Language = keyof typeof translations;
+export type I18n = typeof translations.en;
