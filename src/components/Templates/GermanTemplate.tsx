@@ -36,8 +36,8 @@ export function GermanTemplate() {
                   </p>
                 )}
 
-                {/* 联系方式 */}
-                <div className="space-y-1" style={{ fontSize: '9.5pt' }}>
+                {/* 联系方式 - 两排，每排4个 */}
+                <div className="grid grid-cols-4 gap-x-4 gap-y-1" style={{ fontSize: '9.5pt' }}>
                   {personalInfo.location && (
                     <div className="text-slate-600">
                       <span className="font-bold text-slate-700">地址：</span>
