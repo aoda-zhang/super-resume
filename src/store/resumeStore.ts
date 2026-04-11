@@ -14,6 +14,35 @@ interface SectionOrder {
   visible: boolean;
 }
 
+/** 个人信息的子字段排序 */
+export type PersonalInfoFieldType =
+  | 'fullName' | 'title'
+  | 'email' | 'phone' | 'address'
+  | 'nationality' | 'birthDate' | 'workPermit' | 'blueCard'
+  | 'linkedin' | 'github' | 'website';
+
+export const defaultPersonalInfoFieldOrder: PersonalInfoFieldType[] = [
+  'fullName', 'title',
+  'email', 'phone', 'address',
+  'nationality', 'birthDate', 'workPermit', 'blueCard',
+  'linkedin', 'github', 'website',
+];
+
+export const personalInfoFieldMeta: Record<PersonalInfoFieldType, { rows: number }> = {
+  fullName: { rows: 1 },
+  title: { rows: 1 },
+  email: { rows: 1 },
+  phone: { rows: 1 },
+  address: { rows: 1 },
+  nationality: { rows: 1 },
+  birthDate: { rows: 1 },
+  workPermit: { rows: 1 },
+  blueCard: { rows: 1 },
+  linkedin: { rows: 1 },
+  github: { rows: 1 },
+  website: { rows: 1 },
+};
+
 const zhSample: ResumeData = {
   personalInfo: {
     fullName: 'John Smith',
@@ -274,6 +303,9 @@ interface ResumeState {
   toggleSectionVisibility: (sectionType: string) => void;
   reorderSections: (newOrder: SectionOrder[]) => void;
   resetSectionOrder: () => void;
+  personalInfoFieldOrder: PersonalInfoFieldType[];
+  reorderPersonalInfoFields: (newOrder: PersonalInfoFieldType[]) => void;
+  resetPersonalInfoFieldOrder: () => void;
   setEditingSection: (section: string | null) => void;
   setEditingField: (field: { section: string; field: string; index?: number } | null) => void;
   addExperience: (exp: Omit<ResumeData['experience'][0], 'id'>) => void;
@@ -312,6 +344,7 @@ export const useResumeStore = create<ResumeState>()(
       editorMode: 'visual',
       template: 'modern',
       sectionOrder: defaultSectionOrder,
+      personalInfoFieldOrder: defaultPersonalInfoFieldOrder,
       language: 'zh',
       editingSection: null,
       editingField: null,
@@ -379,6 +412,12 @@ export const useResumeStore = create<ResumeState>()(
       reorderSections: (newOrder) => set({ sectionOrder: newOrder }),
 
       resetSectionOrder: () => set({ sectionOrder: defaultSectionOrder }),
+
+      reorderPersonalInfoFields: (newOrder) =>
+        set({ personalInfoFieldOrder: newOrder }),
+
+      resetPersonalInfoFieldOrder: () =>
+        set({ personalInfoFieldOrder: defaultPersonalInfoFieldOrder }),
 
       setEditingSection: (section) => set({ editingSection: section }),
       setEditingField: (field) => set({ editingField: field }),
@@ -510,7 +549,11 @@ export const useResumeStore = create<ResumeState>()(
       },
 
       clearData: () => {
-        set({ resumeData: emptyResume, markdownContent: resumeToMarkdown(emptyResume) });
+        set({
+          resumeData: emptyResume,
+          markdownContent: resumeToMarkdown(emptyResume),
+          personalInfoFieldOrder: defaultPersonalInfoFieldOrder,
+        });
       },
     }),
     {

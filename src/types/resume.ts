@@ -1,6 +1,6 @@
 export interface PersonalInfo {
   fullName: string;
-  title?: string; 
+  title?: string;
   email: string;
   phone: string;
   address: string;
@@ -8,6 +8,9 @@ export interface PersonalInfo {
   website?: string;
   summary?: string;
   nationality?: string;
+  birthDate?: string;
+  workPermit?: string;
+  blueCard?: string;
   photo?: string; // base64 or URL
   github?: string;
 }

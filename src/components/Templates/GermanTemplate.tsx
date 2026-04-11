@@ -5,6 +5,7 @@ import {
 } from "./EditableComponents";
 import { useResumeStore } from "../../store/resumeStore";
 import { translations } from "../../i18n";
+import type { PersonalInfoFieldType } from "../../store/resumeStore";
 
 export function GermanTemplate() {
   const language = useResumeStore((s) => s.language);
@@ -14,6 +15,7 @@ export function GermanTemplate() {
   const {
     resumeData,
     visibleSections,
+    personalInfoFields,
     updatePersonalInfo,
     updateExperience,
     updateEducation,
@@ -24,6 +26,26 @@ export function GermanTemplate() {
   const { personalInfo, experience, education, skills, projects, languages } =
     resumeData;
 
+  // Fields shown in the contact grid (excluding fullName & title which render separately)
+  const contactFields = personalInfoFields.filter(
+    (f) => f !== "fullName" && f !== "title"
+  );
+
+  const fieldLabels: Record<PersonalInfoFieldType, string> = {
+    fullName: t.name,
+    title: t.title,
+    email: t.email,
+    phone: t.phone,
+    address: t.address,
+    nationality: t.nationality,
+    birthDate: t.birthDate,
+    workPermit: t.workPermit,
+    blueCard: t.blueCard,
+    linkedin: t.linkedin,
+    github: t.github,
+    website: t.website,
+  };
+
   const renderSection = (section: (typeof visibleSections)[0]) => {
     switch (section.type) {
       case "personal":
@@ -31,25 +53,21 @@ export function GermanTemplate() {
           <header className="mb-6">
             <div className="flex justify-between items-start">
               <div className="flex-1">
-                <h1
-                  className="font-bold text-slate-900 mb-1"
-                  style={{ fontSize: "20pt" }}
-                >
-                  <EditableText
-                    value={personalInfo.fullName || ""}
-                    onChange={(v) => updatePersonalInfo({ fullName: v })}
-                    placeholder={t.name}
-                    className="font-bold"
-                  />
-                </h1>
-
-                {personalInfo.title && (
-                  <p
-                    className="font-semibold text-slate-800 mb-4"
-                    style={{ fontSize: "13pt" }}
-                  >
+                {/* Name & title rendered separately */}
+                {personalInfoFields.includes("fullName") && (
+                  <h1 className="font-bold text-slate-900 mb-1" style={{ fontSize: "20pt" }}>
                     <EditableText
-                      value={personalInfo.title}
+                      value={personalInfo.fullName || ""}
+                      onChange={(v) => updatePersonalInfo({ fullName: v })}
+                      placeholder={t.name}
+                      className="font-bold"
+                    />
+                  </h1>
+                )}
+                {personalInfoFields.includes("title") && (
+                  <p className="font-semibold text-slate-800 mb-3" style={{ fontSize: "13pt" }}>
+                    <EditableText
+                      value={personalInfo.title || ""}
                       onChange={(v) => updatePersonalInfo({ title: v })}
                       placeholder={t.title}
                       className="font-semibold text-slate-800"
@@ -57,75 +75,46 @@ export function GermanTemplate() {
                   </p>
                 )}
 
-                <div className="mt-3 space-y-1" style={{ fontSize: "10pt" }}>
-                  {/* Row 1 */}
-                  <div className="flex gap-x-8">
-                    <div className="flex-1">
-                      <span className="font-bold">{t.address}：</span>
-                      <EditableText
-                        value={personalInfo.address || ""}
-                        onChange={(v) => updatePersonalInfo({ address: v })}
-                        placeholder={t.address}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-bold">{t.phone}：</span>
-                      <EditableText
-                        value={personalInfo.phone || ""}
-                        onChange={(v) => updatePersonalInfo({ phone: v })}
-                        placeholder={t.phone}
-                      />
-                    </div>
-                  </div>
-                  {/* Row 2 */}
-                  <div className="flex gap-x-8">
-                    <div className="flex-1">
-                      <span className="font-bold">{t.email}：</span>
-                      <EditableText
-                        value={personalInfo.email || ""}
-                        onChange={(v) => updatePersonalInfo({ email: v })}
-                        placeholder={t.email}
-                      />
-                    </div>
-                  </div>
-                  {/* Row 3 */}
-                  <div className="flex gap-x-8">
-                    <div className="flex-1">
-                      <span className="font-bold">{t.linkedin}：</span>
-                      <EditableText
-                        value={personalInfo.linkedin || ""}
-                        onChange={(v) => updatePersonalInfo({ linkedin: v })}
-                        placeholder={t.linkedin}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-bold">{t.nationality}：</span>
-                      <EditableText
-                        value={personalInfo.nationality || ""}
-                        onChange={(v) => updatePersonalInfo({ nationality: v })}
-                        placeholder={t.nationality}
-                      />
-                    </div>
-                  </div>
-                  {/* Row 4 */}
-                  <div className="flex gap-x-8">
-                    <div className="flex-1">
-                      <span className="font-bold">{t.website}：</span>
-                      <EditableText
-                        value={personalInfo.website || ""}
-                        onChange={(v) => updatePersonalInfo({ website: v })}
-                        placeholder={t.website}
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-bold">{t.github}：</span>
-                      <EditableText
-                        value={personalInfo.github || ""}
-                        onChange={(v) => updatePersonalInfo({ github: v })}
-                        placeholder={t.github}
-                      />
-                    </div>
-                  </div>
+                {/* Dynamic contact fields — 2 per row */}
+                <div className="mt-2 space-y-1" style={{ fontSize: "10pt" }}>
+                  {Array.from({ length: Math.ceil(contactFields.length / 2) }).map(
+                    (_, rowIdx) => {
+                      const left = contactFields[rowIdx * 2];
+                      const right = contactFields[rowIdx * 2 + 1];
+                      return (
+                        <div key={rowIdx} className="flex gap-x-8">
+                          {left && (
+                            <div className="flex-1">
+                              <span className="font-bold">{fieldLabels[left]}：</span>
+                              <EditableText
+                                value={
+                                  (personalInfo[left as keyof typeof personalInfo] as string) || ""
+                                }
+                                onChange={(v) =>
+                                  updatePersonalInfo({ [left]: v } as any)
+                                }
+                                placeholder={fieldLabels[left]}
+                              />
+                            </div>
+                          )}
+                          {right && (
+                            <div className="flex-1">
+                              <span className="font-bold">{fieldLabels[right]}：</span>
+                              <EditableText
+                                value={
+                                  (personalInfo[right as keyof typeof personalInfo] as string) || ""
+                                }
+                                onChange={(v) =>
+                                  updatePersonalInfo({ [right]: v } as any)
+                                }
+                                placeholder={fieldLabels[right]}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }
+                  )}
                 </div>
               </div>
 

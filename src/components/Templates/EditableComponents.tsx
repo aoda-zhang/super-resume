@@ -136,5 +136,6 @@ export function useResumeEditing() {
   return {
     ...store,
     visibleSections: store.sectionOrder.filter(s => s.visible),
+    personalInfoFields: store.personalInfoFieldOrder,
   };
 }

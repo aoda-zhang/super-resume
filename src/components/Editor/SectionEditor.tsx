@@ -219,7 +219,7 @@ export function SectionEditor() {
   const renderSectionContent = (key: SectionKey) => {
     switch (key) {
       case 'personalInfo':
-        return <PersonalInfoSection data={resumeData.personalInfo} onChange={(v) => handleUpdate('personalInfo', v)} />;
+        return <PersonalInfoSection data={resumeData.personalInfo} />;
       case 'experience':
         return <ExperienceSection data={resumeData.experience} onChange={(v) => handleUpdate('experience', v)} />;
       case 'education':
