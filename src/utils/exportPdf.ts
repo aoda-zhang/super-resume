@@ -13,11 +13,10 @@ export async function exportToPDF(element: HTMLElement, fileName: string = 'resu
       windowWidth: element.scrollWidth,
       windowHeight: element.scrollHeight,
       onclone: (_clonedDoc, clonedEl) => {
-        const el = clonedEl as HTMLElement;
-        el.style.position = 'fixed';
-        el.style.left = '0';
-        el.style.top = '0';
-        el.style.zIndex = '-1';
+        (clonedEl as HTMLElement).style.position = 'fixed';
+        (clonedEl as HTMLElement).style.left = '0';
+        (clonedEl as HTMLElement).style.top = '0';
+        (clonedEl as HTMLElement).style.zIndex = '-1';
         clonedEl.querySelectorAll('*').forEach((node) => {
           (node as HTMLElement).style.transition = 'none';
           (node as HTMLElement).style.animation = 'none';
@@ -25,64 +24,55 @@ export async function exportToPDF(element: HTMLElement, fileName: string = 'resu
       },
     });
 
-    const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF('p', 'mm', 'a4');
 
     const pdfWidth = pdf.internal.pageSize.getWidth();   // 210 mm
     const pdfHeight = pdf.internal.pageSize.getHeight(); // 297 mm
 
-    // Template dimensions
+    const MARGIN = 15; // 4 margins = 15 mm each
+
+    // Template dimensions in mm
     const imgWidth = pdfWidth;                            // 210 mm
-    const imgHeight = (canvas.height * pdfWidth) / canvas.width; // total template height in mm
+    const imgHeight = (canvas.height * pdfWidth) / canvas.width; // total height in mm
 
     // Canvas pixels per mm of the image
     const pxPerMm = canvas.height / imgHeight; // px/mm
 
-    // 15 mm top margin for every page
-    const PAGE_MARGIN_TOP = 15;
+    // Content starts at y = MARGIN inside the image (top padding of the template)
+    const templateContentStartMm = MARGIN;
 
-    // Effective content height per page = PDF height minus margins top+bottom
-    const contentHeightPerPage = pdfHeight - PAGE_MARGIN_TOP - PAGE_MARGIN_TOP; // 267 mm
-
-    // Template content starts at y = PAGE_MARGIN_TOP inside the image
-    // (the 15 mm padding sits above the first piece of content)
-    const templateContentStartMm = PAGE_MARGIN_TOP;
+    // Content height per page = 297 - 15 - 15 = 267 mm
+    const contentHeightPerPage = pdfHeight - MARGIN - MARGIN;
 
     // Total content height (excluding the top padding that only page 1 needs)
-    const totalContentHeight = imgHeight - templateContentStartMm; // mm
+    const totalContentHeight = imgHeight - templateContentStartMm;
 
-    const pageCount = Math.ceil(totalContentHeight / contentHeightPerPage);
-
-    // ===================================================================
-    // Page 1: render the full template, clipped at pdfHeight
-    //   → top padding (0–15mm) + content (15–297mm) appear on the page
-    // ===================================================================
-    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    // Total pages needed
+    const pageCount = Math.ceil(totalContentHeight / contentHeightPerPage) || 1;
 
     // ===================================================================
-    // Pages 2+: add top margin (white block), then the correct content slice
+    // Draw a single page with:
+    //   - White background
+    //   - Content slice starting at template y = templateYStart (in mm)
+    //   - Content slice height = sliceHeight (in mm, may be smaller for last page)
+    //   - Top margin: always MARGIN (15mm) white space above content
+    //   - Bottom margin: always MARGIN (15mm) white space below content
     // ===================================================================
-    for (let page = 2; page <= pageCount; page++) {
-      pdf.addPage();
+    const drawPage = (pageNum: number, templateYStart: number, sliceHeight: number) => {
+      if (pageNum > 1) pdf.addPage();
+
+      // 1. Fill entire page white (clears any previous content)
       pdf.setFillColor(255, 255, 255);
       pdf.rect(0, 0, pdfWidth, pdfHeight, 'F');
 
-      // How much content (in mm) to show on this page
-      const contentSliceTop = templateContentStartMm + (page - 2) * contentHeightPerPage;
-      const contentSliceBottom = Math.min(
-        templateContentStartMm + (page - 1) * contentHeightPerPage,
-        imgHeight
-      );
-      const contentSliceHeight = contentSliceBottom - contentSliceTop;
+      // 2. Top margin white block (guaranteed 15mm)
+      //    Already covered by white rect, but we explicitly draw it
+      //    Content will start at y = MARGIN, so the top MARGIN mm is already white.
 
-      // Canvas pixel range for this content slice
-      const sliceTopPx = Math.round(contentSliceTop * pxPerMm);
-      const sliceHeightPx = Math.round(contentSliceHeight * pxPerMm);
+      // 3. Extract the canvas slice
+      const sliceTopPx = Math.round(templateYStart * pxPerMm);
+      const sliceHeightPx = Math.round(sliceHeight * pxPerMm);
 
-      // Draw white margin block at top (PAGE_MARGIN_TOP mm)
-      // (already done by the white background rect above)
-
-      // Extract canvas slice
       const sliceCanvas = document.createElement('canvas');
       sliceCanvas.width = canvas.width;
       sliceCanvas.height = sliceHeightPx;
@@ -93,17 +83,49 @@ export async function exportToPDF(element: HTMLElement, fileName: string = 'resu
         0, 0, canvas.width, sliceHeightPx
       );
 
-      // Render at PDF y = PAGE_MARGIN_TOP (right below the top margin)
-      // imgWidth: keep full width
-      // height: use the content slice height (will be clipped at bottom of page)
+      // 4. Render content at PDF y = MARGIN (leaves top margin white)
       pdf.addImage(
         sliceCanvas.toDataURL('image/png'),
         'PNG',
         0,
-        PAGE_MARGIN_TOP,   // <-- top margin, always 15 mm
+        MARGIN,          // top: starts at 15mm, top margin already white ✅
         imgWidth,
-        contentSliceHeight
+        sliceHeight
       );
+
+      // 5. Bottom margin: draw white rect from bottom of content to bottom of page
+      const contentBottomY = MARGIN + sliceHeight;           // where content ends on PDF
+      const bottomMarginHeight = pdfHeight - contentBottomY; // remaining space
+      if (bottomMarginHeight > 0) {
+        pdf.setFillColor(255, 255, 255);
+        pdf.rect(0, contentBottomY, pdfWidth, bottomMarginHeight, 'F');
+      }
+      // If content fills exactly to the bottom, bottomMarginHeight = 0, no rect needed.
+
+      // 6. Left and right margins are guaranteed by imgWidth = pdfWidth = 210mm
+      //    The image spans the full page width, leaving no gap on left/right.
+    };
+
+    // ===================================================================
+    // Page 1: content from template y=15mm to the end of page 1
+    //   Top margin: 0–15mm (white via white bg) ✅
+    //   Content:   15mm onward (clipped at 297mm)
+    //   Bottom margin: whatever remains below clipped content (may be < 15mm or 0)
+    // ===================================================================
+    const page1SliceHeight = Math.min(contentHeightPerPage, totalContentHeight);
+    drawPage(1, templateContentStartMm, page1SliceHeight);
+
+    // ===================================================================
+    // Pages 2+: each page gets a fresh MARGIN top margin
+    // ===================================================================
+    for (let page = 2; page <= pageCount; page++) {
+      const sliceTop = templateContentStartMm + (page - 1) * contentHeightPerPage;
+      if (sliceTop >= imgHeight) break; // no more content
+
+      const remaining = imgHeight - sliceTop;
+      const sliceHeight = Math.min(contentHeightPerPage, remaining);
+
+      drawPage(page, sliceTop, sliceHeight);
     }
 
     pdf.save(fileName);
