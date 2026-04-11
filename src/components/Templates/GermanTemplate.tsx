@@ -36,39 +36,39 @@ export function GermanTemplate() {
                   </p>
                 )}
 
-                {/* 联系方式 - 两排，每排4个，label在上value在下 */}
-                <div className="grid grid-cols-4 gap-x-6 gap-y-2 mt-3" style={{ fontSize: '9pt' }}>
-                  <div>
-                    <div className="text-slate-400 text-[7pt] uppercase tracking-wider mb-0.5">地址</div>
-                    <div className="text-slate-700"><EditableText value={personalInfo.location || ''} onChange={(v) => updatePersonalInfo({ location: v })} placeholder="城市" /></div>
+                {/* 联系方式 - 两列，label加粗 */}
+                <div className="grid grid-cols-2 gap-x-8 gap-y-1 mt-3" style={{ fontSize: '9pt' }}>
+                  <div className="text-slate-700">
+                    <span className="font-bold">地址：</span>
+                    <EditableText value={personalInfo.location || ''} onChange={(v) => updatePersonalInfo({ location: v })} placeholder="城市" />
                   </div>
-                  <div>
-                    <div className="text-slate-400 text-[7pt] uppercase tracking-wider mb-0.5">邮箱</div>
-                    <div className="text-slate-700"><EditableText value={personalInfo.email || ''} onChange={(v) => updatePersonalInfo({ email: v })} placeholder="邮箱" /></div>
+                  <div className="text-slate-700">
+                    <span className="font-bold">邮箱：</span>
+                    <EditableText value={personalInfo.email || ''} onChange={(v) => updatePersonalInfo({ email: v })} placeholder="邮箱" />
                   </div>
-                  <div>
-                    <div className="text-slate-400 text-[7pt] uppercase tracking-wider mb-0.5">电话</div>
-                    <div className="text-slate-700"><EditableText value={personalInfo.phone || ''} onChange={(v) => updatePersonalInfo({ phone: v })} placeholder="电话" /></div>
+                  <div className="text-slate-700">
+                    <span className="font-bold">电话：</span>
+                    <EditableText value={personalInfo.phone || ''} onChange={(v) => updatePersonalInfo({ phone: v })} placeholder="电话" />
                   </div>
-                  <div>
-                    <div className="text-slate-400 text-[7pt] uppercase tracking-wider mb-0.5">网站</div>
-                    <div className="text-slate-700"><EditableText value={personalInfo.website || ''} onChange={(v) => updatePersonalInfo({ website: v })} placeholder="网站" /></div>
+                  <div className="text-slate-700">
+                    <span className="font-bold">网站：</span>
+                    <EditableText value={personalInfo.website || ''} onChange={(v) => updatePersonalInfo({ website: v })} placeholder="网站" />
                   </div>
-                  <div>
-                    <div className="text-slate-400 text-[7pt] uppercase tracking-wider mb-0.5">LinkedIn</div>
-                    <div className="text-slate-700"><EditableText value={personalInfo.linkedin || ''} onChange={(v) => updatePersonalInfo({ linkedin: v })} placeholder="LinkedIn" /></div>
+                  <div className="text-slate-700">
+                    <span className="font-bold">LinkedIn：</span>
+                    <EditableText value={personalInfo.linkedin || ''} onChange={(v) => updatePersonalInfo({ linkedin: v })} placeholder="LinkedIn" />
                   </div>
-                  <div>
-                    <div className="text-slate-400 text-[7pt] uppercase tracking-wider mb-0.5">GitHub</div>
-                    <div className="text-slate-700"><EditableText value={personalInfo.github || ''} onChange={(v) => updatePersonalInfo({ github: v })} placeholder="GitHub" /></div>
+                  <div className="text-slate-700">
+                    <span className="font-bold">GitHub：</span>
+                    <EditableText value={personalInfo.github || ''} onChange={(v) => updatePersonalInfo({ github: v })} placeholder="GitHub" />
                   </div>
-                  <div>
-                    <div className="text-slate-400 text-[7pt] uppercase tracking-wider mb-0.5">国籍</div>
-                    <div className="text-slate-700"><EditableText value={personalInfo.nationality || ''} onChange={(v) => updatePersonalInfo({ nationality: v })} placeholder="国籍" /></div>
+                  <div className="text-slate-700">
+                    <span className="font-bold">国籍：</span>
+                    <EditableText value={personalInfo.nationality || ''} onChange={(v) => updatePersonalInfo({ nationality: v })} placeholder="国籍" />
                   </div>
-                  <div>
-                    <div className="text-slate-400 text-[7pt] uppercase tracking-wider mb-0.5">兴趣</div>
-                    <div className="text-slate-700"><EditableText value={personalInfo.interests || ''} onChange={(v) => updatePersonalInfo({ interests: v })} placeholder="兴趣" /></div>
+                  <div className="text-slate-700">
+                    <span className="font-bold">兴趣：</span>
+                    <EditableText value={personalInfo.interests || ''} onChange={(v) => updatePersonalInfo({ interests: v })} placeholder="兴趣" />
                   </div>
                 </div>
               </div>
