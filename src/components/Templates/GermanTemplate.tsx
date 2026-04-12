@@ -508,7 +508,7 @@ export function GermanTemplate() {
     <div
       className="bg-white font-sans"
       style={{
-        padding: "15mm",
+        padding: "80px",
         minHeight: "297mm",
         boxSizing: "border-box",
         width: "100%",
