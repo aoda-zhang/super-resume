@@ -57,18 +57,25 @@ export function GermanTemplate() {
             <div className="flex justify-between items-start">
               <div className="flex-1">
                 {/* Name & title rendered separately — only show if has value */}
-                {personalInfoFields.includes("fullName") && personalInfo.fullName && (
-                  <h1 className="font-bold text-slate-900 mb-1" style={{ fontSize: "20pt" }}>
-                    <EditableText
-                      value={personalInfo.fullName || ""}
-                      onChange={(v) => updatePersonalInfo({ fullName: v })}
-                      placeholder={t.name}
-                      className="font-bold"
-                    />
-                  </h1>
-                )}
+                {personalInfoFields.includes("fullName") &&
+                  personalInfo.fullName && (
+                    <h1
+                      className="font-bold text-slate-900 mb-1"
+                      style={{ fontSize: "20pt" }}
+                    >
+                      <EditableText
+                        value={personalInfo.fullName || ""}
+                        onChange={(v) => updatePersonalInfo({ fullName: v })}
+                        placeholder={t.name}
+                        className="font-bold"
+                      />
+                    </h1>
+                  )}
                 {personalInfoFields.includes("title") && personalInfo.title && (
-                  <p className="font-semibold text-slate-800 mb-3" style={{ fontSize: "13pt" }}>
+                  <p
+                    className="font-semibold text-slate-800 mb-3"
+                    style={{ fontSize: "13pt" }}
+                  >
                     <EditableText
                       value={personalInfo.title || ""}
                       onChange={(v) => updatePersonalInfo({ title: v })}
@@ -80,49 +87,57 @@ export function GermanTemplate() {
 
                 {/* Dynamic contact fields — 2 per row */}
                 <div className="mt-2 space-y-1" style={{ fontSize: "10pt" }}>
-                  {Array.from({ length: Math.ceil(contactFields.length / 2) }).map(
-                    (_, rowIdx) => {
-                      const left = contactFields[rowIdx * 2];
-                      const right = contactFields[rowIdx * 2 + 1];
-                      return (
-                        <div key={rowIdx} className="flex gap-x-8">
-                          {left && (
-                            <div className="flex-1">
-                              <span className="font-bold">{fieldLabels[left]}：</span>
-                              <EditableText
-                                value={
-                                  (personalInfo[left as keyof typeof personalInfo] as string) || ""
-                                }
-                                onChange={(v) =>
-                                  updatePersonalInfo({ [left]: v } as any)
-                                }
-                                placeholder={fieldLabels[left]}
-                              />
-                            </div>
-                          )}
-                          {right && (
-                            <div className="flex-1">
-                              <span className="font-bold">{fieldLabels[right]}：</span>
-                              <EditableText
-                                value={
-                                  (personalInfo[right as keyof typeof personalInfo] as string) || ""
-                                }
-                                onChange={(v) =>
-                                  updatePersonalInfo({ [right]: v } as any)
-                                }
-                                placeholder={fieldLabels[right]}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      );
-                    }
-                  )}
+                  {Array.from({
+                    length: Math.ceil(contactFields.length / 2),
+                  }).map((_, rowIdx) => {
+                    const left = contactFields[rowIdx * 2];
+                    const right = contactFields[rowIdx * 2 + 1];
+                    return (
+                      <div key={rowIdx} className="flex gap-x-8">
+                        {left && (
+                          <div className="flex-1">
+                            <span className="font-bold">
+                              {fieldLabels[left]}：
+                            </span>
+                            <EditableText
+                              value={
+                                (personalInfo[
+                                  left as keyof typeof personalInfo
+                                ] as string) || ""
+                              }
+                              onChange={(v) =>
+                                updatePersonalInfo({ [left]: v } as any)
+                              }
+                              placeholder={fieldLabels[left]}
+                            />
+                          </div>
+                        )}
+                        {right && (
+                          <div className="flex-1">
+                            <span className="font-bold">
+                              {fieldLabels[right]}：
+                            </span>
+                            <EditableText
+                              value={
+                                (personalInfo[
+                                  right as keyof typeof personalInfo
+                                ] as string) || ""
+                              }
+                              onChange={(v) =>
+                                updatePersonalInfo({ [right]: v } as any)
+                              }
+                              placeholder={fieldLabels[right]}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
               {personalInfo.photo && (
-                <div className="flex-shrink-0 ml-6">
+                <div className="shrink-0 ml-6">
                   <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-slate-200">
                     <img
                       src={personalInfo.photo}
@@ -142,7 +157,7 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="summary"
               defaultLabel={tEditor.summary}
-              className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
+              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
               style={{ fontSize: "12pt" }}
             />
             <p className="leading-relaxed" style={{ fontSize: "11pt" }}>
@@ -164,7 +179,7 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="experience"
               defaultLabel={tEditor.experience}
-              className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
+              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
               style={{ fontSize: "12pt" }}
             />
             <div className="space-y-4">
@@ -300,31 +315,43 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="education"
               defaultLabel={tEditor.education}
-              className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
+              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
               style={{ fontSize: "12pt" }}
             />
             <div className="space-y-2">
               {education.map((edu) => (
                 <div key={edu.id}>
                   <div className="flex justify-between items-baseline gap-4">
-                    <span className="text-slate-600 shrink-0" style={{ fontSize: "10pt" }}>
+                    <span
+                      className="text-slate-600 shrink-0"
+                      style={{ fontSize: "10pt" }}
+                    >
                       <EditableText
                         value={`${edu.startDate}${edu.startDate ? " - " : ""}${edu.current ? present : edu.endDate}`}
                         onChange={(v) => {
                           const dashIdx = v.indexOf("-");
-                          const s1 = dashIdx >= 0 ? v.slice(0, dashIdx).trim() : v.trim();
-                          const s2 = dashIdx >= 0 ? v.slice(dashIdx + 1).trim() : "";
+                          const s1 =
+                            dashIdx >= 0
+                              ? v.slice(0, dashIdx).trim()
+                              : v.trim();
+                          const s2 =
+                            dashIdx >= 0 ? v.slice(dashIdx + 1).trim() : "";
                           updateEducation(edu.id, {
                             startDate: s1,
                             endDate: s2,
-                            current: s2.toLowerCase().includes(present.toLowerCase()),
+                            current: s2
+                              .toLowerCase()
+                              .includes(present.toLowerCase()),
                           });
                         }}
                         placeholder={t.startDate}
                         className="text-slate-600"
                       />
                     </span>
-                    <span className="text-slate-700 font-medium text-right flex-1" style={{ fontSize: "10pt" }}>
+                    <span
+                      className="text-slate-700 font-medium text-right flex-1"
+                      style={{ fontSize: "10pt" }}
+                    >
                       <EditableText
                         value={edu.field || ""}
                         onChange={(v) => updateEducation(edu.id, { field: v })}
@@ -334,17 +361,25 @@ export function GermanTemplate() {
                   </div>
                   <div className="flex justify-between items-baseline gap-4">
                     {edu.address && (
-                      <span className="text-slate-500 shrink-0" style={{ fontSize: "9.5pt" }}>
+                      <span
+                        className="text-slate-500 shrink-0"
+                        style={{ fontSize: "9.5pt" }}
+                      >
                         <EditableText
                           value={edu.address}
-                          onChange={(v) => updateEducation(edu.id, { address: v })}
+                          onChange={(v) =>
+                            updateEducation(edu.id, { address: v })
+                          }
                           placeholder={t.address}
                           className="text-slate-500"
                         />
                       </span>
                     )}
                     {/* 右下：学校 */}
-                    <h3 className="font-bold text-slate-900 text-right flex-1" style={{ fontSize: "11pt" }}>
+                    <h3
+                      className="font-bold text-slate-900 text-right flex-1"
+                      style={{ fontSize: "11pt" }}
+                    >
                       <EditableText
                         value={edu.school || ""}
                         onChange={(v) => updateEducation(edu.id, { school: v })}
@@ -366,7 +401,7 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="projects"
               defaultLabel={tEditor.projects}
-              className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
+              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
               style={{ fontSize: "12pt" }}
             />
             <div className="space-y-3">
@@ -434,7 +469,7 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="skills"
               defaultLabel={tEditor.skills}
-              className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
+              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
               style={{ fontSize: "12pt" }}
             />
             <div
@@ -462,7 +497,7 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="languages"
               defaultLabel={tEditor.languages}
-              className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
+              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
               style={{ fontSize: "12pt" }}
             />
             <div className="space-y-0.5" style={{ fontSize: "11pt" }}>
