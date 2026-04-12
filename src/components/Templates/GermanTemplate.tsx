@@ -6,6 +6,7 @@ import {
 import { useResumeStore } from "../../store/resumeStore";
 import { translations } from "../../i18n";
 import type { PersonalInfoFieldType } from "../../store/resumeStore";
+import CEFR_LEVELS from "../../constants/languageLevel";
 
 export function GermanTemplate() {
   const language = useResumeStore((s) => s.language);
@@ -93,14 +94,14 @@ export function GermanTemplate() {
                     const left = contactFields[rowIdx * 2];
                     const right = contactFields[rowIdx * 2 + 1];
                     return (
-                      <div key={rowIdx} className="flex gap-x-8 flex-nowrap">
+                      <div key={rowIdx} className="flex gap-x-8">
                         {left && (
-                          <div className="flex-1 whitespace-nowrap overflow-hidden">
-                            <span className="font-bold whitespace-nowrap">
+                          <div className="flex-1 break-words">
+                            <span className="font-bold">
                               {fieldLabels[left]}：
                             </span>
                             <EditableText
-                              className="whitespace-nowrap inline"
+                              className="inline break-words"
                               value={
                                 (personalInfo[
                                   left as keyof typeof personalInfo
@@ -114,12 +115,12 @@ export function GermanTemplate() {
                           </div>
                         )}
                         {right && (
-                          <div className="flex-1 whitespace-nowrap overflow-hidden">
-                            <span className="font-bold whitespace-nowrap">
+                          <div className="flex-1 break-words">
+                            <span className="font-bold">
                               {fieldLabels[right]}：
                             </span>
                             <EditableText
-                              className="whitespace-nowrap inline"
+                              className="inline break-words"
                               value={
                                 (personalInfo[
                                   right as keyof typeof personalInfo
@@ -187,7 +188,7 @@ export function GermanTemplate() {
             <div className="space-y-2.5">
               {experience.map((exp) => (
                 <div key={exp.id} className="flex gap-10">
-                  <div className="w-36 flex-shrink-0">
+                  <div className="w-36 shrink-0">
                     <span
                       className="text-slate-600 text-left block whitespace-nowrap"
                       style={{ fontSize: "11.5pt" }}
@@ -323,49 +324,79 @@ export function GermanTemplate() {
             <div className="space-y-1">
               {education.map((edu) => (
                 <div key={edu.id}>
-                  <div className="flex justify-between items-baseline">
-                    <h3
-                      className="font-bold text-slate-900"
-                      style={{ fontSize: "13.5pt" }}
-                    >
-                      <EditableText
-                        value={edu.school}
-                        onChange={(v) => updateEducation(edu.id, { school: v })}
-                        placeholder={t.school}
-                        className="font-bold"
-                      />
-                    </h3>
-                    <span
-                      className="text-slate-600 whitespace-nowrap"
-                      style={{ fontSize: "11.5pt" }}
-                    >
-                      <EditableText
-                        value={`${edu.startDate} - ${edu.current ? present : edu.endDate}`}
-                        onChange={(v) => {
-                          const dates = v.split("-").map((s) => s.trim());
-                          updateEducation(edu.id, {
-                            startDate: dates[0] || "",
-                            endDate: dates[1] || "",
-                            current: dates[1]?.includes(present) || false,
-                          });
-                        }}
-                        placeholder={t.startDate}
-                        className="text-slate-600"
-                      />
-                    </span>
-                  </div>
-                  <div style={{ fontSize: "11.5pt" }}>
-                    <EditableText
-                      value={`${edu.degree} · ${edu.field}`}
-                      onChange={(v) => {
-                        const parts = v.split("·").map((s) => s.trim());
-                        updateEducation(edu.id, {
-                          degree: parts[0] || "",
-                          field: parts[1] || "",
-                        });
-                      }}
-                      placeholder={`${t.degree} · ${t.major}`}
-                    />
+                  <div className="flex gap-10">
+                    {/* LEFT: date + location */}
+                    <div className="w-36 shrink-0">
+                      <div
+                        className="text-slate-600 whitespace-nowrap"
+                        style={{ fontSize: "11.5pt" }}
+                      >
+                        <EditableText
+                          value={`${edu.startDate} - ${edu.current ? present : edu.endDate}`}
+                          onChange={(v) => {
+                            const dates = v.split("-").map((s) => s.trim());
+                            updateEducation(edu.id, {
+                              startDate: dates[0] || "",
+                              endDate: dates[1] || "",
+                              current: dates[1]?.includes(present) || false,
+                            });
+                          }}
+                          placeholder={t.startDate}
+                        />
+                      </div>
+                      {(edu.address || edu.country) && (
+                        <div
+                          className="text-slate-500"
+                          style={{ fontSize: "11.5pt" }}
+                        >
+                          <EditableText
+                            value={`${edu.address || ""}${edu.address && edu.country ? ", " : ""}${edu.country || ""}`}
+                            onChange={(v) => {
+                              const parts = v.split(",").map((s) => s.trim());
+                              updateEducation(edu.id, {
+                                address: parts[0] || "",
+                                country: parts[1] || "",
+                              });
+                            }}
+                            placeholder={t.address}
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* RIGHT: field (major) top, school below, degree optional below school */}
+                    <div className="flex-1">
+                      <div>
+                        {/* TOP RIGHT: field (major) */}
+                        <div
+                          className="font-bold text-slate-900"
+                          style={{ fontSize: "13.5pt" }}
+                        >
+                          <EditableText
+                            value={edu.field || ""}
+                            onChange={(v) =>
+                              updateEducation(edu.id, { field: v })
+                            }
+                            placeholder={t.major}
+                            className="font-bold"
+                          />
+                        </div>
+                        {/* BOTTOM RIGHT: school */}
+                        <div
+                          className="text-slate-700"
+                          style={{ fontSize: "11.5pt" }}
+                        >
+                          <EditableText
+                            value={edu.school}
+                            onChange={(v) =>
+                              updateEducation(edu.id, { school: v })
+                            }
+                            placeholder={t.school}
+                          />
+                        </div>
+                        {/* OPTIONAL: degree below school if exists */}
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -479,20 +510,30 @@ export function GermanTemplate() {
               className="font-bold text-slate-900 border-b border-black pb-1 block mb-1.5"
               style={{ fontSize: "14pt" }}
             />
-            <div className="space-y-0.5" style={{ fontSize: "11.5pt" }}>
-              {languages.map((lang) => (
-                <div key={lang.id}>
-                  <EditableText
-                    value={lang.name}
-                    onChange={(v) => {
-                      updateLanguage(lang.id, {
-                        name: v,
-                      });
-                    }}
-                    placeholder={t.language}
-                  />
-                </div>
-              ))}
+            <div style={{ fontSize: "11.5pt" }}>
+              <div className="flex flex-col gap-y-1">
+                {languages.map((lang) => (
+                  <div key={lang.id} className="flex items-center gap-2">
+                    {/* language name */}
+                    <EditableText
+                      value={lang.name || ""}
+                      onChange={(v) => updateLanguage(lang.id, { name: v })}
+                      placeholder={t.language}
+                      className="min-w-[20px]"
+                    />
+
+                    {/* level select */}
+                    <span className="text-slate-800">
+                      {(() => {
+                        const selected = CEFR_LEVELS.find(
+                          (l) => l.value === lang.level,
+                        );
+                        return selected ? selected.label : "";
+                      })()}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
         );
