@@ -1,3 +1,18 @@
+// ===== Typography System v2.1 =====
+const TYPO = {
+  h1: "24pt",
+  title: "15pt",
+  h2: "12pt",
+  body: "11pt",
+  meta: "10pt",
+  small: "9.5pt",
+};
+
+const COLORS = {
+  primary: "text-slate-900",
+  secondary: "text-slate-700",
+  meta: "text-slate-500",
+};
 import {
   EditableText,
   EditableLabel,
@@ -61,8 +76,8 @@ export function GermanTemplate() {
                 {personalInfoFields.includes("fullName") &&
                   personalInfo.fullName && (
                     <h1
-                      className="font-bold text-slate-900 mb-1"
-                      style={{ fontSize: "20pt" }}
+                      className={`font-bold ${COLORS.primary} mb-1`}
+                      style={{ fontSize: TYPO.h1 }}
                     >
                       <EditableText
                         value={personalInfo.fullName || ""}
@@ -75,7 +90,7 @@ export function GermanTemplate() {
                 {personalInfoFields.includes("title") && personalInfo.title && (
                   <p
                     className="font-semibold text-sky-600 mb-3"
-                    style={{ fontSize: "15pt" }}
+                    style={{ fontSize: TYPO.title }}
                   >
                     <EditableText
                       value={personalInfo.title || ""}
@@ -87,7 +102,7 @@ export function GermanTemplate() {
                 )}
 
                 {/* Dynamic contact fields — 2 per row */}
-                <div className="mt-2 space-y-1" style={{ fontSize: "10pt" }}>
+                <div className="mt-2 space-y-1" style={{ fontSize: TYPO.meta }}>
                   {Array.from({
                     length: Math.ceil(contactFields.length / 2),
                   }).map((_, rowIdx) => {
@@ -158,10 +173,10 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="summary"
               defaultLabel={tEditor.summary}
-              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              className={`font-bold ${COLORS.primary} border-b border-black pb-1 block mb-3`}
+              style={{ fontSize: TYPO.h2 }}
             />
-            <p className="leading-relaxed" style={{ fontSize: "11pt" }}>
+            <p className="leading-relaxed" style={{ fontSize: TYPO.body }}>
               <EditableText
                 value={personalInfo.summary || ""}
                 onChange={(v) => updatePersonalInfo({ summary: v })}
@@ -180,16 +195,16 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="experience"
               defaultLabel={tEditor.experience}
-              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              className={`font-bold ${COLORS.primary} border-b border-black pb-1 block mb-3`}
+              style={{ fontSize: TYPO.h2 }}
             />
             <div className="space-y-4">
               {experience.map((exp) => (
                 <div key={exp.id} className="flex gap-8">
                   <div className="w-40 flex-shrink-0">
                     <span
-                      className="text-slate-600"
-                      style={{ fontSize: "10pt" }}
+                      className={COLORS.meta}
+                      style={{ fontSize: TYPO.meta }}
                     >
                       <EditableText
                         value={`${exp.startDate} - ${exp.current ? present : exp.endDate}`}
@@ -202,14 +217,14 @@ export function GermanTemplate() {
                           });
                         }}
                         placeholder={t.startDate}
-                        className="text-slate-600"
+                        className={COLORS.meta}
                       />
                     </span>
                   </div>
                   <div className="flex-1">
                     <h3
-                      className="font-bold text-slate-900"
-                      style={{ fontSize: "11pt" }}
+                      className={`font-bold ${COLORS.primary}`}
+                      style={{ fontSize: TYPO.body }}
                     >
                       <EditableText
                         value={exp.position}
@@ -217,12 +232,12 @@ export function GermanTemplate() {
                           updateExperience(exp.id, { position: v })
                         }
                         placeholder={t.position}
-                        className="font-bold text-slate-900"
+                        className={`font-bold ${COLORS.primary}`}
                       />
                     </h3>
                     <div
-                      className="text-slate-700"
-                      style={{ fontSize: "10pt" }}
+                      className={COLORS.secondary}
+                      style={{ fontSize: TYPO.meta }}
                     >
                       <EditableText
                         value={exp.company}
@@ -273,14 +288,14 @@ export function GermanTemplate() {
                     </div>
                     {exp.techStack && (
                       <div>
-                        <span className="text-slate-500 text-xs mr-1">
+                        <span className={`${COLORS.meta} text-xs mr-1`}>
                           Tech Stack:
                         </span>
                         <div className="inline-flex flex-wrap gap-1">
                           {exp.techStack.split(",").map((tech, idx) => (
                             <span
                               key={idx}
-                              className="px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded text-xs"
+                              className={`px-1.5 py-0.5 bg-slate-100 ${COLORS.meta} rounded text-xs`}
                             >
                               {tech.trim()}
                             </span>
@@ -290,7 +305,7 @@ export function GermanTemplate() {
                     )}
                     <p
                       className="mt-2 text-slate-800 whitespace-pre-line"
-                      style={{ fontSize: "10pt" }}
+                      style={{ fontSize: TYPO.meta }}
                     >
                       <EditableText
                         value={exp.description}
@@ -316,55 +331,77 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="education"
               defaultLabel={tEditor.education}
-              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              className={`font-bold ${COLORS.primary} border-b border-black pb-1 block mb-3`}
+              style={{ fontSize: TYPO.h2 }}
             />
             <div className="space-y-2">
               {education.map((edu) => (
-                <div key={edu.id}>
+                <div key={edu.id} className="mb-2">
+                  {/* Row 1: School | Date */}
                   <div className="flex justify-between items-baseline gap-4">
+                    <h3
+                      className={`${COLORS.primary} font-normal`}
+                      style={{ fontSize: TYPO.body }}
+                    >
+                      <EditableText
+                        value={edu.school || ""}
+                        onChange={(v) =>
+                          updateEducation(edu.id, { school: v })
+                        }
+                        placeholder={t.school}
+                        className="font-normal"
+                      />
+                    </h3>
+
                     <span
-                      className="text-slate-600 shrink-0"
-                      style={{ fontSize: "10pt" }}
+                      className={COLORS.meta}
+                      style={{ fontSize: TYPO.meta }}
                     >
                       <EditableText
                         value={`${edu.startDate}${edu.startDate ? " - " : ""}${edu.current ? present : edu.endDate}`}
                         onChange={(v) => {
                           const dashIdx = v.indexOf("-");
                           const s1 =
-                            dashIdx >= 0
-                              ? v.slice(0, dashIdx).trim()
-                              : v.trim();
+                            dashIdx >= 0 ? v.slice(0, dashIdx).trim() : v.trim();
                           const s2 =
                             dashIdx >= 0 ? v.slice(dashIdx + 1).trim() : "";
                           updateEducation(edu.id, {
                             startDate: s1,
                             endDate: s2,
-                            current: s2
-                              .toLowerCase()
-                              .includes(present.toLowerCase()),
+                            current: s2.toLowerCase().includes(present.toLowerCase()),
                           });
                         }}
                         placeholder={t.startDate}
-                        className="text-slate-600"
-                      />
-                    </span>
-                    <span
-                      className="text-slate-700 font-medium text-right flex-1"
-                      style={{ fontSize: "10pt" }}
-                    >
-                      <EditableText
-                        value={edu.field || ""}
-                        onChange={(v) => updateEducation(edu.id, { field: v })}
-                        placeholder={t.major}
+                        className={COLORS.meta}
                       />
                     </span>
                   </div>
-                  <div className="flex justify-between items-baseline gap-4">
-                    {edu.address && (
+
+                  {/* Row 2: Field (separate line) */}
+                  {edu.field && (
+                    <div className="mt-0.5">
                       <span
-                        className="text-slate-500 shrink-0"
-                        style={{ fontSize: "9.5pt" }}
+                        className={COLORS.secondary}
+                        style={{ fontSize: TYPO.meta }}
+                      >
+                        <EditableText
+                          value={edu.field}
+                          onChange={(v) =>
+                            updateEducation(edu.id, { field: v })
+                          }
+                          placeholder={t.major}
+                          className={COLORS.secondary}
+                        />
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Row 3: Address (optional) */}
+                  {edu.address && (
+                    <div className="mt-0.5">
+                      <span
+                        className={COLORS.meta}
+                        style={{ fontSize: TYPO.small }}
                       >
                         <EditableText
                           value={edu.address}
@@ -372,23 +409,11 @@ export function GermanTemplate() {
                             updateEducation(edu.id, { address: v })
                           }
                           placeholder={t.address}
-                          className="text-slate-500"
+                          className={COLORS.meta}
                         />
                       </span>
-                    )}
-                    {/* 右下：学校 */}
-                    <h3
-                      className="font-bold text-slate-900 text-right flex-1"
-                      style={{ fontSize: "11pt" }}
-                    >
-                      <EditableText
-                        value={edu.school || ""}
-                        onChange={(v) => updateEducation(edu.id, { school: v })}
-                        placeholder={t.school}
-                        className="font-bold"
-                      />
-                    </h3>
-                  </div>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -402,15 +427,15 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="projects"
               defaultLabel={tEditor.projects}
-              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              className={`font-bold ${COLORS.primary} border-b border-black pb-1 block mb-3`}
+              style={{ fontSize: TYPO.h2 }}
             />
             <div className="space-y-3">
               {projects.map((proj) => (
                 <div key={proj.id}>
                   <h3
-                    className="font-bold text-slate-900"
-                    style={{ fontSize: "11pt" }}
+                    className={`font-bold ${COLORS.primary}`}
+                    style={{ fontSize: TYPO.body }}
                   >
                     <EditableText
                       value={proj.name}
@@ -421,7 +446,7 @@ export function GermanTemplate() {
                   </h3>
                   <p
                     className="mt-1 text-slate-800 whitespace-pre-line"
-                    style={{ fontSize: "10pt" }}
+                    style={{ fontSize: TYPO.meta }}
                   >
                     <EditableText
                       value={proj.description}
@@ -435,8 +460,8 @@ export function GermanTemplate() {
                   </p>
                   {proj.technologies.length > 0 && (
                     <div
-                      className="mt-1 text-slate-600"
-                      style={{ fontSize: "10pt" }}
+                      className={COLORS.meta + " mt-1"}
+                      style={{ fontSize: TYPO.meta }}
                     >
                       <span className="font-semibold">Tech：</span>
                       {proj.technologies.map((tech, idx) => (
@@ -470,12 +495,12 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="skills"
               defaultLabel={tEditor.skills}
-              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              className={`font-bold ${COLORS.primary} border-b border-black pb-1 block mb-3`}
+              style={{ fontSize: TYPO.h2 }}
             />
             <div
               className="flex flex-wrap gap-x-4 gap-y-1"
-              style={{ fontSize: "11pt" }}
+              style={{ fontSize: TYPO.body }}
             >
               {skills.map((skill) => (
                 <span key={skill.id}>
@@ -498,10 +523,10 @@ export function GermanTemplate() {
             <EditableLabel
               sectionType="languages"
               defaultLabel={tEditor.languages}
-              className="font-bold text-slate-900 border-b border-black pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              className={`font-bold ${COLORS.primary} border-b border-black pb-1 block mb-3`}
+              style={{ fontSize: TYPO.h2 }}
             />
-            <div className="space-y-0.5" style={{ fontSize: "11pt" }}>
+            <div className="space-y-0.5" style={{ fontSize: TYPO.body }}>
               {languages.map((lang) => (
                 <div key={lang.id} className="flex items-baseline gap-2">
                   <EditableText
@@ -523,7 +548,7 @@ export function GermanTemplate() {
                       });
                     }}
                     placeholder="Level"
-                    className="text-slate-500"
+                    className={COLORS.meta}
                   />
                 </div>
               ))}
