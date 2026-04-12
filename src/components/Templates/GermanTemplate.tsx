@@ -6,6 +6,7 @@ import {
 import { useResumeStore } from "../../store/resumeStore";
 import { translations } from "../../i18n";
 import type { PersonalInfoFieldType } from "../../store/resumeStore";
+import languageLevel from "../../constants/languageLevel";
 
 export function GermanTemplate() {
   const language = useResumeStore((s) => s.language);
@@ -515,7 +516,7 @@ export function GermanTemplate() {
                   />
                   <span>-</span>
                   <EditableText
-                    value={`${lang.level}`}
+                    value={`${languageLevel?.[lang?.level as keyof typeof languageLevel]}`}
                     onChange={(v) => {
                       updateLanguage(lang.id, {
                         level: v,

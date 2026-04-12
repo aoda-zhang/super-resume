@@ -1,11 +1,11 @@
-const CEFR_LEVELS = [
-  { value: "A1", label: "A1 (Beginner)" },
-  { value: "A2", label: "A2 (Elementary)" },
-  { value: "B1", label: "B1 (Intermediate)" },
-  { value: "B2", label: "B2 (Upper Intermediate)" },
-  { value: "C1", label: "C1 (Advanced)" },
-  { value: "C2", label: "C2 (Proficient)" },
-  { value: "Native", label: "Native" },
-];
+const languageLevel = {
+    A1: "A1 (Beginner)",
+    A2: "A2 (Elementary)",
+    B1: "B1 (Intermediate)",
+    B2: "B2 (Upper Intermediate)",
+    C1: "C1 (Advanced)",
+    C2: "C2 (Proficient)",
+    Native: "Native"
+  }
 
-export default CEFR_LEVELS;
+export default languageLevel;
