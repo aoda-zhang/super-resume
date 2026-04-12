@@ -58,7 +58,7 @@ export function GermanTemplate() {
               <div className="flex-1">
                 {/* Name & title rendered separately — only show if has value */}
                 {personalInfoFields.includes("fullName") && personalInfo.fullName && (
-                  <h1 className="font-bold text-slate-900 mb-1" style={{ fontSize: "20pt" }}>
+                  <h1 className="font-bold text-slate-900 mb-1" style={{ fontSize: "11pt" }}>
                     <EditableText
                       value={personalInfo.fullName || ""}
                       onChange={(v) => updatePersonalInfo({ fullName: v })}
@@ -68,7 +68,7 @@ export function GermanTemplate() {
                   </h1>
                 )}
                 {personalInfoFields.includes("title") && personalInfo.title && (
-                  <p className="font-semibold text-slate-800 mb-3" style={{ fontSize: "13pt" }}>
+                  <p className="font-semibold text-slate-800 mb-3" style={{ fontSize: "11pt" }}>
                     <EditableText
                       value={personalInfo.title || ""}
                       onChange={(v) => updatePersonalInfo({ title: v })}
@@ -79,7 +79,7 @@ export function GermanTemplate() {
                 )}
 
                 {/* Dynamic contact fields — 2 per row */}
-                <div className="mt-2 space-y-1" style={{ fontSize: "10pt" }}>
+                <div className="mt-2 space-y-1" style={{ fontSize: "11pt" }}>
                   {Array.from({ length: Math.ceil(contactFields.length / 2) }).map(
                     (_, rowIdx) => {
                       const left = contactFields[rowIdx * 2];
@@ -143,7 +143,7 @@ export function GermanTemplate() {
               sectionType="summary"
               defaultLabel={tEditor.summary}
               className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              style={{ fontSize: "11pt" }}
             />
             <p className="leading-relaxed" style={{ fontSize: "11pt" }}>
               <EditableText
@@ -165,7 +165,7 @@ export function GermanTemplate() {
               sectionType="experience"
               defaultLabel={tEditor.experience}
               className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              style={{ fontSize: "11pt" }}
             />
             <div className="space-y-4">
               {experience.map((exp) => (
@@ -173,7 +173,7 @@ export function GermanTemplate() {
                   <div className="w-40 flex-shrink-0">
                     <span
                       className="text-slate-600"
-                      style={{ fontSize: "10pt" }}
+                      style={{ fontSize: "11pt" }}
                     >
                       <EditableText
                         value={`${exp.startDate} - ${exp.current ? present : exp.endDate}`}
@@ -206,7 +206,7 @@ export function GermanTemplate() {
                     </h3>
                     <div
                       className="text-slate-700"
-                      style={{ fontSize: "10pt" }}
+                      style={{ fontSize: "11pt" }}
                     >
                       <EditableText
                         value={exp.company}
@@ -274,7 +274,7 @@ export function GermanTemplate() {
                     )}
                     <p
                       className="mt-2 text-slate-800 whitespace-pre-line"
-                      style={{ fontSize: "10pt" }}
+                      style={{ fontSize: "11pt" }}
                     >
                       <EditableText
                         value={exp.description}
@@ -301,7 +301,7 @@ export function GermanTemplate() {
               sectionType="education"
               defaultLabel={tEditor.education}
               className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              style={{ fontSize: "11pt" }}
             />
             <div className="space-y-2">
               {education.map((edu) => (
@@ -309,7 +309,7 @@ export function GermanTemplate() {
                   {/* Top row: 时间（左）| 专业（右） */}
                   <div className="flex justify-between items-baseline gap-4">
                     {/* 左上：时间 */}
-                    <span className="text-slate-600 flex-shrink-0" style={{ fontSize: "10pt" }}>
+                    <span className="text-slate-600 flex-shrink-0" style={{ fontSize: "11pt" }}>
                       <EditableText
                         value={`${edu.startDate}${edu.startDate ? " - " : ""}${edu.current ? present : edu.endDate}`}
                         onChange={(v) => {
@@ -327,7 +327,7 @@ export function GermanTemplate() {
                       />
                     </span>
                     {/* 右上：专业 */}
-                    <span className="text-slate-700 font-medium text-right flex-1" style={{ fontSize: "10pt" }}>
+                    <span className="text-slate-700 font-medium text-right flex-1" style={{ fontSize: "11pt" }}>
                       <EditableText
                         value={edu.field || ""}
                         onChange={(v) => updateEducation(edu.id, { field: v })}
@@ -339,7 +339,7 @@ export function GermanTemplate() {
                   <div className="flex justify-between items-baseline gap-4">
                     {/* 左下：地址 */}
                     {edu.address && (
-                      <span className="text-slate-500 flex-shrink-0" style={{ fontSize: "9.5pt" }}>
+                      <span className="text-slate-500 flex-shrink-0" style={{ fontSize: "11pt" }}>
                         <EditableText
                           value={edu.address}
                           onChange={(v) => updateEducation(edu.id, { address: v })}
@@ -372,7 +372,7 @@ export function GermanTemplate() {
               sectionType="projects"
               defaultLabel={tEditor.projects}
               className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              style={{ fontSize: "11pt" }}
             />
             <div className="space-y-3">
               {projects.map((proj) => (
@@ -390,7 +390,7 @@ export function GermanTemplate() {
                   </h3>
                   <p
                     className="mt-1 text-slate-800 whitespace-pre-line"
-                    style={{ fontSize: "10pt" }}
+                    style={{ fontSize: "11pt" }}
                   >
                     <EditableText
                       value={proj.description}
@@ -405,7 +405,7 @@ export function GermanTemplate() {
                   {proj.technologies.length > 0 && (
                     <div
                       className="mt-1 text-slate-600"
-                      style={{ fontSize: "10pt" }}
+                      style={{ fontSize: "11pt" }}
                     >
                       <span className="font-semibold">Tech：</span>
                       {proj.technologies.map((tech, idx) => (
@@ -440,7 +440,7 @@ export function GermanTemplate() {
               sectionType="skills"
               defaultLabel={tEditor.skills}
               className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              style={{ fontSize: "11pt" }}
             />
             <div
               className="flex flex-wrap gap-x-4 gap-y-1"
@@ -468,7 +468,7 @@ export function GermanTemplate() {
               sectionType="languages"
               defaultLabel={tEditor.languages}
               className="font-bold text-slate-900 border-b-2 border-sky-600 pb-1 block mb-3"
-              style={{ fontSize: "12pt" }}
+              style={{ fontSize: "11pt" }}
             />
             <div className="space-y-0.5" style={{ fontSize: "11pt" }}>
               {languages.map((lang) => (
@@ -508,7 +508,7 @@ export function GermanTemplate() {
     <div
       className="bg-white font-sans"
       style={{
-        padding: "15mm",
+        padding: "60px",
         minHeight: "297mm",
         boxSizing: "border-box",
         width: "100%",
