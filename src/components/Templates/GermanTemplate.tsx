@@ -73,14 +73,14 @@ export function GermanTemplate() {
                   )}
                 {personalInfoFields.includes("title") && personalInfo.title && (
                   <p
-                    className="font-semibold text-slate-800 mb-3"
-                    style={{ fontSize: "13pt" }}
+                    className="font-semibold text-sky-600 mb-3"
+                    style={{ fontSize: "15pt" }}
                   >
                     <EditableText
                       value={personalInfo.title || ""}
                       onChange={(v) => updatePersonalInfo({ title: v })}
                       placeholder={t.title}
-                      className="font-semibold text-slate-800"
+                      className="font-semibold text-sky-600"
                     />
                   </p>
                 )}
@@ -513,8 +513,9 @@ export function GermanTemplate() {
                     placeholder={t.language}
                     className="font-medium text-slate-800"
                   />
+                  <span>-</span>
                   <EditableText
-                    value={lang.level}
+                    value={`${lang.level}`}
                     onChange={(v) => {
                       updateLanguage(lang.id, {
                         level: v,
