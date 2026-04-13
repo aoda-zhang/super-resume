@@ -134,14 +134,27 @@ export function SingleColumnTemplate() {
               style={s.sectionTitle}
             />
             {experience.map((exp) => (
-              <ExperienceEntry
+              <div
                 key={exp.id}
-                exp={exp}
-                t={t}
-                present={present}
-                onUpdate={updateExperience}
-                styles={{ description: s.body }}
-              />
+                className="grid mb-3"
+                style={{ gridTemplateColumns: "140px 1fr" }}
+              >
+                {/* Left: time */}
+                <div className="pr-4 text-slate-600 whitespace-nowrap">
+                  {exp.startDate} - {exp.endDate || (present ? t.present : "")}
+                </div>
+
+                {/* Right: original content */}
+                <div className="min-w-0">
+                  <ExperienceEntry
+                    exp={exp}
+                    t={t}
+                    present={present}
+                    onUpdate={updateExperience}
+                    styles={{ description: s.body }}
+                  />
+                </div>
+              </div>
             ))}
           </section>
         );
