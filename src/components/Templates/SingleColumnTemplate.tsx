@@ -66,44 +66,52 @@ export function SingleColumnTemplate() {
 
                 {/* Contact fields — 2 per row */}
                 <div className="mt-2 space-y-1" style={s.body}>
-                  {Array.from({ length: Math.ceil(contactFields.length / 2) }).map(
-                    (_, rowIdx) => {
-                      const left = contactFields[rowIdx * 2];
-                      const right = contactFields[rowIdx * 2 + 1];
-                      return (
-                        <div key={rowIdx} className="flex gap-x-8">
-                          {left && (
-                            <div className="flex-1">
-                              <span className="font-bold mr-1">{fieldLabels[left]}：</span>
-                              <EditableText
-                                value={
-                                  (personalInfo[left as keyof typeof personalInfo] as string) || ""
-                                }
-                                onChange={(v) =>
-                                  updatePersonalInfo({ [left]: v } as any)
-                                }
-                                placeholder={fieldLabels[left]}
-                              />
-                            </div>
-                          )}
-                          {right && (
-                            <div className="flex-1">
-                              <span className="font-bold mr-1">{fieldLabels[right]}：</span>
-                              <EditableText
-                                value={
-                                  (personalInfo[right as keyof typeof personalInfo] as string) || ""
-                                }
-                                onChange={(v) =>
-                                  updatePersonalInfo({ [right]: v } as any)
-                                }
-                                placeholder={fieldLabels[right]}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      );
-                    }
-                  )}
+                  {Array.from({
+                    length: Math.ceil(contactFields.length / 2),
+                  }).map((_, rowIdx) => {
+                    const left = contactFields[rowIdx * 2];
+                    const right = contactFields[rowIdx * 2 + 1];
+                    return (
+                      <div key={rowIdx} className="flex gap-x-8">
+                        {left && (
+                          <div className="flex-1">
+                            <span className="font-bold mr-1">
+                              {fieldLabels[left]}：
+                            </span>
+                            <EditableText
+                              value={
+                                (personalInfo[
+                                  left as keyof typeof personalInfo
+                                ] as string) || ""
+                              }
+                              onChange={(v) =>
+                                updatePersonalInfo({ [left]: v } as any)
+                              }
+                              placeholder={fieldLabels[left]}
+                            />
+                          </div>
+                        )}
+                        {right && (
+                          <div className="flex-1">
+                            <span className="font-bold mr-1">
+                              {fieldLabels[right]}：
+                            </span>
+                            <EditableText
+                              value={
+                                (personalInfo[
+                                  right as keyof typeof personalInfo
+                                ] as string) || ""
+                              }
+                              onChange={(v) =>
+                                updatePersonalInfo({ [right]: v } as any)
+                              }
+                              placeholder={fieldLabels[right]}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -224,7 +232,10 @@ export function SingleColumnTemplate() {
               className={s.label}
               style={s.sectionTitle}
             />
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-slate-900" style={s.body}>
+            <div
+              className="flex flex-wrap gap-x-4 gap-y-1 text-slate-900"
+              style={s.body}
+            >
               {skills.map((skill) => (
                 <SkillEntry
                   key={skill.id}

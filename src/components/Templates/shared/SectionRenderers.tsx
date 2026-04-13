@@ -206,7 +206,7 @@ export function ExperienceEntry({
         </div>
       )}
 
-      <p style={styles.description} className="mt-1.5 text-slate-800 whitespace-pre-line">
+      <p style={styles.description} className="mt-1.5 text-slate-900 whitespace-pre-line">
         <EditableText
           value={exp.description}
           onChange={(v) => onUpdate(exp.id, { description: v })}
@@ -327,7 +327,7 @@ export function ProjectEntry({
           className="font-bold"
         />
       </h3>
-      <p style={styles.description} className="mt-1 text-slate-800 whitespace-pre-line">
+      <p style={styles.description} className="mt-1 text-slate-900 whitespace-pre-line">
         <EditableText
           value={proj.description}
           onChange={(v) => onUpdate(proj.id, { description: v })}
@@ -403,7 +403,7 @@ export function LanguageEntry({
         value={lang.name}
         onChange={(v) => onUpdate(lang.id, { name: v })}
         placeholder="Language"
-        className="font-medium text-slate-800"
+        className="font-medium text-slate-900"
         style={nameStyle}
       />
       <span className="text-slate-400">{separator}</span>
