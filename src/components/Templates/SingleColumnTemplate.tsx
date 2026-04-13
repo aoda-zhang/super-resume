@@ -91,7 +91,7 @@ export function SingleColumnTemplate() {
                 <div className="flex-shrink-0 ml-6">
                   <Photo
                     src={personalInfo.photo}
-                    size={96}
+                    size={114}
                     className="rounded-full border-2 border-slate-200"
                   />
                 </div>
