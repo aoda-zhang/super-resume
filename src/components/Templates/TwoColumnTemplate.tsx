@@ -67,12 +67,13 @@ export function TwoColumnTemplate() {
             )}
             <div className="space-y-0.5 text-slate-900" style={s.body}>
               {contactFields.map((f) => (
-                <div key={f} className="flex items-baseline gap-2">
-                  <span className="font-bold w-16 flex-shrink-0">{fieldLabels[f]}：</span>
+                <div key={f} className="flex items-baseline gap-1 min-w-0">
+                  <span className="font-bold flex-shrink-0 whitespace-nowrap">{fieldLabels[f]}：</span>
                   <EditableText
                     value={(personalInfo[f as keyof typeof personalInfo] as string) || ""}
                     onChange={(v) => updatePersonalInfo({ [f]: v } as any)}
                     placeholder={fieldLabels[f]}
+                    className="min-w-0 break-words"
                   />
                 </div>
               ))}

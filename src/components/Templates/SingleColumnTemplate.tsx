@@ -44,9 +44,10 @@ export function SingleColumnTemplate() {
         return (
           <header className="mb-6">
             <div className="flex justify-between items-start">
-              <div className="flex-1">
+              {/* Left: name + title + contacts */}
+              <div className="flex-1 min-w-0">
                 {personalInfo.fullName && (
-                  <h1 style={s.name} className="text-slate-900 mb-1">
+                  <h1 style={s.name} className="text-slate-900 mb-1 break-words">
                     <EditableText
                       value={personalInfo.fullName}
                       onChange={(v) => updatePersonalInfo({ fullName: v })}
@@ -55,7 +56,7 @@ export function SingleColumnTemplate() {
                   </h1>
                 )}
                 {personalInfo.title && (
-                  <p style={s.title} className="text-slate-900 mb-3">
+                  <p style={s.title} className="text-slate-900 mb-3 break-words">
                     <EditableText
                       value={personalInfo.title}
                       onChange={(v) => updatePersonalInfo({ title: v })}
@@ -64,7 +65,7 @@ export function SingleColumnTemplate() {
                   </p>
                 )}
 
-                {/* Contact fields — 2 per row */}
+                {/* Contact fields — one row per pair, no fixed columns */}
                 <div className="mt-2 space-y-1" style={s.body}>
                   {Array.from({
                     length: Math.ceil(contactFields.length / 2),
@@ -72,40 +73,38 @@ export function SingleColumnTemplate() {
                     const left = contactFields[rowIdx * 2];
                     const right = contactFields[rowIdx * 2 + 1];
                     return (
-                      <div key={rowIdx} className="flex gap-x-8">
+                      <div key={rowIdx} className="flex flex-wrap gap-x-6">
                         {left && (
-                          <div className="flex-1">
-                            <span className="font-bold mr-1">
+                          <div className="flex items-baseline gap-1 min-w-0">
+                            <span className="font-bold flex-shrink-0 whitespace-nowrap">
                               {fieldLabels[left]}：
                             </span>
                             <EditableText
                               value={
-                                (personalInfo[
-                                  left as keyof typeof personalInfo
-                                ] as string) || ""
+                                (personalInfo[left as keyof typeof personalInfo] as string) || ""
                               }
                               onChange={(v) =>
                                 updatePersonalInfo({ [left]: v } as any)
                               }
                               placeholder={fieldLabels[left]}
+                              className="min-w-0 break-words"
                             />
                           </div>
                         )}
                         {right && (
-                          <div className="flex-1">
-                            <span className="font-bold mr-1">
+                          <div className="flex items-baseline gap-1 min-w-0">
+                            <span className="font-bold flex-shrink-0 whitespace-nowrap">
                               {fieldLabels[right]}：
                             </span>
                             <EditableText
                               value={
-                                (personalInfo[
-                                  right as keyof typeof personalInfo
-                                ] as string) || ""
+                                (personalInfo[right as keyof typeof personalInfo] as string) || ""
                               }
                               onChange={(v) =>
                                 updatePersonalInfo({ [right]: v } as any)
                               }
                               placeholder={fieldLabels[right]}
+                              className="min-w-0 break-words"
                             />
                           </div>
                         )}
@@ -115,6 +114,7 @@ export function SingleColumnTemplate() {
                 </div>
               </div>
 
+              {/* Right: photo */}
               {personalInfo.photo && (
                 <div className="flex-shrink-0 ml-6">
                   <Photo
@@ -138,13 +138,13 @@ export function SingleColumnTemplate() {
               className={s.label}
               style={s.sectionTitle}
             />
-            <p className="leading-relaxed text-slate-900" style={s.body}>
+            <p className="leading-relaxed text-slate-900 break-words" style={s.body}>
               <EditableText
                 value={personalInfo.summary || ""}
                 onChange={(v) => updatePersonalInfo({ summary: v })}
                 placeholder={t.summaryPlaceholder}
                 multiline
-                className="w-full"
+                className="w-full break-words"
               />
             </p>
           </section>
@@ -237,11 +237,7 @@ export function SingleColumnTemplate() {
               style={s.body}
             >
               {skills.map((skill) => (
-                <SkillEntry
-                  key={skill.id}
-                  skill={skill}
-                  onUpdate={updateSkill}
-                />
+                <SkillEntry key={skill.id} skill={skill} onUpdate={updateSkill} />
               ))}
             </div>
           </section>
@@ -260,11 +256,7 @@ export function SingleColumnTemplate() {
             />
             <div className="space-y-0.5 text-slate-900" style={s.body}>
               {languages.map((lang) => (
-                <LanguageEntry
-                  key={lang.id}
-                  lang={lang}
-                  onUpdate={updateLanguage}
-                />
+                <LanguageEntry key={lang.id} lang={lang} onUpdate={updateLanguage} />
               ))}
             </div>
           </section>
