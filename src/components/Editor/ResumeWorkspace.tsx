@@ -1,7 +1,4 @@
 import { useResumeStore } from '../../store/resumeStore';
-import { ModernTemplate } from '../Templates/ModernTemplate';
-import { ClassicTemplate } from '../Templates/ClassicTemplate';
-import { MinimalTemplate } from '../Templates/MinimalTemplate';
 import { GermanTemplate } from '../Templates/GermanTemplate';
 import { SectionEditor } from './SectionEditor';
 import { FileImage, FileText, Globe } from 'lucide-react';
@@ -9,13 +6,6 @@ import { exportToPDF } from '../../utils/exportPdf';
 import { exportToImage } from '../../utils/exportImage';
 import { translations, type Language, type I18n } from '../../i18n';
 import { useState } from 'react';
-
-const templates = [
-  { id: 'modern' as const, nameKey: 'modern' },
-  { id: 'classic' as const, nameKey: 'classic' },
-  { id: 'minimal' as const, nameKey: 'minimal' },
-  { id: 'german' as const, nameKey: 'german' },
-];
 
 const languages: { code: Language; name: string }[] = [
   { code: 'zh', name: 'Chinese' },
@@ -25,8 +15,6 @@ const languages: { code: Language; name: string }[] = [
 
 export function ResumeWorkspace() {
   const {
-    template,
-    setTemplate,
     language,
     setLanguage,
     fillSampleData,
@@ -107,25 +95,7 @@ export function ResumeWorkspace() {
         
         <div className="px-6 py-3 bg-white border-b border-slate-200">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-medium text-slate-700">{t.header.template}:</span>
-              <div className="flex gap-2">
-                {templates.map((tpl) => (
-                  <button
-                    key={tpl.id}
-                    onClick={() => setTemplate(tpl.id)}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                      template === tpl.id
-                        ? 'bg-indigo-100 text-indigo-700'
-                        : 'text-slate-600 hover:bg-slate-100'
-                    }`}
-                  >
-                    {t.template[tpl.nameKey as keyof I18n['template']] as string}
-                  </button>
-                ))}
-              </div>
-            </div>
-
+            
             
             <div className="ml-auto relative">
               <button
@@ -169,10 +139,7 @@ export function ResumeWorkspace() {
             }}
             data-resume-preview
           >
-            {template === 'modern' && <ModernTemplate />}
-            {template === 'classic' && <ClassicTemplate />}
-            {template === 'minimal' && <MinimalTemplate />}
-            {template === 'german' && <GermanTemplate />}
+            <GermanTemplate />
           </div>
         </div>
       </div>
