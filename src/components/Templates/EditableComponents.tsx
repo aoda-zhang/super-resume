@@ -75,7 +75,7 @@ export function EditableText({
       >
         {lines.map((line, i) => (
           <li key={i} style={style} className="text-slate-900">
-            <strong className="font-bold mr-1">•</strong>
+            <span className="font-bold mr-1 inline-block" style={{ fontSize: "20px", lineHeight: 1 }}>•</span>
             {line}
           </li>
         ))}
