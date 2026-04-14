@@ -1,20 +1,10 @@
-
 /**
  * Two-column layout main column: education section.
+ * Uses a two-column grid with fixed-width time column (left) + content (right).
  */
-import { EducationEntry, SectionTitle } from "../shared/SectionRenderers";
+import { SectionTitle } from "../shared/SectionRenderers";
 import { twoColumnStyles as s } from "../shared/templateStyles";
-
-interface Education {
-  id: string;
-  school: string;
-  field?: string;
-  degree?: string;
-  startDate: string;
-  endDate: string;
-  current: boolean;
-  address?: string;
-}
+import type { Education } from "../../../types/resume";
 
 interface EducationSectionProps {
   education: Education[];
@@ -42,14 +32,32 @@ export function EducationSection({
         style={s.sectionTitle}
       />
       {education.map((edu) => (
-        <EducationEntry
-          key={edu.id}
-          edu={edu}
-          t={t}
-          present={present}
-          onUpdate={onUpdate}
-          styles={{ field: s.body }}
-        />
+        <div key={edu.id} className="grid mb-2" style={{ gridTemplateColumns: "120px 1fr", alignItems: "start" }}>
+          {/* Left: time (fixed width) */}
+          <div className="text-slate-900 pr-4 mr-4 border-r border-slate-200" style={{ fontSize: s.body.fontSize }}>
+            <div className="whitespace-nowrap">
+              {edu.startDate} – {edu.current ? present : edu.endDate}
+            </div>
+            {edu.address && (
+              <div className="text-slate-500 mt-0.5">{edu.address}</div>
+            )}
+          </div>
+
+          {/* Right: field + school */}
+          <div className="min-w-0">
+            <div className="flex items-baseline gap-4">
+              <span className="font-bold text-slate-900" style={{ fontSize: s.body.fontSize }}>
+                {edu.field || t.major || "Field of Study"}
+              </span>
+              <span className="text-slate-500 shrink-0">
+                {edu.degree ? `, ${edu.degree}` : ""}
+              </span>
+            </div>
+            <div className="text-slate-900 mt-0.5" style={{ fontSize: s.body.fontSize }}>
+              {edu.school || t.school || "School"}
+            </div>
+          </div>
+        </div>
       ))}
     </section>
   );
