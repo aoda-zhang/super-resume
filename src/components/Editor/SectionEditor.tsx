@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -6,57 +6,69 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
-import type { DragEndEvent } from '@dnd-kit/core';
+} from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { useResumeStore } from '../../store/resumeStore';
-import { translations } from '../../i18n';
-import { PersonalInfoSection } from '../Sections/PersonalInfoSection';
-import { ExperienceSection } from '../Sections/ExperienceSection';
-import { EducationSection } from '../Sections/EducationSection';
-import { SkillsSection } from '../Sections/SkillsSection';
-import { ProjectsSection } from '../Sections/ProjectsSection';
-import { LanguagesSection } from '../Sections/LanguagesSection';
-import { SummarySection } from '../Sections/SummarySection';
-import { FileJson, ChevronDown, ChevronRight, GripVertical } from 'lucide-react';
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { useResumeStore } from "../../store/resumeStore";
+import { translations } from "../../i18n";
+import { PersonalInfoSection } from "../Sections/PersonalInfoSection";
+import { ExperienceSection } from "../Sections/ExperienceSection";
+import { EducationSection } from "../Sections/EducationSection";
+import { SkillsSection } from "../Sections/SkillsSection";
+import { ProjectsSection } from "../Sections/ProjectsSection";
+import { LanguagesSection } from "../Sections/LanguagesSection";
+import { SummarySection } from "../Sections/SummarySection";
+import {
+  FileJson,
+  ChevronDown,
+  ChevronRight,
+  GripVertical,
+} from "lucide-react";
 
-type SectionKey = 'personalInfo' | 'summary' | 'experience' | 'education' | 'skills' | 'projects' | 'languages';
+type SectionKey =
+  | "personalInfo"
+  | "summary"
+  | "experience"
+  | "education"
+  | "skills"
+  | "projects"
+  | "languages";
 
 const storeToEditor: Record<string, SectionKey> = {
-  personal: 'personalInfo',
-  summary: 'summary',
-  experience: 'experience',
-  education: 'education',
-  projects: 'projects',
-  skills: 'skills',
-  languages: 'languages',
+  personal: "personalInfo",
+  summary: "summary",
+  experience: "experience",
+  education: "education",
+  projects: "projects",
+  skills: "skills",
+  languages: "languages",
 };
 
 const editorToStore: Record<SectionKey, string> = {
-  personalInfo: 'personal',
-  summary: 'summary',
-  experience: 'experience',
-  education: 'education',
-  skills: 'skills',
-  projects: 'projects',
-  languages: 'languages',
+  personalInfo: "personal",
+  summary: "summary",
+  experience: "experience",
+  education: "education",
+  skills: "skills",
+  projects: "projects",
+  languages: "languages",
 };
 
 const sectionIcons: Record<SectionKey, string> = {
-  personalInfo: '👤',
-  summary: '📝',
-  experience: '💼',
-  education: '🎓',
-  skills: '🛠️',
-  projects: '🚀',
-  languages: '🌐',
+  personalInfo: "👤",
+  summary: "📝",
+  experience: "💼",
+  education: "🎓",
+  skills: "🛠️",
+  projects: "🚀",
+  languages: "🌐",
 };
 
 function SortableSectionItem({
@@ -90,7 +102,11 @@ function SortableSectionItem({
   };
 
   return (
-    <div ref={setNodeRef} style={style} className={isDragging ? 'relative z-50' : ''}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={isDragging ? "relative z-50" : ""}
+    >
       <div className="bg-white border-b border-slate-200">
         <div className="flex items-center">
           <div
@@ -117,9 +133,7 @@ function SortableSectionItem({
         </div>
 
         {isExpanded && (
-          <div className="px-4 pb-4 border-t border-slate-100">
-            {children}
-          </div>
+          <div className="px-4 pb-4 border-t border-slate-100">{children}</div>
         )}
       </div>
     </div>
@@ -128,18 +142,32 @@ function SortableSectionItem({
 
 export function SectionEditor() {
   const language = useResumeStore((s) => s.language);
-  const { resumeData, setResumeData, updateResumeData, sectionOrder, reorderSections, resetSectionOrder } = useResumeStore();
+  const {
+    resumeData,
+    setResumeData,
+    updateResumeData,
+    sectionOrder,
+    reorderSections,
+    resetSectionOrder,
+  } = useResumeStore();
   const tEditor = translations[language].editor;
   const tConfirm = translations[language].confirm;
-  const [expandedSection, setExpandedSection] = useState<SectionKey>('personalInfo');
+  const [expandedSection, setExpandedSection] =
+    useState<SectionKey>("personalInfo");
   const [showJson, setShowJson] = useState(false);
-  const [jsonText, setJsonText] = useState('');
-  const [jsonError, setJsonError] = useState('');
+  const [jsonText, setJsonText] = useState("");
+  const [jsonError, setJsonError] = useState("");
   const [jsonDirty, setJsonDirty] = useState(false);
 
   const sectionConfig: Record<SectionKey, { label: string; icon: string }> = {
-    personalInfo: { label: tEditor.personalInfo, icon: sectionIcons.personalInfo },
-    summary: { label: tEditor.summary || 'Summary', icon: sectionIcons.summary },
+    personalInfo: {
+      label: tEditor.personalInfo,
+      icon: sectionIcons.personalInfo,
+    },
+    summary: {
+      label: tEditor.summary || "Summary",
+      icon: sectionIcons.summary,
+    },
     experience: { label: tEditor.experience, icon: sectionIcons.experience },
     education: { label: tEditor.education, icon: sectionIcons.education },
     skills: { label: tEditor.skills, icon: sectionIcons.skills },
@@ -149,7 +177,7 @@ export function SectionEditor() {
 
   const openJson = () => {
     setJsonText(JSON.stringify(resumeData, null, 2));
-    setJsonError('');
+    setJsonError("");
     setJsonDirty(false);
     setShowJson(true);
   };
@@ -166,7 +194,7 @@ export function SectionEditor() {
       const parsed = JSON.parse(jsonText);
       setResumeData(parsed);
       setJsonDirty(false);
-      setJsonError('');
+      setJsonError("");
     } catch (e) {
       setJsonError(`JSON: ${(e as Error).message}`);
     }
@@ -177,20 +205,22 @@ export function SectionEditor() {
     setJsonDirty(true);
     try {
       JSON.parse(text);
-      setJsonError('');
+      setJsonError("");
     } catch (e) {
       setJsonError(`${(e as Error).message}`);
     }
   };
 
   const editorSections: SectionKey[] = sectionOrder
-    .filter(s => s.visible)
-    .map(s => storeToEditor[s.type] || 'personalInfo')
+    .filter((s) => s.visible)
+    .map((s) => storeToEditor[s.type] || "personalInfo")
     .filter((key, i, arr) => arr.indexOf(key) === i);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -199,34 +229,69 @@ export function SectionEditor() {
       const oldIndex = editorSections.indexOf(active.id as SectionKey);
       const newIndex = editorSections.indexOf(over.id as SectionKey);
       const newEditorOrder = arrayMove(editorSections, oldIndex, newIndex);
-      const newSectionOrder = newEditorOrder.map(key => {
-        const storeType = editorToStore[key];
-        return sectionOrder.find(s => s.type === storeType)!;
-      }).filter(Boolean);
+      const newSectionOrder = newEditorOrder
+        .map((key) => {
+          const storeType = editorToStore[key];
+          return sectionOrder.find((s) => s.type === storeType)!;
+        })
+        .filter(Boolean);
       reorderSections(newSectionOrder);
     }
   };
 
-  const handleUpdate = <K extends keyof typeof resumeData>(key: K, value: typeof resumeData[K]) => {
+  const handleUpdate = <K extends keyof typeof resumeData>(
+    key: K,
+    value: (typeof resumeData)[K],
+  ) => {
     updateResumeData({ [key]: value });
   };
 
   const renderSectionContent = (key: SectionKey) => {
     switch (key) {
-      case 'personalInfo':
+      case "personalInfo":
         return <PersonalInfoSection data={resumeData.personalInfo} />;
-      case 'summary':
-        return <SummarySection data={resumeData.summary} onChange={(v) => handleUpdate('summary', v)} />;
-      case 'experience':
-        return <ExperienceSection data={resumeData.experience} onChange={(v) => handleUpdate('experience', v)} />;
-      case 'education':
-        return <EducationSection data={resumeData.education} onChange={(v) => handleUpdate('education', v)} />;
-      case 'skills':
-        return <SkillsSection data={resumeData.skills} onChange={(v) => handleUpdate('skills', v)} />;
-      case 'projects':
-        return <ProjectsSection data={resumeData.projects} onChange={(v) => handleUpdate('projects', v)} />;
-      case 'languages':
-        return <LanguagesSection data={resumeData.languages} onChange={(v) => handleUpdate('languages', v)} />;
+      case "summary":
+        return (
+          <SummarySection
+            data={resumeData.summary}
+            onChange={(v) => handleUpdate("summary", v)}
+          />
+        );
+      case "experience":
+        return (
+          <ExperienceSection
+            data={resumeData.experience}
+            onChange={(v) => handleUpdate("experience", v)}
+          />
+        );
+      case "education":
+        return (
+          <EducationSection
+            data={resumeData.education}
+            onChange={(v) => handleUpdate("education", v)}
+          />
+        );
+      case "skills":
+        return (
+          <SkillsSection
+            data={resumeData.skills}
+            onChange={(v) => handleUpdate("skills", v)}
+          />
+        );
+      case "projects":
+        return (
+          <ProjectsSection
+            data={resumeData.projects}
+            onChange={(v) => handleUpdate("projects", v)}
+          />
+        );
+      case "languages":
+        return (
+          <LanguagesSection
+            data={resumeData.languages}
+            onChange={(v) => handleUpdate("languages", v)}
+          />
+        );
     }
   };
 
@@ -234,7 +299,9 @@ export function SectionEditor() {
     <div className="h-full flex flex-col bg-slate-50">
       <div className="px-4 py-3 bg-white border-b border-slate-200 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          <h2 className="font-semibold text-slate-700">{tEditor.personalInfo}</h2>
+          <h2 className="font-semibold text-slate-700">
+            {tEditor.personalInfo}
+          </h2>
           <button
             onClick={() => {
               if (window.confirm(tConfirm.clear)) {
@@ -250,7 +317,9 @@ export function SectionEditor() {
         <button
           onClick={showJson ? closeJson : openJson}
           className={`flex items-center gap-1 px-3 py-1.5 text-sm rounded-lg transition-colors ${
-            showJson ? 'bg-indigo-100 text-indigo-700' : 'text-slate-600 hover:bg-slate-100'
+            showJson
+              ? "bg-indigo-100 text-indigo-700"
+              : "text-slate-600 hover:bg-slate-100"
           }`}
         >
           <FileJson className="w-4 h-4" />
@@ -267,8 +336,8 @@ export function SectionEditor() {
                 disabled={!jsonDirty || !!jsonError}
                 className={`px-4 py-1.5 text-sm rounded-lg font-medium transition-colors ${
                   jsonDirty && !jsonError
-                    ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    ? "bg-indigo-600 text-white hover:bg-indigo-700"
+                    : "bg-slate-200 text-slate-400 cursor-not-allowed"
                 }`}
               >
                 {tEditor.show}
@@ -282,10 +351,15 @@ export function SectionEditor() {
             </div>
             <div className="flex items-center gap-2">
               {jsonDirty && !jsonError && (
-                <span className="text-xs text-amber-600">{tConfirm.clear.split('？')[0]}...</span>
+                <span className="text-xs text-amber-600">
+                  {tConfirm.clear.split("？")[0]}...
+                </span>
               )}
               {jsonError && (
-                <span className="text-xs text-red-500 max-w-[200px] truncate" title={jsonError}>
+                <span
+                  className="text-xs text-red-500 max-w-[200px] truncate"
+                  title={jsonError}
+                >
                   {jsonError}
                 </span>
               )}
@@ -325,9 +399,11 @@ export function SectionEditor() {
                     label={config.label}
                     icon={config.icon}
                     isExpanded={expandedSection === key}
-                    onToggle={() => setExpandedSection(
-                      expandedSection === key ? '' as SectionKey : key
-                    )}
+                    onToggle={() =>
+                      setExpandedSection(
+                        expandedSection === key ? ("" as SectionKey) : key,
+                      )
+                    }
                   >
                     {renderSectionContent(key)}
                   </SortableSectionItem>
