@@ -190,7 +190,10 @@ export function ExperienceEntry({
       )}
 
       {exp.techStack && (
-        <div style={styles.techStack} className="text-slate-700 whitespace-pre-wrap">
+        <div
+          style={styles.techStack}
+          className="text-slate-700 whitespace-pre-wrap"
+        >
           <span className="font-bold mr-1">Tech Stack:</span>
           {exp.techStack}
         </div>

@@ -40,17 +40,13 @@ export function SkillsSection({ skills, tEditor, onUpdate }: SkillsSectionProps)
         style={s.sectionTitle}
       />
 
-      {/* Grouped skills */}
+      {/* Grouped skills: bold category + comma-separated names */}
       {groupedEntries.map(({ cat, skills: catSkills }) => {
         const names = catSkills.map(sk => sk.name).filter(Boolean).join(', ');
         return (
-          <div key={cat} className="mb-2 last:mb-0">
-            <div className="font-bold text-slate-700 mb-0.5" style={s.body}>
-              {cat}
-            </div>
-            <div className="text-slate-800" style={s.body}>
-              {names}
-            </div>
+          <div key={cat} className="mb-1.5 last:mb-0 flex gap-2">
+            <span className="font-bold text-slate-800 flex-shrink-0">{cat}:</span>
+            <span className="text-slate-800" style={s.body}>{names}</span>
           </div>
         );
       })}
