@@ -1,5 +1,6 @@
 import type { Skill } from '../../types/resume';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, GripVertical } from 'lucide-react';
+import { useState } from 'react';
 import { useResumeStore } from '../../store/resumeStore';
 import { translations } from '../../i18n';
 
@@ -9,10 +10,8 @@ interface Props {
 }
 
 /**
- * Skills editor: one row per group.
- * [ Category input | Skills input (comma-separated) | Delete ]
- * [ Category input | Skills input (comma-separated) | Delete ]
- * + Add Group
+ * Skills editor: one row per group (draggable).
+ * [ Grip | Category input | Skills input (comma-separated) | Delete ]
  */
 export function SkillsSection({ data, onChange }: Props) {
   const language = useResumeStore((s) => s.language);
@@ -21,16 +20,74 @@ export function SkillsSection({ data, onChange }: Props) {
   const uncategorizedLabel = t.uncategorized || 'Other';
 
   // Build groups from data
-  const groups: { id: string; cat: string; names: string[] }[] = [];
-  const catMap: Record<string, number> = {};
-  data.forEach(sk => {
-    const cat = sk.category?.trim() || uncategorizedLabel;
-    if (catMap[cat] === undefined) {
-      catMap[cat] = groups.length;
-      groups.push({ id: sk.id, cat, names: [] });
+  const buildGroups = () => {
+    const groups: { id: string; cat: string; names: string[] }[] = [];
+    const catMap: Record<string, number> = {};
+    data.forEach(sk => {
+      const cat = sk.category?.trim() || uncategorizedLabel;
+      if (catMap[cat] === undefined) {
+        catMap[cat] = groups.length;
+        groups.push({ id: sk.id, cat, names: [] });
+      }
+      if (sk.name.trim()) groups[catMap[cat]].names.push(sk.name.trim());
+    });
+    return groups;
+  };
+
+  const groups = buildGroups();
+
+  // Drag state
+  const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
+  const [dragSrcIdx, setDragSrcIdx] = useState<number | null>(null);
+
+  const handleDragStart = (idx: number) => {
+    setDragSrcIdx(idx);
+  };
+
+  const handleDragOver = (e: React.DragEvent, idx: number) => {
+    e.preventDefault();
+    setDragOverIdx(idx);
+  };
+
+  const handleDrop = (e: React.DragEvent, targetIdx: number) => {
+    e.preventDefault();
+    if (dragSrcIdx === null || dragSrcIdx === targetIdx) {
+      setDragSrcIdx(null);
+      setDragOverIdx(null);
+      return;
     }
-    if (sk.name.trim()) groups[catMap[cat]].names.push(sk.name.trim());
-  });
+
+    const srcCat = groups[dragSrcIdx].cat;
+    const tgtCat = groups[targetIdx].cat;
+
+    // Reorder: swap the two groups in data
+    const srcSkills = data.filter(sk => (sk.category?.trim() || uncategorizedLabel) === srcCat);
+    const tgtSkills = data.filter(sk => (sk.category?.trim() || uncategorizedLabel) === tgtCat);
+
+    const srcSkillIds = new Set(srcSkills.map(s => s.id));
+    const tgtSkillIds = new Set(tgtSkills.map(s => s.id));
+
+    const reordered = data.map(sk => {
+      if (srcSkillIds.has(sk.id)) {
+        // Give src skill the tgt category
+        return { ...sk, category: tgtCat === uncategorizedLabel ? '' : tgtCat };
+      }
+      if (tgtSkillIds.has(sk.id)) {
+        // Give tgt skill the src category
+        return { ...sk, category: srcCat === uncategorizedLabel ? '' : srcCat };
+      }
+      return sk;
+    });
+
+    onChange(reordered);
+    setDragSrcIdx(null);
+    setDragOverIdx(null);
+  };
+
+  const handleDragEnd = () => {
+    setDragSrcIdx(null);
+    setDragOverIdx(null);
+  };
 
   // Update category name for all skills in a group
   const updateCategory = (groupId: string, oldCat: string, newCat: string) => {
@@ -45,14 +102,11 @@ export function SkillsSection({ data, onChange }: Props) {
   // Update skills (comma-separated text) for a group
   const updateSkills = (groupId: string, oldCat: string, text: string) => {
     const safeOldCat = oldCat.trim() || uncategorizedLabel;
-    const safeNewCat = safeOldCat; // keep same category name
     const names = text.split(',').map(n => n.trim()).filter(Boolean);
-    // Keep skills outside this group
     const outside = data.filter(sk => {
       const skCat = (sk.category?.trim() || uncategorizedLabel);
       return skCat !== safeOldCat;
     });
-    // Rebuild skills for this group
     const rebuilt: Skill[] = names.map((name, i) => ({
       id: `skill_${Date.now()}_${groupId}_${i}`,
       name,
@@ -105,34 +159,51 @@ export function SkillsSection({ data, onChange }: Props) {
         </div>
       ) : (
         <div className="space-y-2">
-          {groups.map((group) => (
-            <div key={group.id} className="flex items-center gap-2">
-              {/* Category input */}
-              <input
-                type="text"
-                defaultValue={group.cat === uncategorizedLabel ? '' : group.cat}
-                onBlur={(e) => updateCategory(group.id, group.cat, e.target.value)}
-                placeholder={tEditor.skills || 'Category'}
-                className="w-40 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 flex-shrink-0 font-medium text-slate-700"
-              />
-              {/* Skills comma-separated input */}
-              <input
-                type="text"
-                defaultValue={group.names.join(', ')}
-                onBlur={(e) => updateSkills(group.id, group.cat, e.target.value)}
-                placeholder="e.g. JavaScript, TypeScript, React"
-                className="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-slate-700"
-              />
-              {/* Delete button */}
-              <button
-                onClick={() => deleteGroup(group.id)}
-                className="p-2 text-red-400 hover:text-red-600 flex-shrink-0"
-                title="Delete group"
+          {groups.map((group, idx) => {
+            const isDragging = dragSrcIdx === idx;
+            const isOver = dragOverIdx === idx && dragSrcIdx !== idx;
+            return (
+              <div
+                key={group.id}
+                draggable
+                onDragStart={() => handleDragStart(idx)}
+                onDragOver={(e) => handleDragOver(e, idx)}
+                onDrop={(e) => handleDrop(e, idx)}
+                onDragEnd={handleDragEnd}
+                className={`flex items-center gap-2 bg-white border rounded-lg px-2 py-1.5 select-none ${
+                  isDragging ? 'opacity-40' : ''
+                } ${isOver ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200'}`}
               >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
+                {/* Drag handle */}
+                <GripVertical className="w-4 h-4 text-slate-300 cursor-grab flex-shrink-0" />
+
+                {/* Category input */}
+                <input
+                  type="text"
+                  defaultValue={group.cat === uncategorizedLabel ? '' : group.cat}
+                  onBlur={(e) => updateCategory(group.id, group.cat, e.target.value)}
+                  placeholder={tEditor.skills || 'Category'}
+                  className="w-40 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 flex-shrink-0 font-medium text-slate-700"
+                />
+                {/* Skills comma-separated input */}
+                <input
+                  type="text"
+                  defaultValue={group.names.join(', ')}
+                  onBlur={(e) => updateSkills(group.id, group.cat, e.target.value)}
+                  placeholder="e.g. JavaScript, TypeScript, React"
+                  className="flex-1 px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-slate-700"
+                />
+                {/* Delete button */}
+                <button
+                  onClick={() => deleteGroup(group.id)}
+                  className="p-2 text-red-400 hover:text-red-600 flex-shrink-0"
+                  title="Delete group"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
