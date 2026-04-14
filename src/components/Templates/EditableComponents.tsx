@@ -46,7 +46,9 @@ export function EditableText({
   };
 
   // Render multiline text as bullet list when displaying (not editing)
-  const lines = multiline ? (value || "").split("\n").filter(l => l.trim()) : [];
+  const lines = multiline
+    ? (value || "").split("\n").filter((l) => l.trim())
+    : [];
 
   if (isEditing) {
     const InputComponent = multiline ? "textarea" : "input";
@@ -70,12 +72,17 @@ export function EditableText({
     return (
       <ul
         onClick={() => setIsEditing(true)}
-        className={`${className} list-disc pl-5 cursor-text`}
-        style={{ ...style, listStyleType: "disc" }}
+        className={`${className} cursor-text`}
+        style={{ ...style}}
       >
         {lines.map((line, i) => (
           <li key={i} style={style} className="text-slate-900">
-            <span className="font-bold mr-1 inline-block" style={{ fontSize: "20px", lineHeight: 1 }}>•</span>
+            <span
+              className="font-bold mr-1 inline-block"
+              style={{ fontSize: "20px", lineHeight: 1 }}
+            >
+              •
+            </span>
             {line}
           </li>
         ))}
