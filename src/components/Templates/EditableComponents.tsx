@@ -45,11 +45,6 @@ export function EditableText({
     }
   };
 
-  // Render multiline text as bullet list when displaying (not editing)
-  const lines = multiline
-    ? (value || "").split("\n").filter((l) => l.trim())
-    : [];
-
   if (isEditing) {
     const InputComponent = multiline ? "textarea" : "input";
     return (
@@ -67,26 +62,16 @@ export function EditableText({
     );
   }
 
-  // Display mode: if multiline with newlines, show as bullet list
-  if (multiline && lines.length > 0) {
+  // Display mode: if multiline, render with whitespace preserved (keep line breaks & spaces)
+  if (multiline && value) {
     return (
-      <ul
+      <div
         onClick={() => setIsEditing(true)}
-        className={`${className} cursor-text`}
-        style={{ ...style}}
+        className={`${className} cursor-text whitespace-pre-wrap`}
+        style={style}
       >
-        {lines.map((line, i) => (
-          <li key={i} style={style} className="text-slate-900">
-            <span
-              className="font-bold mr-1 inline-block"
-              style={{ fontSize: "20px", lineHeight: 1 }}
-            >
-              •
-            </span>
-            {line}
-          </li>
-        ))}
-      </ul>
+        {value}
+      </div>
     );
   }
 
