@@ -32,9 +32,9 @@ export function EducationSection({
         style={s.sectionTitle}
       />
       {education.map((edu) => (
-        <div key={edu.id} className="grid mb-2" style={{ gridTemplateColumns: "160px 1fr", alignItems: "stretch" }}>
+        <div key={edu.id} className="grid mb-2" style={{ gridTemplateColumns: "160px 1fr" }}>
           {/* Left: time (fixed width) */}
-          <div className="text-slate-900 pr-4 mr-4 border-r border-slate-200 h-full flex flex-col" style={{ fontSize: s.body.fontSize, alignSelf: "start" }}>
+          <div className="text-slate-900 pr-4 mr-4 border-r border-slate-200" style={{ fontSize: s.body.fontSize }}>
             <div className="whitespace-nowrap">
               {edu.startDate} – {edu.current ? present : edu.endDate}
             </div>
@@ -46,14 +46,14 @@ export function EducationSection({
           {/* Right: field + school */}
           <div className="min-w-0">
             <div className="flex items-baseline gap-4">
-              <span className="font-bold text-slate-900" style={{ fontSize: s.body.fontSize, alignSelf: "start" }}>
+              <span className="font-bold text-slate-900" style={{ fontSize: s.body.fontSize }}>
                 {edu.field || t.major || "Field of Study"}
               </span>
               <span className="text-slate-500 shrink-0">
                 {edu.degree ? `, ${edu.degree}` : ""}
               </span>
             </div>
-            <div className="text-slate-900 mt-0.5" style={{ fontSize: s.body.fontSize, alignSelf: "start" }}>
+            <div className="text-slate-900 mt-0.5" style={{ fontSize: s.body.fontSize }}>
               {edu.school || t.school || "School"}
             </div>
           </div>
