@@ -48,7 +48,7 @@ export function ExperienceSection({
           {/* Left: time (fixed width) */}
           <div className="text-slate-900 pr-4 mr-4 border-r border-slate-200 h-full flex flex-col" style={{ fontSize: s.body.fontSize, alignSelf: "start" }}>
             <div className="whitespace-nowrap">{exp.startDate} – {exp.endDate || present}</div>
-            {exp.address && <div className="text-slate-500 mt-0.5">{exp.address}</div>}
+            {exp.address && <div className="mt-0.5">{exp.address}</div>}
           </div>
 
           {/* Right: content */}
