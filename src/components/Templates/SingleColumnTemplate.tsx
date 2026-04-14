@@ -138,7 +138,7 @@ export function SingleColumnTemplate() {
             {experience.map((exp) => (
               <div
                 key={exp.id}
-                className="grid border border-red-500"
+                className="grid"
                 style={{ gridTemplateColumns: "160px 1fr", alignItems: "start" }}
               >
                 <div className="pr-4 text-slate-900 whitespace-nowrap border-r border-slate-200" style={{ fontSize: s.body.fontSize }}>
@@ -173,7 +173,7 @@ export function SingleColumnTemplate() {
             {education.map((edu) => (
               <div
                 key={edu.id}
-                className="grid border border-red-500 mb-2"
+                className="grid mb-2"
                 style={{ gridTemplateColumns: "160px 1fr", alignItems: "start" }}
               >
                 <div className="pr-4 text-slate-900 whitespace-nowrap border-r border-slate-200" style={{ fontSize: s.body.fontSize }}>
