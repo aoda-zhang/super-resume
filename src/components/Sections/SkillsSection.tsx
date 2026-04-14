@@ -12,6 +12,7 @@ interface Props {
 /**
  * Skills editor: one row per group (draggable).
  * [ Grip | Category input | Skills input (comma-separated) | Delete ]
+ * Group order stored via each skill's `order` field.
  */
 export function SkillsSection({ data, onChange }: Props) {
   const language = useResumeStore((s) => s.language);
@@ -19,18 +20,29 @@ export function SkillsSection({ data, onChange }: Props) {
   const tEditor = translations[language].editor;
   const uncategorizedLabel = t.uncategorized || 'Other';
 
-  // Build groups from data
+  // Build groups from data, sorted by `order`
   const buildGroups = () => {
-    const groups: { id: string; cat: string; names: string[] }[] = [];
+    // Assign default order to skills that don't have one (based on insertion order)
+    let maxOrder = -1;
+    data.forEach(sk => {
+      if (sk.order !== undefined && sk.order > maxOrder) maxOrder = sk.order;
+    });
+
+    const groups: { id: string; cat: string; names: string[]; order: number }[] = [];
     const catMap: Record<string, number> = {};
+
     data.forEach(sk => {
       const cat = sk.category?.trim() || uncategorizedLabel;
       if (catMap[cat] === undefined) {
+        const order = sk.order ?? (maxOrder + 1 + groups.length);
         catMap[cat] = groups.length;
-        groups.push({ id: sk.id, cat, names: [] });
+        groups.push({ id: sk.id, cat, names: [], order });
       }
       if (sk.name.trim()) groups[catMap[cat]].names.push(sk.name.trim());
     });
+
+    // Sort groups by order
+    groups.sort((a, b) => a.order - b.order);
     return groups;
   };
 
@@ -57,24 +69,24 @@ export function SkillsSection({ data, onChange }: Props) {
       return;
     }
 
-    const srcCat = groups[dragSrcIdx].cat;
-    const tgtCat = groups[targetIdx].cat;
+    const srcGroup = groups[dragSrcIdx];
+    const tgtGroup = groups[targetIdx];
+    const srcOrder = srcGroup.order;
+    const tgtOrder = tgtGroup.order;
 
-    // Reorder: swap the two groups in data
-    const srcSkills = data.filter(sk => (sk.category?.trim() || uncategorizedLabel) === srcCat);
-    const tgtSkills = data.filter(sk => (sk.category?.trim() || uncategorizedLabel) === tgtCat);
-
-    const srcSkillIds = new Set(srcSkills.map(s => s.id));
-    const tgtSkillIds = new Set(tgtSkills.map(s => s.id));
+    // Swap order values of all skills in src/tgt groups
+    const srcCat = srcGroup.cat;
+    const tgtCat = tgtGroup.cat;
+    const srcCatNorm = srcCat === uncategorizedLabel ? '' : srcCat;
+    const tgtCatNorm = tgtCat === uncategorizedLabel ? '' : tgtCat;
 
     const reordered = data.map(sk => {
-      if (srcSkillIds.has(sk.id)) {
-        // Give src skill the tgt category
-        return { ...sk, category: tgtCat === uncategorizedLabel ? '' : tgtCat };
+      const skCatNorm = sk.category?.trim() || uncategorizedLabel;
+      if (skCatNorm === srcCat) {
+        return { ...sk, order: tgtOrder };
       }
-      if (tgtSkillIds.has(sk.id)) {
-        // Give tgt skill the src category
-        return { ...sk, category: srcCat === uncategorizedLabel ? '' : srcCat };
+      if (skCatNorm === tgtCat) {
+        return { ...sk, order: srcOrder };
       }
       return sk;
     });
@@ -103,6 +115,8 @@ export function SkillsSection({ data, onChange }: Props) {
   const updateSkills = (groupId: string, oldCat: string, text: string) => {
     const safeOldCat = oldCat.trim() || uncategorizedLabel;
     const names = text.split(',').map(n => n.trim()).filter(Boolean);
+    const group = groups.find(g => g.id === groupId);
+    const groupOrder = group?.order ?? 0;
     const outside = data.filter(sk => {
       const skCat = (sk.category?.trim() || uncategorizedLabel);
       return skCat !== safeOldCat;
@@ -112,6 +126,7 @@ export function SkillsSection({ data, onChange }: Props) {
       name,
       level: 'intermediate' as const,
       category: safeOldCat === uncategorizedLabel ? '' : safeOldCat,
+      order: groupOrder,
     }));
     onChange([...outside, ...rebuilt]);
   };
@@ -128,11 +143,13 @@ export function SkillsSection({ data, onChange }: Props) {
 
   // Add a new empty group
   const addGroup = () => {
+    const maxOrder = Math.max(...groups.map(g => g.order), -1);
     const newSkill: Skill = {
       id: `skill_${Date.now()}`,
       name: '',
       level: 'intermediate',
       category: uncategorizedLabel,
+      order: maxOrder + 1,
     };
     onChange([...data, newSkill]);
   };

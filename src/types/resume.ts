@@ -46,6 +46,7 @@ export interface Skill {
   name: string;
   level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   category?: string; // e.g. "Frontend", "Backend"
+  order?: number;    // group ordering index
 }
 
 export interface Project {
