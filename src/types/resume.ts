@@ -62,6 +62,7 @@ export interface Language {
 
 export interface ResumeData {
   personalInfo: PersonalInfo;
+  summary: string;
   experience: Experience[];
   education: Education[];
   skills: Skill[];

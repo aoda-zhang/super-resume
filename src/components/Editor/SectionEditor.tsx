@@ -24,13 +24,14 @@ import { EducationSection } from '../Sections/EducationSection';
 import { SkillsSection } from '../Sections/SkillsSection';
 import { ProjectsSection } from '../Sections/ProjectsSection';
 import { LanguagesSection } from '../Sections/LanguagesSection';
+import { SummarySection } from '../Sections/SummarySection';
 import { FileJson, ChevronDown, ChevronRight, GripVertical } from 'lucide-react';
 
-type SectionKey = 'personalInfo' | 'experience' | 'education' | 'skills' | 'projects' | 'languages';
+type SectionKey = 'personalInfo' | 'summary' | 'experience' | 'education' | 'skills' | 'projects' | 'languages';
 
 const storeToEditor: Record<string, SectionKey> = {
   personal: 'personalInfo',
-  summary: 'personalInfo',
+  summary: 'summary',
   experience: 'experience',
   education: 'education',
   projects: 'projects',
@@ -40,6 +41,7 @@ const storeToEditor: Record<string, SectionKey> = {
 
 const editorToStore: Record<SectionKey, string> = {
   personalInfo: 'personal',
+  summary: 'summary',
   experience: 'experience',
   education: 'education',
   skills: 'skills',
@@ -49,6 +51,7 @@ const editorToStore: Record<SectionKey, string> = {
 
 const sectionIcons: Record<SectionKey, string> = {
   personalInfo: '👤',
+  summary: '📝',
   experience: '💼',
   education: '🎓',
   skills: '🛠️',
@@ -136,6 +139,7 @@ export function SectionEditor() {
 
   const sectionConfig: Record<SectionKey, { label: string; icon: string }> = {
     personalInfo: { label: tEditor.personalInfo, icon: sectionIcons.personalInfo },
+    summary: { label: tEditor.summary || 'Summary', icon: sectionIcons.summary },
     experience: { label: tEditor.experience, icon: sectionIcons.experience },
     education: { label: tEditor.education, icon: sectionIcons.education },
     skills: { label: tEditor.skills, icon: sectionIcons.skills },
@@ -180,7 +184,7 @@ export function SectionEditor() {
   };
 
   const editorSections: SectionKey[] = sectionOrder
-    .filter(s => s.visible && s.type !== 'summary')
+    .filter(s => s.visible)
     .map(s => storeToEditor[s.type] || 'personalInfo')
     .filter((key, i, arr) => arr.indexOf(key) === i);
 
@@ -195,19 +199,10 @@ export function SectionEditor() {
       const oldIndex = editorSections.indexOf(active.id as SectionKey);
       const newIndex = editorSections.indexOf(over.id as SectionKey);
       const newEditorOrder = arrayMove(editorSections, oldIndex, newIndex);
-      const personalSection = sectionOrder.find(s => s.type === 'personal')!;
-      const summarySection = sectionOrder.find(s => s.type === 'summary')!;
-      const newSectionOrder: typeof sectionOrder = [];
-      for (const key of newEditorOrder) {
-        if (key === 'personalInfo') {
-          newSectionOrder.push(personalSection);
-          newSectionOrder.push(summarySection);
-        } else {
-          const storeType = editorToStore[key];
-          const section = sectionOrder.find(s => s.type === storeType);
-          if (section) newSectionOrder.push(section);
-        }
-      }
+      const newSectionOrder = newEditorOrder.map(key => {
+        const storeType = editorToStore[key];
+        return sectionOrder.find(s => s.type === storeType)!;
+      }).filter(Boolean);
       reorderSections(newSectionOrder);
     }
   };
@@ -220,6 +215,8 @@ export function SectionEditor() {
     switch (key) {
       case 'personalInfo':
         return <PersonalInfoSection data={resumeData.personalInfo} />;
+      case 'summary':
+        return <SummarySection data={resumeData.summary} onChange={(v) => handleUpdate('summary', v)} />;
       case 'experience':
         return <ExperienceSection data={resumeData.experience} onChange={(v) => handleUpdate('experience', v)} />;
       case 'education':

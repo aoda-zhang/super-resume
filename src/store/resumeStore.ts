@@ -54,6 +54,7 @@ const zhSample: ResumeData = {
     website: '',
     summary: '5years of full-stack development experience，Specializing inReactandNode.jsTech Stack。Passionate about open source，Actively participates in tech communities。',
   },
+  summary: '5年全栈开发经验，擅长React与Node.js技术栈，热衷开源与技术社区。',
   experience: [
     {
       id: '1',
@@ -116,6 +117,7 @@ const enSample: ResumeData = {
     website: 'johnsmith.dev',
     summary: '5+ years of full-stack development experience, specializing in React and Node.js ecosystems. Passionate about open source and active in the developer community.',
   },
+  summary: '5+ years of full-stack development experience, specializing in React and Node.js.',
   experience: [
     {
       id: '1',
@@ -181,6 +183,7 @@ const deSample: ResumeData = {
     nationality: 'Guatemalan',
     summary: 'Frontend Developer mit 7 Jahren Erfahrung, spezialisiert auf JavaScript. Starke Befürworterin von Clean-Code-Praktiken durch strukturierte Code-Reviews und kollaborative Entwicklung. Interessiert an Online-Zahlungen und End-to-End-Testing.',
   },
+  summary: 'Erfahrene Full-Stack-Entwicklerin mit Fokus auf JavaScript und Clean-Code-Praktiken.',
   experience: [
     {
       id: '1',
@@ -330,6 +333,7 @@ interface ResumeState {
 
 const emptyResume: ResumeData = {
   personalInfo: { fullName: '', email: '', phone: '', address: '', linkedin: '', website: '', summary: '' },
+  summary: '',
   experience: [],
   education: [],
   skills: [],
