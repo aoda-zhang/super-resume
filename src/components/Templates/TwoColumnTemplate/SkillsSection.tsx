@@ -1,5 +1,5 @@
 /**
- * Two-column layout sidebar: skills list with category grouping.
+ * Two-column layout sidebar: skills list with optional category grouping.
  */
 import { SectionTitle, SkillEntry } from "../shared/SectionRenderers";
 import { twoColumnStyles as s } from "../shared/templateStyles";
@@ -14,11 +14,19 @@ interface SkillsSectionProps {
 export function SkillsSection({ skills, tEditor, onUpdate }: SkillsSectionProps) {
   if (skills.length === 0) return null;
 
-  const grouped: Record<string, Skill[]> = {};
+  const ungrouped = skills.filter(sk => !sk.category?.trim());
+  const groupedEntries: Array<{ cat: string; skills: Skill[] }> = [];
+
+  const seen = new Set<string>();
   skills.forEach(sk => {
-    const cat = sk.category?.trim() || '__none__';
-    if (!grouped[cat]) grouped[cat] = [];
-    grouped[cat].push(sk);
+    const cat = sk.category?.trim();
+    if (cat && !seen.has(cat)) {
+      seen.add(cat);
+      groupedEntries.push({
+        cat,
+        skills: skills.filter(s => s.category?.trim() === cat),
+      });
+    }
   });
 
   return (
@@ -29,11 +37,10 @@ export function SkillsSection({ skills, tEditor, onUpdate }: SkillsSectionProps)
         className={s.label}
         style={s.sectionTitle}
       />
-      {Object.entries(grouped).map(([cat, catSkills]) => (
+
+      {groupedEntries.map(({ cat, skills: catSkills }) => (
         <div key={cat} className="mb-2 last:mb-0">
-          {cat !== '__none__' && (
-            <div className="text-slate-400 text-xs mb-0.5 uppercase tracking-wide">{cat}</div>
-          )}
+          <div className="text-slate-400 text-xs mb-0.5 uppercase tracking-wide">{cat}</div>
           <div className="space-y-0.5 text-slate-900" style={s.body}>
             {catSkills.map(skill => (
               <SkillEntry key={skill.id} skill={skill} onUpdate={onUpdate} />
@@ -41,6 +48,14 @@ export function SkillsSection({ skills, tEditor, onUpdate }: SkillsSectionProps)
           </div>
         </div>
       ))}
+
+      {ungrouped.length > 0 && (
+        <div className="space-y-0.5 text-slate-900" style={s.body}>
+          {ungrouped.map(skill => (
+            <SkillEntry key={skill.id} skill={skill} onUpdate={onUpdate} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -220,11 +220,15 @@ export function SingleColumnTemplate() {
         if (skills.length === 0) return null;
 
         // Group by category
-        const grouped: Record<string, typeof skills> = {};
+        const ungrouped = skills.filter(sk => !sk.category?.trim());
+        const seen = new Set<string>();
+        const groupedEntries: Array<{ cat: string; list: typeof skills }> = [];
         skills.forEach(sk => {
-          const cat = sk.category?.trim() || '__none__';
-          if (!grouped[cat]) grouped[cat] = [];
-          grouped[cat].push(sk);
+          const cat = sk.category?.trim();
+          if (cat && !seen.has(cat)) {
+            seen.add(cat);
+            groupedEntries.push({ cat, list: skills.filter(s => s.category?.trim() === cat) });
+          }
         });
 
         return (
@@ -235,13 +239,11 @@ export function SingleColumnTemplate() {
               className={s.label}
               style={s.sectionTitle}
             />
-            {Object.entries(grouped).map(([cat, catSkills]) => (
+            {groupedEntries.map(({ cat, list: catSkills }) => (
               <div key={cat} className="mb-2 last:mb-0">
-                {cat !== '__none__' && (
-                  <div className="text-slate-500 text-xs mb-1 uppercase tracking-wide" style={{ fontSize: '0.7rem' }}>
-                    {cat}
-                  </div>
-                )}
+                <div className="text-slate-500 text-xs mb-1 uppercase tracking-wide" style={{ fontSize: '0.7rem' }}>
+                  {cat}
+                </div>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 text-slate-900" style={s.body}>
                   {catSkills.map((skill) => (
                     <SkillEntry key={skill.id} skill={skill} onUpdate={updateSkill} />
@@ -249,6 +251,13 @@ export function SingleColumnTemplate() {
                 </div>
               </div>
             ))}
+            {ungrouped.length > 0 && (
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-slate-900" style={s.body}>
+                {ungrouped.map((skill) => (
+                  <SkillEntry key={skill.id} skill={skill} onUpdate={updateSkill} />
+                ))}
+              </div>
+            )}
           </section>
         );
 
