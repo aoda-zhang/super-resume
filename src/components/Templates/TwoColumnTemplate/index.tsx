@@ -39,7 +39,7 @@ export function TwoColumnTemplate() {
   return (
     <div
       className="bg-white font-sans flex"
-      style={{ minHeight: "297mm", boxSizing: "border-box", width: "100%" }}
+      style={{ boxSizing: "border-box", width: "100%" }}
     >
       {/* ── Left sidebar ── */}
       <div

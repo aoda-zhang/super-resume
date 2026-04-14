@@ -161,7 +161,6 @@ export function ResumeWorkspace() {
             className="mx-auto bg-white shadow-lg"
             style={{
               width: '210mm',
-              minHeight: '297mm',
               maxWidth: '210mm',
               boxSizing: 'border-box',
             }}

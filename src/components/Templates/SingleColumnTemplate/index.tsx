@@ -44,7 +44,7 @@ export function SingleColumnTemplate() {
   return (
     <div
       className="bg-white font-sans"
-      style={{ padding: s.padding, minHeight: "297mm", boxSizing: "border-box", width: "100%" }}
+      style={{ padding: s.padding, boxSizing: "border-box", width: "100%" }}
     >
       {visibleSections.map((section) => {
         switch (section.type) {
