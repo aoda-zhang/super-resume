@@ -32,11 +32,11 @@ export function ExperienceSection({
         style={s.sectionTitle}
       />
       {experience.map((exp) => (
-        <div key={exp.id} className="flex mb-3" style={{ gridTemplateColumns: "140px 1fr" }}>
-          {/* Left: time */}
-          <div className="pr-4 text-slate-900 whitespace-nowrap mr-6">
-            {exp.startDate} - {exp.endDate || (present ? present : "")}
-            {exp.address && <div>{exp.address}</div>}
+        <div key={exp.id} className="grid mb-3" style={{ gridTemplateColumns: "130px 1fr", alignItems: "start" }}>
+          {/* Left: time (fixed width) */}
+          <div className="text-slate-900 pr-4 mr-4 border-r border-slate-200" style={{ fontSize: s.body.fontSize }}>
+            <div className="whitespace-nowrap">{exp.startDate} – {exp.endDate || present}</div>
+            {exp.address && <div className="text-slate-500 mt-0.5">{exp.address}</div>}
           </div>
 
           {/* Right: content */}

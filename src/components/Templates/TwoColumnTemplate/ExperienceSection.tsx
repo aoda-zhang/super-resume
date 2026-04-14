@@ -1,4 +1,3 @@
-
 /**
  * Two-column layout main column: experience section.
  */
@@ -45,14 +44,24 @@ export function ExperienceSection({
         style={s.sectionTitle}
       />
       {experience.map((exp) => (
-        <ExperienceEntry
-          key={exp.id}
-          exp={exp}
-          t={t}
-          present={present}
-          onUpdate={onUpdate}
-          styles={{ description: s.body }}
-        />
+        <div key={exp.id} className="grid mb-3" style={{ gridTemplateColumns: "120px 1fr", alignItems: "start" }}>
+          {/* Left: time (fixed width) */}
+          <div className="text-slate-900 pr-4 mr-4 border-r border-slate-200" style={{ fontSize: s.body.fontSize }}>
+            <div className="whitespace-nowrap">{exp.startDate} – {exp.endDate || present}</div>
+            {exp.address && <div className="text-slate-500 mt-0.5">{exp.address}</div>}
+          </div>
+
+          {/* Right: content */}
+          <div className="min-w-0">
+            <ExperienceEntry
+              exp={exp}
+              t={t}
+              present={present}
+              onUpdate={onUpdate}
+              styles={{ description: s.body }}
+            />
+          </div>
+        </div>
       ))}
     </section>
   );
