@@ -145,6 +145,7 @@ export function ExperienceEntry({
           value={exp.company}
           onChange={(v) => onUpdate(exp.id, { company: v })}
           placeholder={t.company || "Company"}
+          className="font-bold"
         />
         {exp.companyWebsite && (
           <span>
@@ -183,6 +184,7 @@ export function ExperienceEntry({
             value={exp.companyDescription}
             onChange={(v) => onUpdate(exp.id, { companyDescription: v })}
             placeholder={t.companyDescription || "Company Description"}
+            className="font-bold"
           />
         </p>
       )}
