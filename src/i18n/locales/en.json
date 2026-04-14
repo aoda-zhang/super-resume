@@ -1,0 +1,86 @@
+{
+  "app": {
+    "title": "Super Resume",
+    "subtitle": "Resume Builder"
+  },
+  "header": {
+    "fillSample": "Fill Sample",
+    "clear": "Clear",
+    "template": "Template",
+    "language": "Language",
+    "exportPdf": "Export PDF",
+    "exportImage": "Export Image",
+    "print": "Print",
+    "markdown": "Markdown",
+    "visual": "Visual"
+  },
+  "editor": {
+    "personalInfo": "Personal Info",
+    "summary": "Summary",
+    "education": "Education",
+    "experience": "Experience",
+    "projects": "Projects",
+    "skills": "Skills",
+    "languages": "Languages",
+    "add": "Add",
+    "remove": "Remove",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
+    "sectionName": "Section Name",
+    "show": "Show",
+    "hide": "Hide"
+  },
+  "form": {
+    "name": "Name",
+    "title": "Title",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "website": "Website",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "avatar": "Avatar URL",
+    "nationality": "Nationality",
+    "birthDate": "Date of birth",
+    "workPermit": "Work Permit",
+    "blueCard": "Blue Card",
+    "school": "School",
+    "degree": "Degree",
+    "major": "Major",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "current": "Present",
+    "gpa": "GPA",
+    "description": "Description",
+    "company": "Company",
+    "position": "Position",
+    "projectName": "Project Name",
+    "role": "Role",
+    "url": "URL",
+    "category": "Category",
+    "skills": "Skills (comma separated)",
+    "skillName": "Skill name",
+    "uncategorized": "Other",
+    "language": "Language",
+    "level": "Level",
+    "summaryPlaceholder": "Brief overview of your background, strengths, and career goals..."
+  },
+  "template": {
+    "singleColumn": "Single Column",
+    "twoColumn": "Two Column"
+  },
+  "confirm": {
+    "clear": "Are you sure you want to clear all content? This cannot be undone.",
+    "clearTitle": "Clear Confirmation"
+  },
+  "sample": {
+    "title": "Sample Data",
+    "description": "Click to fill with sample data"
+  },
+  "skillLevels": {
+    "beginner": "Beginner",
+    "intermediate": "Proficient",
+    "advanced": "Expert",
+    "expert": "Master"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "app": {
+    "title": "Super Resume",
+    "subtitle": "Lebenslauf-Ersteller"
+  },
+  "header": {
+    "fillSample": "Beispieldaten",
+    "clear": "Löschen",
+    "template": "Vorlage",
+    "language": "Sprache",
+    "exportPdf": "PDF exportieren",
+    "exportImage": "Bild exportieren",
+    "print": "Drucken",
+    "markdown": "Markdown",
+    "visual": "Visuell"
+  },
+  "editor": {
+    "personalInfo": "Persönliche Daten",
+    "summary": "Zusammenfassung",
+    "education": "Ausbildung",
+    "experience": "Berufserfahrung",
+    "projects": "Projekte",
+    "skills": "Fähigkeiten",
+    "languages": "Sprachen",
+    "add": "Hinzufügen",
+    "remove": "Entfernen",
+    "moveUp": "Nach oben",
+    "moveDown": "Nach unten",
+    "sectionName": "Abschnittsname",
+    "show": "Anzeigen",
+    "hide": "Ausblenden"
+  },
+  "form": {
+    "name": "Name",
+    "title": "Berufsbezeichnung",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "address": "Ort",
+    "website": "Website",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "avatar": "Avatar-URL",
+    "nationality": "Staatsangehörigkeit",
+    "birthDate": "Geburtsdatum",
+    "workPermit": "Arbeitserlaubnis",
+    "blueCard": "Blaue Karte",
+    "school": "Schule/Universität",
+    "degree": "Abschluss",
+    "major": "Fachrichtung",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "current": "Bis heute",
+    "gpa": "Notendurchschnitt",
+    "description": "Beschreibung",
+    "company": "Unternehmen",
+    "position": "Position",
+    "projectName": "Projektname",
+    "role": "Rolle",
+    "url": "URL",
+    "category": "Kategorie",
+    "skills": "Fähigkeiten (kommagetrennt)",
+    "skillName": "Fähigkeit",
+    "uncategorized": "Sonstiges",
+    "language": "Sprache",
+    "level": "Niveau",
+    "summaryPlaceholder": "Kurze Zusammenfassung Ihres Hintergrunds, Ihrer Stärken und Karriereziele..."
+  },
+  "template": {
+    "singleColumn": "Einspaltig",
+    "twoColumn": "Zweispaltig"
+  },
+  "confirm": {
+    "clear": "Möchten Sie wirklich alle Inhalte löschen? Dies kann nicht rückgängig gemacht werden.",
+    "clearTitle": "Löschen bestätigen"
+  },
+  "sample": {
+    "title": "Beispieldaten",
+    "description": "Klicken Sie hier, um Beispieldaten einzufügen"
+  },
+  "skillLevels": {
+    "beginner": "Anfänger",
+    "intermediate": "Fortgeschritten",
+    "advanced": "Experte",
+    "expert": "Meister"
+  }
+}

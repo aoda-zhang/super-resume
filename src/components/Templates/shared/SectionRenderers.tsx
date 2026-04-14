@@ -125,7 +125,7 @@ export function ExperienceEntry({
   styles,
 }: ExperienceEntryProps) {
   return (
-    <div className="mb-3">
+    <div>
       <div className="flex justify-between items-baseline gap-2 mb-0.5">
         <h3 style={styles.position}>
           <EditableText
@@ -165,7 +165,7 @@ export function ExperienceEntry({
       </div>
 
       {exp.techStack && (
-        <div style={styles.techStack} className="mt-0.5">
+        <div style={styles.techStack}>
           <span className="font-bold text-slate-900 mr-1">Tech Stack:</span>
           <span className="px-1.5 py-0.5 text-slate-600">{exp.techStack}</span>
         </div>
@@ -173,7 +173,7 @@ export function ExperienceEntry({
 
       <p
         style={styles.description}
-        className="mt-1.5 text-slate-900 whitespace-pre-line"
+        className="mt-4 text-slate-900 whitespace-pre-line"
       >
         <EditableText
           value={exp.description}

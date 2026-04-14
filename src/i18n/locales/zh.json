@@ -1,0 +1,86 @@
+{
+  "app": {
+    "title": "Super Resume",
+    "subtitle": "简历生成器"
+  },
+  "header": {
+    "fillSample": "填入示例",
+    "clear": "清空",
+    "template": "模板",
+    "language": "语言",
+    "exportPdf": "导出 PDF",
+    "exportImage": "导出图片",
+    "print": "打印",
+    "markdown": "Markdown",
+    "visual": "可视化"
+  },
+  "editor": {
+    "personalInfo": "基本信息",
+    "summary": "自我评价",
+    "education": "教育经历",
+    "experience": "工作经历",
+    "projects": "项目经验",
+    "skills": "专业技能",
+    "languages": "语言能力",
+    "add": "添加",
+    "remove": "删除",
+    "moveUp": "上移",
+    "moveDown": "下移",
+    "sectionName": "区块名称",
+    "show": "显示",
+    "hide": "隐藏"
+  },
+  "form": {
+    "name": "姓名",
+    "title": "职位",
+    "email": "邮箱",
+    "phone": "电话",
+    "address": "所在地",
+    "website": "网站",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "avatar": "头像链接",
+    "nationality": "国籍",
+    "birthDate": "出生日期",
+    "workPermit": "工作许可",
+    "blueCard": "蓝卡状态",
+    "school": "学校",
+    "degree": "学位",
+    "major": "专业",
+    "startDate": "开始时间",
+    "endDate": "结束时间",
+    "current": "至今",
+    "gpa": "GPA",
+    "description": "描述",
+    "company": "公司",
+    "position": "职位",
+    "projectName": "项目名称",
+    "role": "角色",
+    "url": "链接",
+    "category": "分类",
+    "skills": "技能（逗号分隔）",
+    "skillName": "技能名称",
+    "uncategorized": "未分类",
+    "language": "语言",
+    "level": "水平",
+    "summaryPlaceholder": "简要介绍你的专业背景、核心优势和职业目标..."
+  },
+  "template": {
+    "singleColumn": "一栏版",
+    "twoColumn": "两栏版"
+  },
+  "confirm": {
+    "clear": "确定清空所有内容？此操作不可撤销。",
+    "clearTitle": "清空确认"
+  },
+  "sample": {
+    "title": "示例数据",
+    "description": "点击填入示例数据，体验完整功能"
+  },
+  "skillLevels": {
+    "beginner": "入门",
+    "intermediate": "熟练",
+    "advanced": "精通",
+    "expert": "专家"
+  }
+}
