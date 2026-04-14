@@ -20,18 +20,22 @@ import { useResumeStore } from '../../store/resumeStore';
 import { translations } from '../../i18n';
 import type { PersonalInfoFieldType } from '../../store/resumeStore';
 import { Trash2, Upload, GripVertical } from 'lucide-react';
+import { PhotoCropper } from './PhotoCropper';
 
 interface FieldRowProps {
   field: PersonalInfoFieldType;
   label: string;
   value: string;
   type?: 'text' | 'email' | 'tel' | 'url';
+  rows?: number;
+  placeholder?: string;
   onSave: (field: PersonalInfoFieldType, value: string) => void;
 }
 
-function SortableFieldRow({ field, label, value, type = 'text', onSave }: FieldRowProps) {
+function SortableFieldRow({ field, label, value, type = 'text', rows = 1, placeholder, onSave }: FieldRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: field });
   const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(value);
 
@@ -41,32 +45,49 @@ function SortableFieldRow({ field, label, value, type = 'text', onSave }: FieldR
     opacity: isDragging ? 0.5 : 1,
   };
 
+  const isTextarea = rows > 1;
+
   return (
-    <div ref={setNodeRef} style={style} className="flex items-center gap-2">
+    <div ref={setNodeRef} style={style} className="flex items-start gap-2">
       {/* Drag handle */}
       <div
         {...attributes}
         {...listeners}
-        className="flex-shrink-0 cursor-grab active:cursor-grabbing text-slate-400 hover:text-slate-600 touch-none"
+        className="flex-shrink-0 cursor-grab active:cursor-grabbing text-slate-400 hover:text-slate-600 touch-none pt-2.5"
       >
         <GripVertical className="w-4 h-4" />
       </div>
 
       {/* Label */}
-      <label className="flex-shrink-0 w-24 text-sm text-slate-600">{label}</label>
+      <label className="flex-shrink-0 w-24 text-sm text-slate-600 pt-2.5">{label}</label>
 
-      {/* Input */}
-      <input
-        ref={inputRef}
-        type={type}
-        value={editing ? draft : value}
-        onChange={(e) => setDraft(e.target.value)}
-        onFocus={() => { setEditing(true); setDraft(value); }}
-        onBlur={() => { setEditing(false); onSave(field, draft); }}
-        className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors ${
-          editing ? 'border-indigo-400 bg-indigo-50' : 'border-slate-300'
-        }`}
-      />
+      {/* Input / Textarea */}
+      {isTextarea ? (
+        <textarea
+          ref={textareaRef}
+          value={editing ? draft : value}
+          onChange={(e) => setDraft(e.target.value)}
+          onFocus={() => { setEditing(true); setDraft(value); }}
+          onBlur={() => { setEditing(false); onSave(field, draft); }}
+          rows={rows}
+          placeholder={placeholder}
+          className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none ${
+            editing ? 'border-indigo-400 bg-indigo-50' : 'border-slate-300'
+          }`}
+        />
+      ) : (
+        <input
+          ref={inputRef}
+          type={type}
+          value={editing ? draft : value}
+          onChange={(e) => setDraft(e.target.value)}
+          onFocus={() => { setEditing(true); setDraft(value); }}
+          onBlur={() => { setEditing(false); onSave(field, draft); }}
+          className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors ${
+            editing ? 'border-indigo-400 bg-indigo-50' : 'border-slate-300'
+          }`}
+        />
+      )}
     </div>
   );
 }
@@ -87,6 +108,7 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
   const t = translations[language].form;
   const tEditor = translations[language].editor;
   const [photoPreview, setPhotoPreview] = useState<string | null>(data.photo || null);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
 
   const fieldLabels: Record<PersonalInfoFieldType, string> = {
     fullName: t.name,
@@ -116,6 +138,13 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
     linkedin: 'url',
     github: 'url',
     website: 'url',
+  };
+
+  const fieldRows: Record<PersonalInfoFieldType, number> = {
+    fullName: 1, title: 1,
+    email: 1, phone: 1, address: 1,
+    nationality: 1, birthDate: 1, workPermit: 1, blueCard: 1,
+    linkedin: 1, github: 1, website: 1,
   };
 
   const getValue = (field: PersonalInfoFieldType): string => {
@@ -182,12 +211,27 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
                 label={fieldLabels[field]}
                 value={getValue(field)}
                 type={fieldTypes[field]}
+                rows={fieldRows[field]}
+                placeholder={undefined}
                 onSave={(f, v) => handleChange(f, v)}
               />
             ))}
           </div>
         </SortableContext>
       </DndContext>
+
+      {/* Photo cropper modal */}
+      {pendingFile && (
+        <PhotoCropper
+          file={pendingFile}
+          onConfirm={(cropped) => {
+            setPhotoPreview(cropped);
+            updatePersonalInfo({ photo: cropped });
+            setPendingFile(null);
+          }}
+          onCancel={() => setPendingFile(null)}
+        />
+      )}
 
       {/* Photo upload */}
       <div className="pt-2 border-t border-slate-100">
@@ -209,15 +253,7 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
               accept="image/*"
               onChange={(e) => {
                 const file = e.target.files?.[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onloadend = () => {
-                    const base64 = reader.result as string;
-                    setPhotoPreview(base64);
-                    updatePersonalInfo({ photo: base64 });
-                  };
-                  reader.readAsDataURL(file);
-                }
+                if (file) setPendingFile(file);
               }}
               className="hidden"
             />

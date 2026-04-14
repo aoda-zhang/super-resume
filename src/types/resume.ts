@@ -6,7 +6,6 @@ export interface PersonalInfo {
   address: string;
   linkedin?: string;
   website?: string;
-  summary?: string;
   nationality?: string;
   birthDate?: string;
   workPermit?: string;
@@ -18,6 +17,8 @@ export interface PersonalInfo {
 export interface Experience {
   id: string;
   company: string;
+  companyWebsite?: string;     // e.g. "https://example.com"
+  companyDescription?: string; // short company intro
   position: string;
   startDate: string;
   endDate: string;
@@ -44,6 +45,8 @@ export interface Skill {
   id: string;
   name: string;
   level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  category?: string; // e.g. "Frontend", "Backend"
+  order?: number;    // group ordering index
 }
 
 export interface Project {
@@ -62,6 +65,7 @@ export interface Language {
 
 export interface ResumeData {
   personalInfo: PersonalInfo;
+  summary: string;
   experience: Experience[];
   education: Education[];
   skills: Skill[];

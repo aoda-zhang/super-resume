@@ -1,20 +1,18 @@
 import { useResumeStore } from '../../store/resumeStore';
-import { ModernTemplate } from '../Templates/ModernTemplate';
-import { ClassicTemplate } from '../Templates/ClassicTemplate';
-import { MinimalTemplate } from '../Templates/MinimalTemplate';
-import { GermanTemplate } from '../Templates/GermanTemplate';
+import { SingleColumnTemplate } from '../Templates/SingleColumnTemplate';
+import { TwoColumnTemplate } from '../Templates/TwoColumnTemplate';
 import { SectionEditor } from './SectionEditor';
-import { FileImage, FileText, Globe } from 'lucide-react';
+import { FileImage, FileText, Globe, Layout } from 'lucide-react';
 import { exportToPDF } from '../../utils/exportPdf';
 import { exportToImage } from '../../utils/exportImage';
 import { translations, type Language, type I18n } from '../../i18n';
 import { useState } from 'react';
 
-const templates = [
-  { id: 'modern' as const, nameKey: 'modern' },
-  { id: 'classic' as const, nameKey: 'classic' },
-  { id: 'minimal' as const, nameKey: 'minimal' },
-  { id: 'german' as const, nameKey: 'german' },
+type TemplateId = 'single' | 'two';
+
+const templates: { id: TemplateId; nameKey: string }[] = [
+  { id: 'single', nameKey: 'singleColumn' },
+  { id: 'two', nameKey: 'twoColumn' },
 ];
 
 const languages: { code: Language; name: string }[] = [
@@ -25,14 +23,13 @@ const languages: { code: Language; name: string }[] = [
 
 export function ResumeWorkspace() {
   const {
-    template,
-    setTemplate,
     language,
     setLanguage,
     fillSampleData,
     clearData,
   } = useResumeStore();
 
+  const [template, setTemplate] = useState<TemplateId>('single');
   const [showLangDropdown, setShowLangDropdown] = useState(false);
 
   const t = translations[language] as I18n;
@@ -107,8 +104,9 @@ export function ResumeWorkspace() {
         
         <div className="px-6 py-3 bg-white border-b border-slate-200">
           <div className="flex items-center gap-6">
+            {/* Template switcher */}
             <div className="flex items-center gap-3">
-              <span className="text-sm font-medium text-slate-700">{t.header.template}:</span>
+              <Layout className="w-4 h-4 text-slate-500" />
               <div className="flex gap-2">
                 {templates.map((tpl) => (
                   <button
@@ -126,7 +124,7 @@ export function ResumeWorkspace() {
               </div>
             </div>
 
-            
+            {/* Language switcher */}
             <div className="ml-auto relative">
               <button
                 onClick={() => setShowLangDropdown(!showLangDropdown)}
@@ -163,16 +161,13 @@ export function ResumeWorkspace() {
             className="mx-auto bg-white shadow-lg"
             style={{
               width: '210mm',
-              minHeight: '297mm',
               maxWidth: '210mm',
               boxSizing: 'border-box',
             }}
             data-resume-preview
           >
-            {template === 'modern' && <ModernTemplate />}
-            {template === 'classic' && <ClassicTemplate />}
-            {template === 'minimal' && <MinimalTemplate />}
-            {template === 'german' && <GermanTemplate />}
+            {template === 'single' && <SingleColumnTemplate />}
+            {template === 'two' && <TwoColumnTemplate />}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 import type { ResumeData } from '../types/resume';
 
 export function resumeToMarkdown(data: ResumeData): string {
-  const { personalInfo, experience, education, skills, projects, languages } = data;
+  const { personalInfo, summary, experience, education, skills, projects, languages } = data;
   
   let md = `# ${personalInfo.fullName || 'Name'}\n\n`;
   
@@ -20,8 +20,8 @@ export function resumeToMarkdown(data: ResumeData): string {
   }
   
   // PersonalDescription
-  if (personalInfo.summary) {
-    md += `## Summary\n\n${personalInfo.summary}\n\n`;
+  if (summary) {
+    md += `## Summary\n\n${summary}\n\n`;
   }
   
   
@@ -85,6 +85,7 @@ export function markdownToResume(md: string): Partial<ResumeData> {
       phone: '',
       address: '',
     },
+    summary: '',
     experience: [],
     education: [],
     skills: [],
@@ -128,7 +129,7 @@ export function markdownToResume(md: string): Partial<ResumeData> {
     
     if (currentSection === 'PersonalDescription' || currentSection === 'Summary') {
       if (line && !line.startsWith('#')) {
-        result.personalInfo!.summary = (result.personalInfo!.summary || '') + line + '\n';
+        result.summary = (result.summary || '') + line + '\n';
       }
     }
     
@@ -222,8 +223,8 @@ export function markdownToResume(md: string): Partial<ResumeData> {
   }
   
   
-  if (result.personalInfo?.summary) {
-    result.personalInfo.summary = result.personalInfo.summary.trim();
+  if (result.summary) {
+    result.summary = result.summary.trim();
   }
   
   

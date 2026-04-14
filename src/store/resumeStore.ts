@@ -51,8 +51,8 @@ const zhSample: ResumeData = {
     address: 'BeijingCity',
     linkedin: '',
     website: '',
-    summary: '5years of full-stack development experience，Specializing inReactandNode.jsTech Stack。Passionate about open source，Actively participates in tech communities。',
   },
+  summary: '5年全栈开发经验，擅长React与Node.js技术栈，热衷开源与技术社区。',
   experience: [
     {
       id: '1',
@@ -85,10 +85,10 @@ const zhSample: ResumeData = {
     },
   ],
   skills: [
-    { id: '1', name: 'React', level: 'expert' },
-    { id: '2', name: 'TypeScript', level: 'expert' },
-    { id: '3', name: 'Node.js', level: 'advanced' },
-    { id: '4', name: 'Python', level: 'intermediate' },
+    { id: '1', name: 'React', level: 'expert', category: '前端' },
+    { id: '2', name: 'TypeScript', level: 'expert', category: '前端' },
+    { id: '3', name: 'Node.js', level: 'advanced', category: '后端' },
+    { id: '4', name: 'Python', level: 'intermediate', category: '后端' },
   ],
   projects: [
     {
@@ -113,8 +113,8 @@ const enSample: ResumeData = {
     address: 'San Francisco, CA',
     linkedin: 'linkedin.com/in/johnsmith',
     website: 'johnsmith.dev',
-    summary: '5+ years of full-stack development experience, specializing in React and Node.js ecosystems. Passionate about open source and active in the developer community.',
   },
+  summary: '5+ years of full-stack development experience, specializing in React and Node.js.',
   experience: [
     {
       id: '1',
@@ -147,10 +147,10 @@ const enSample: ResumeData = {
     },
   ],
   skills: [
-    { id: '1', name: 'React', level: 'expert' },
-    { id: '2', name: 'TypeScript', level: 'expert' },
-    { id: '3', name: 'Node.js', level: 'advanced' },
-    { id: '4', name: 'Python', level: 'intermediate' },
+    { id: '1', name: 'React', level: 'expert', category: '前端' },
+    { id: '2', name: 'TypeScript', level: 'expert', category: '前端' },
+    { id: '3', name: 'Node.js', level: 'advanced', category: '后端' },
+    { id: '4', name: 'Python', level: 'intermediate', category: '后端' },
   ],
   projects: [
     {
@@ -178,8 +178,8 @@ const deSample: ResumeData = {
     github: 'github.com/JenPalacios',
     website: 'jenpalacios.com',
     nationality: 'Guatemalan',
-    summary: 'Frontend Developer mit 7 Jahren Erfahrung, spezialisiert auf JavaScript. Starke Befürworterin von Clean-Code-Praktiken durch strukturierte Code-Reviews und kollaborative Entwicklung. Interessiert an Online-Zahlungen und End-to-End-Testing.',
   },
+  summary: 'Erfahrene Full-Stack-Entwicklerin mit Fokus auf JavaScript und Clean-Code-Praktiken.',
   experience: [
     {
       id: '1',
@@ -328,7 +328,8 @@ interface ResumeState {
 }
 
 const emptyResume: ResumeData = {
-  personalInfo: { fullName: '', email: '', phone: '', address: '', linkedin: '', website: '', summary: '' },
+  personalInfo: { fullName: '', email: '', phone: '', address: '', linkedin: '', website: '' },
+  summary: '',
   experience: [],
   education: [],
   skills: [],
