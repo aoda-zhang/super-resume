@@ -79,8 +79,13 @@ export async function exportToPDF(element: HTMLElement, fileName: string = 'resu
     const effectiveTopMargin = Math.max(topPaddingMm, MARGIN);
     const effectiveBottomMargin = Math.max(bottomPaddingMm, MARGIN);
 
-    // Content area per page
-    const contentHeightPerPage = pdfHeight - effectiveTopMargin - effectiveBottomMargin;
+    // Buffer at page bottom to prevent text from being cut at boundary
+    // When a line of text sits exactly on the page break, slicing through it
+    // produces a "pressed/overlapped" look. Leaving a small gap avoids this.
+    const PAGE_BOTTOM_BUFFER = 3; // mm
+
+    // Content area per page (reduced by buffer to keep text safe)
+    const contentHeightPerPage = pdfHeight - effectiveTopMargin - effectiveBottomMargin - PAGE_BOTTOM_BUFFER;
 
     if (contentHeightPerPage <= 0) {
       pdf.save(fileName);
@@ -97,8 +102,13 @@ export async function exportToPDF(element: HTMLElement, fileName: string = 'resu
     for (let i = 0; i < pageCount; i++) {
       if (i > 0) pdf.addPage();
 
-      const sliceStartMm = contentStartMm + i * contentHeightPerPage;
-      const sliceEndMm = Math.min(sliceStartMm + contentHeightPerPage, contentStartMm + totalContentMm);
+      // Add a small overlap (1mm) at the top of each page after the first,
+      // so that a line clipped at the bottom of the previous page is fully
+      // visible at the top of the next page.
+      const OVERLAP = i > 0 ? 1 : 0; // mm
+
+      const sliceStartMm = contentStartMm + i * contentHeightPerPage - OVERLAP;
+      const sliceEndMm = Math.min(contentStartMm + (i + 1) * contentHeightPerPage, contentStartMm + totalContentMm);
       const sliceHeightMm = sliceEndMm - sliceStartMm;
 
       if (sliceHeightMm <= 0) continue;
@@ -124,11 +134,14 @@ export async function exportToPDF(element: HTMLElement, fileName: string = 'resu
       );
 
       // Place slice on PDF with margins
+      // For pages after the first, shift up by OVERLAP so the repeated top line
+      // sits right at the effectiveTopMargin boundary (underneath the previous page's bottom)
+      const placeY = i === 0 ? effectiveTopMargin : effectiveTopMargin - OVERLAP;
       pdf.addImage(
         sliceCanvas.toDataURL('image/png'),
         'PNG',
         0,
-        effectiveTopMargin,
+        placeY,
         imgWidth,
         sliceHeightMm
       );
