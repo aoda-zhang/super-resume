@@ -32,10 +32,19 @@ export function ExperienceSection({
         style={s.sectionTitle}
       />
       {experience.map((exp) => (
-        <div key={exp.id} className="grid mb-3" style={{ gridTemplateColumns: "160px 1fr", alignItems: "stretch" }}>
+        <div
+          key={exp.id}
+          className="grid mb-5"
+          style={{ gridTemplateColumns: "170px 1fr", alignItems: "stretch" }}
+        >
           {/* Left: time (fixed width) */}
-          <div className="text-slate-900 pr-4 mr-4 h-full flex flex-col" style={{ fontSize: s.body.fontSize, alignSelf: "start" }}>
-            <div className="whitespace-nowrap">{exp.startDate} – {exp.endDate || present}</div>
+          <div
+            className="text-slate-900 pr-4 mr-4 h-full flex flex-col"
+            style={{ fontSize: s.body.fontSize, alignSelf: "start" }}
+          >
+            <div className="whitespace-nowrap">
+              {exp.startDate} – {exp.endDate || present}
+            </div>
             {exp.address && <div className="mt-0.5">{exp.address}</div>}
           </div>
 

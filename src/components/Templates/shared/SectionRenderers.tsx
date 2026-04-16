@@ -55,7 +55,7 @@ export function SectionTitle({
     <EditableLabel
       sectionType={sectionType}
       defaultLabel={label}
-      className={`block mb-2 ${className}`}
+      className={`block mb-4 ${className}`}
       style={style}
     />
   );

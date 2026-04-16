@@ -32,7 +32,7 @@ export function EducationSection({
         style={s.sectionTitle}
       />
       {education.map((edu) => (
-        <div key={edu.id} className="grid mb-2" style={{ gridTemplateColumns: "160px 1fr", alignItems: "stretch" }}>
+        <div key={edu.id} className="grid mb-2" style={{ gridTemplateColumns: "170px 1fr", alignItems: "stretch" }}>
           {/* Left: time (fixed width) */}
           <div className="text-slate-900 pr-4 mr-4 h-full flex flex-col" style={{ fontSize: s.body.fontSize, alignSelf: "start" }}>
             <div className="whitespace-nowrap">
