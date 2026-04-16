@@ -29,7 +29,7 @@ html, body, #root {
 @media print {
   @page {
     size: A4;
-    margin: 15mm;  /* 给页面四周添加边距，第二页顶部不再是0 */
+    margin: 20mm;  /* 增大页面边距，确保分页时上下间距充足 */
   }
 
   /* --- Reset layout constraints --- */

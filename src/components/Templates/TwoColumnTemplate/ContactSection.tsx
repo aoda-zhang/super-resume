@@ -30,17 +30,20 @@ export function ContactSection({
 }: ContactSectionProps) {
   return (
     <div className="space-y-0.5 text-slate-900" style={{ fontSize: "16px", fontWeight: "normal" }}>
-      {contactFields.map((f) => (
-        <div key={f} className="flex items-baseline gap-1 min-w-0">
-          <span className="font-bold flex-shrink-0 whitespace-nowrap">{fieldLabels[f]}：</span>
-          <EditableText
-            value={(personalInfo[f as keyof typeof personalInfo] as string) || ""}
-            onChange={(v) => onUpdateField(f, v)}
-            placeholder={fieldLabels[f]}
-            className="min-w-0 break-words"
-          />
-        </div>
-      ))}
+      {contactFields.map((f) => {
+        const val = (personalInfo[f as keyof typeof personalInfo] as string) || "";
+        return (
+          <div key={f} className="flex items-baseline gap-1 min-w-0">
+            <span className="font-bold flex-shrink-0 whitespace-nowrap after:content-['：']">{fieldLabels[f]}</span>
+            <EditableText
+              value={val}
+              onChange={(v) => onUpdateField(f, v)}
+              placeholder={fieldLabels[f]}
+              className="min-w-0 break-words"
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
