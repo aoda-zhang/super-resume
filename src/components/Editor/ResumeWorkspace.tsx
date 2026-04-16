@@ -53,7 +53,8 @@ export function ResumeWorkspace() {
   return (
     <div className="h-screen flex bg-slate-100">
       
-      <div className="w-[420px] flex-shrink-0 h-full flex flex-col bg-white border-r border-slate-200">
+      {/* Left editor panel — hidden when printing */}
+      <div className="w-[420px] flex-shrink-0 h-full flex flex-col bg-white border-r border-slate-200" data-no-print>
         
         <div className="px-4 py-3 border-b border-slate-200">
           <div className="flex items-center justify-end">
@@ -102,7 +103,7 @@ export function ResumeWorkspace() {
       
       <div className="flex-1 h-full flex flex-col">
         
-        <div className="px-6 py-3 bg-white border-b border-slate-200">
+        <div className="px-6 py-3 bg-white border-b border-slate-200" data-no-print>
           <div className="flex items-center gap-6">
             {/* Template switcher */}
             <div className="flex items-center gap-3">
@@ -156,7 +157,7 @@ export function ResumeWorkspace() {
         </div>
 
         
-        <div className="flex-1 overflow-auto p-8 bg-slate-200">
+        <div className="flex-1 overflow-auto bg-slate-200" data-print-wrapper>
           <div
             className="mx-auto bg-white shadow-lg"
             style={{

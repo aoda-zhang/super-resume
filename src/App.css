@@ -8,7 +8,7 @@ html, body, #root {
   overflow: hidden;
 }
 
-/* A4 paper size simulation */
+/* A4 paper size simulation — preview only */
 [data-resume-preview] {
   min-width: 210mm;
   width: 210mm;
@@ -20,20 +20,111 @@ html, body, #root {
   box-sizing: border-box;
 }
 
-/* Print styles */
+/* ========================================================================
+   Print styles — browser native PDF export via window.print()
+   
+   Key principle: let content flow freely, browser auto-paginates.
+   Each A4 page = 210mm × 297mm. We never set fixed heights in print.
+   ======================================================================== */
 @media print {
-  body * {
-    visibility: hidden;
+  @page {
+    size: A4;
+    margin: 0;
   }
-  [data-resume-preview],
-  [data-resume-preview] * {
-    visibility: visible;
+
+  /* --- Reset layout constraints --- */
+  html, body, #root {
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
+
+  /* --- Hide editor panels --- */
+  [data-no-print] {
+    display: none !important;
+  }
+
+  /* --- Preview wrapper: remove scroll/padding/bg --- */
+  [data-print-wrapper] {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+    overflow: visible !important;
+    display: block !important;
+    height: auto !important;
+    max-height: none !important;
+    flex: none !important;
+  }
+
+  /* --- Resume container: let content flow across pages --- */
   [data-resume-preview] {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
+    position: static !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    min-width: 210mm !important;
+    height: auto !important;
+    min-height: 0 !important;  /* ← 关键：移除 297mm 最小高度 */
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  [data-resume-preview] > div {
+    width: 210mm !important;
+    min-height: 0 !important;  /* ← 关键：让内容自由流动 */
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* --- Keep background colors for print --- */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* --- Pagination: prevent sections from being split --- */
+  section {
+    break-inside: avoid;
+  }
+
+  /* Experience / Education / Project entries — never split across pages */
+  section > div {
+    break-inside: avoid;
+  }
+
+  /* TwoColumn sidebar items */
+  aside div {
+    break-inside: avoid;
+  }
+
+  /* --- Hide interactive/editor elements --- */
+  [data-drag-handle] {
+    display: none !important;
+  }
+
+  [data-resume-preview] button {
+    display: none !important;
+  }
+
+  /* Keep contenteditable visible but non-interactive */
+  [data-resume-preview] [contenteditable] {
+    pointer-events: none !important;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+  }
+
+  /* --- Cleanup --- */
+  * {
+    box-shadow: none !important;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 }
 
