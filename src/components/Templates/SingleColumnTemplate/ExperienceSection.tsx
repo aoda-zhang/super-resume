@@ -34,11 +34,13 @@ export function ExperienceSection({
       {experience.map((exp) => (
         <div
           key={exp.id}
+          data-exp-entry
           className="grid mb-5"
           style={{ gridTemplateColumns: "170px 1fr", alignItems: "stretch" }}
         >
           {/* Left: time (fixed width) */}
           <div
+            data-exp-date
             className="text-slate-900 pr-4 mr-4 h-full flex flex-col"
             style={{ fontSize: s.body.fontSize, alignSelf: "start" }}
           >

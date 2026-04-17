@@ -10,7 +10,6 @@ body,
   overflow: hidden;
 }
 
-/* A4 paper size simulation — preview only */
 [data-resume-preview] {
   min-width: 210mm;
   width: 210mm;
@@ -25,9 +24,7 @@ body,
 @media print {
   @page {
     size: A4;
-    margin: 20mm;
-    /* margin-top: 20mm; */
-    /* margin-bottom: 20mm; */
+    margin: 16mm;
   }
 
   /* --- Reset layout constraints --- */
@@ -38,6 +35,10 @@ body,
     overflow: visible !important;
     margin: 0 !important;
     padding: 0 !important;
+  }
+
+  :root {
+    --page-margin: 20mm;
   }
 
   /* --- Hide editor panels --- */
@@ -78,6 +79,7 @@ body,
     min-height: 0 !important;
     height: auto !important;
     overflow: visible !important;
+    padding: 0 !important;
   }
 
   /* --- Keep background colors for print --- */
@@ -86,13 +88,26 @@ body,
     print-color-adjust: exact !important;
   }
 
+  [data-resume-preview] [data-exp-entry] {
+    display: block !important;
+    position: relative !important;
+    padding-left: 170px !important;
+  }
+
+  [data-resume-preview] [data-exp-date] {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 170px !important;
+  }
+
   p,
   li,
   td {
     break-inside: avoid;
   }
 
-  .grid.mb-3 > div {
+  [data-resume-preview] section > [data-section-title] {
     break-inside: avoid;
   }
 

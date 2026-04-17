@@ -5,12 +5,7 @@
 
 export const fontSize = "16px";
 export const fontColor = "text-slate-900";
-
-// ---------------------------------------------------------------------------
-// Single-column template
-// ---------------------------------------------------------------------------
 export const singleColumnStyles = {
-  padding: "14px 10px",
   name: { fontSize: "30px", fontWeight: "bold" as const },
   title: { fontSize: "24px", fontWeight: "bold" as const },
   sectionTitle: { fontSize: "20px", fontWeight: "bold" as const },
