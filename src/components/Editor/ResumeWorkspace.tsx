@@ -1,6 +1,5 @@
 import { useResumeStore } from '../../store/resumeStore';
 import { SingleColumnTemplate } from '../Templates/SingleColumnTemplate';
-import { TwoColumnTemplate } from '../Templates/TwoColumnTemplate';
 import { SectionEditor } from './SectionEditor';
 import { FileImage, FileText, Globe, Layout } from 'lucide-react';
 import { exportToPDF } from '../../utils/exportPdf';
@@ -11,8 +10,7 @@ import { useState } from 'react';
 type TemplateId = 'single' | 'two';
 
 const templates: { id: TemplateId; nameKey: string }[] = [
-  { id: 'single', nameKey: 'singleColumn' },
-  { id: 'two', nameKey: 'twoColumn' },
+  { id: 'single', nameKey: 'singleColumn' }
 ];
 
 const languages: { code: Language; name: string }[] = [
@@ -168,7 +166,6 @@ export function ResumeWorkspace() {
             data-resume-preview
           >
             {template === 'single' && <SingleColumnTemplate />}
-            {template === 'two' && <TwoColumnTemplate />}
           </div>
         </div>
       </div>

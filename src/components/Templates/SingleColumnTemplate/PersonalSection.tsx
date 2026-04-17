@@ -52,8 +52,9 @@ export function PersonalSection({
           >
             {contactFields.map((f) => (
               <div key={f} className="flex items-baseline mr-10">
-                <span className="font-bold shrink-0 whitespace-nowrap contact-label">
+                <span className="font-bold shrink-0 whitespace-nowrap pr-1">
                   {fieldLabels[f]}
+                  <span>:</span>
                 </span>
                 <EditableText
                   value={

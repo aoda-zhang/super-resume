@@ -1,17 +1,13 @@
 @import "tailwindcss";
 
 /* Custom styles for resume editor */
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
-}
-
-/* Contact field labels: always show colon via ::after (works in print too) */
-.contact-label::after {
-  content: "：";
-  padding-right: 2px;
 }
 
 /* A4 paper size simulation — preview only */
@@ -26,20 +22,18 @@ html, body, #root {
   box-sizing: border-box;
 }
 
-/* ========================================================================
-   Print styles — browser native PDF export via window.print()
-   
-   Key principle: let content flow freely, browser auto-paginates.
-   Each A4 page = 210mm × 297mm. We never set fixed heights in print.
-   ======================================================================== */
 @media print {
   @page {
     size: A4;
-    margin: 20mm;  /* 增大页面边距，确保分页时上下间距充足 */
+    margin: 20mm;
+    /* margin-top: 20mm; */
+    /* margin-bottom: 20mm; */
   }
 
   /* --- Reset layout constraints --- */
-  html, body, #root {
+  html,
+  body,
+  #root {
     height: auto !important;
     overflow: visible !important;
     margin: 0 !important;
@@ -70,7 +64,7 @@ html, body, #root {
     max-width: 210mm !important;
     min-width: 210mm !important;
     height: auto !important;
-    min-height: 0 !important;  /* ← 关键：移除 297mm 最小高度 */
+    min-height: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     box-shadow: none !important;
@@ -81,7 +75,7 @@ html, body, #root {
 
   [data-resume-preview] > div {
     width: 210mm !important;
-    min-height: 0 !important;  /* ← 关键：让内容自由流动 */
+    min-height: 0 !important;
     height: auto !important;
     overflow: visible !important;
   }
@@ -92,15 +86,12 @@ html, body, #root {
     print-color-adjust: exact !important;
   }
 
-  /* --- Pagination: prevent individual entries from being split --- */
-  /* ⚠️ 谨慎使用 break-inside: avoid — 太激进会导致大空白 */
-  
-  /* Only apply to items that shouldn't be cut in half (like paragraphs) */
-  p, li, td {
+  p,
+  li,
+  td {
     break-inside: avoid;
   }
 
-  /* Grid entries - 改为更宽松的规则 */
   .grid.mb-3 > div {
     break-inside: avoid;
   }
@@ -152,7 +143,9 @@ html, body, #root {
 }
 
 /* Focus styles */
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
 }
 

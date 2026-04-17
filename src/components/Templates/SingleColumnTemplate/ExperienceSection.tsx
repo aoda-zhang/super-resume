@@ -45,7 +45,6 @@ export function ExperienceSection({
             <div className="whitespace-nowrap">
               {exp.startDate} – {exp.endDate || present}
             </div>
-            {exp.address && <div className="mt-0.5">{exp.address}</div>}
           </div>
 
           {/* Right: content */}

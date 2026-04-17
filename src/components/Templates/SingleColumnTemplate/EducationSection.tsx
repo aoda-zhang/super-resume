@@ -44,9 +44,6 @@ export function EducationSection({
             <div className="whitespace-nowrap">
               {edu.startDate} – {edu.current ? present : edu.endDate}
             </div>
-            {edu.address && (
-              <div className="text-slate-900 mt-0.5">{edu.address}</div>
-            )}
           </div>
 
           {/* Right: field + school */}
@@ -68,6 +65,9 @@ export function EducationSection({
             >
               {edu.school || t.school || "School"}
             </div>
+            {edu.address && (
+              <div className="text-slate-900 mt-0.5">{edu.address}</div>
+            )}
           </div>
         </div>
       ))}

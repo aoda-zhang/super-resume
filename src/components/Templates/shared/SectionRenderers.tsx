@@ -147,16 +147,10 @@ export function ExperienceEntry({
           placeholder={t.company || "Company"}
           className="font-bold"
         />
-        {exp.companyWebsite && (
-          <span>
-            {" – "}
-            <EditableText
-              value={exp.companyWebsite}
-              onChange={(v) => onUpdate(exp.id, { companyWebsite: v })}
-              placeholder="https://example.com"
-            />
-          </span>
-        )}
+        <span className="mx-2">|</span>
+        <span>{exp.companyWebsite}</span>
+        <span className="mx-2">|</span>
+        <span>{exp.address}</span>
         {exp.country && (
           <span>
             <EditableText

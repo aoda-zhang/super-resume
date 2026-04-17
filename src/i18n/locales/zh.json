@@ -68,8 +68,7 @@
     "summaryPlaceholder": "简要介绍你的专业背景、核心优势和职业目标..."
   },
   "template": {
-    "singleColumn": "一栏版",
-    "twoColumn": "两栏版"
+    "singleColumn": "一栏版"
   },
   "confirm": {
     "clear": "确定清空所有内容？此操作不可撤销。",

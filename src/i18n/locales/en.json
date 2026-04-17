@@ -68,8 +68,7 @@
     "summaryPlaceholder": "Brief overview of your background, strengths, and career goals..."
   },
   "template": {
-    "singleColumn": "Single Column",
-    "twoColumn": "Two Column"
+    "singleColumn": "Single Column"
   },
   "confirm": {
     "clear": "Are you sure you want to clear all content? This cannot be undone.",

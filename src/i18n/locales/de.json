@@ -68,8 +68,7 @@
     "summaryPlaceholder": "Kurze Zusammenfassung Ihres Hintergrunds, Ihrer Stärken und Karriereziele..."
   },
   "template": {
-    "singleColumn": "Einspaltig",
-    "twoColumn": "Zweispaltig"
+    "singleColumn": "Einspaltig"
   },
   "confirm": {
     "clear": "Möchten Sie wirklich alle Inhalte löschen? Dies kann nicht rückgängig gemacht werden.",
