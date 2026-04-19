@@ -28,7 +28,8 @@
     "moveDown": "Move Down",
     "sectionName": "Section Name",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "interests": "Interests"
   },
   "form": {
     "name": "Name",

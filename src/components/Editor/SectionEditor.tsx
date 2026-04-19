@@ -25,6 +25,7 @@ import { SkillsSection } from "../Sections/SkillsSection";
 import { ProjectsSection } from "../Sections/ProjectsSection";
 import { LanguagesSection } from "../Sections/LanguagesSection";
 import { SummarySection } from "../Sections/SummarySection";
+import { InterestsSection } from "../Sections/InterestsSection";
 import {
   FileJson,
   ChevronDown,
@@ -35,6 +36,7 @@ import {
 type SectionKey =
   | "personalInfo"
   | "summary"
+  | "interests"
   | "experience"
   | "education"
   | "skills"
@@ -49,6 +51,7 @@ const storeToEditor: Record<string, SectionKey> = {
   projects: "projects",
   skills: "skills",
   languages: "languages",
+  interests: "interests",
 };
 
 const editorToStore: Record<SectionKey, string> = {
@@ -59,6 +62,7 @@ const editorToStore: Record<SectionKey, string> = {
   skills: "skills",
   projects: "projects",
   languages: "languages",
+  interests: "interests",
 };
 
 const sectionIcons: Record<SectionKey, string> = {
@@ -69,6 +73,7 @@ const sectionIcons: Record<SectionKey, string> = {
   skills: "🛠️",
   projects: "🚀",
   languages: "🌐",
+  interests: "🎯",
 };
 
 function SortableSectionItem({
@@ -173,6 +178,7 @@ export function SectionEditor() {
     skills: { label: tEditor.skills, icon: sectionIcons.skills },
     projects: { label: tEditor.projects, icon: sectionIcons.projects },
     languages: { label: tEditor.languages, icon: sectionIcons.languages },
+    interests: { label: tEditor.interests || "Interests", icon: sectionIcons.interests },
   };
 
   const openJson = () => {
@@ -255,6 +261,13 @@ export function SectionEditor() {
           <SummarySection
             data={resumeData.summary}
             onChange={(v) => handleUpdate("summary", v)}
+          />
+        );
+      case "interests":
+        return (
+          <InterestsSection
+            data={resumeData.interests}
+            onChange={(v) => handleUpdate("interests", v)}
           />
         );
       case "experience":

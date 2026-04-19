@@ -28,7 +28,8 @@
     "moveDown": "下移",
     "sectionName": "区块名称",
     "show": "显示",
-    "hide": "隐藏"
+    "hide": "隐藏",
+    "interests": "Interests"
   },
   "form": {
     "name": "姓名",

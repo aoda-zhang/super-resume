@@ -11,6 +11,7 @@ import { EducationSection } from "./EducationSection";
 import { ProjectSection } from "./ProjectSection";
 import { SkillsSection } from "./SkillsSection";
 import { LanguagesSection } from "./LanguagesSection";
+import { InterestsSection } from "./InterestsSection";
 import type { Experience, Education, Project, Language } from "../../../types/resume";
 
 export function SingleColumnTemplate() {
@@ -25,6 +26,7 @@ export function SingleColumnTemplate() {
     skills,
     projects,
     languages,
+    interests,
     visibleSections,
     contactFields,
     fieldLabels,
@@ -115,6 +117,14 @@ export function SingleColumnTemplate() {
                 languages={languages as Language[]}
                 tEditor={tEditor}
                 onUpdate={updateLanguage as (id: string, data: Partial<Language>) => void}
+              />
+            );
+          case "interests":
+            return (
+              <InterestsSection
+                key={section.id}
+                interests={interests}
+                t={t}
               />
             );
           default:

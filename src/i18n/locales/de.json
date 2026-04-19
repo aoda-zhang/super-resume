@@ -28,7 +28,8 @@
     "moveDown": "Nach unten",
     "sectionName": "Abschnittsname",
     "show": "Anzeigen",
-    "hide": "Ausblenden"
+    "hide": "Ausblenden",
+    "interests": "Interests"
   },
   "form": {
     "name": "Name",

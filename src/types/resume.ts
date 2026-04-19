@@ -71,6 +71,7 @@ export interface ResumeData {
   skills: Skill[];
   projects: Project[];
   languages: Language[];
+  interests: string;
 }
 
 export type TemplateType = 'modern' | 'classic' | 'minimal' | 'german';
