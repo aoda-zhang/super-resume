@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 import {
   DndContext,
   closestCenter,
@@ -6,34 +6,49 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
-import type { DragEndEvent } from '@dnd-kit/core';
+} from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { useResumeStore } from '../../store/resumeStore';
-import { translations } from '../../i18n';
-import type { PersonalInfoFieldType } from '../../store/resumeStore';
-import { Trash2, Upload, GripVertical } from 'lucide-react';
-import { PhotoCropper } from './PhotoCropper';
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { useResumeStore } from "../../store/resumeStore";
+import { translations } from "../../i18n";
+import type { PersonalInfoFieldType } from "../../store/resumeStore";
+import { Trash2, Upload, GripVertical } from "lucide-react";
+import { PhotoCropper } from "./PhotoCropper";
 
 interface FieldRowProps {
   field: PersonalInfoFieldType;
   label: string;
   value: string;
-  type?: 'text' | 'email' | 'tel' | 'url';
+  type?: "text" | "email" | "tel" | "url";
   rows?: number;
   placeholder?: string;
   onSave: (field: PersonalInfoFieldType, value: string) => void;
 }
 
-function SortableFieldRow({ field, label, value, type = 'text', rows = 1, placeholder, onSave }: FieldRowProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: field });
+function SortableFieldRow({
+  field,
+  label,
+  value,
+  type = "text",
+  rows = 1,
+  placeholder,
+  onSave,
+}: FieldRowProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: field });
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [editing, setEditing] = useState(false);
@@ -59,7 +74,9 @@ function SortableFieldRow({ field, label, value, type = 'text', rows = 1, placeh
       </div>
 
       {/* Label */}
-      <label className="flex-shrink-0 w-24 text-sm text-slate-600 pt-2.5">{label}</label>
+      <label className="flex-shrink-0 w-24 text-sm text-slate-600 pt-2.5">
+        {label}
+      </label>
 
       {/* Input / Textarea */}
       {isTextarea ? (
@@ -67,12 +84,18 @@ function SortableFieldRow({ field, label, value, type = 'text', rows = 1, placeh
           ref={textareaRef}
           value={editing ? draft : value}
           onChange={(e) => setDraft(e.target.value)}
-          onFocus={() => { setEditing(true); setDraft(value); }}
-          onBlur={() => { setEditing(false); onSave(field, draft); }}
+          onFocus={() => {
+            setEditing(true);
+            setDraft(value);
+          }}
+          onBlur={() => {
+            setEditing(false);
+            onSave(field, draft);
+          }}
           rows={rows}
           placeholder={placeholder}
           className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none ${
-            editing ? 'border-indigo-400 bg-indigo-50' : 'border-slate-300'
+            editing ? "border-indigo-400 bg-indigo-50" : "border-slate-300"
           }`}
         />
       ) : (
@@ -81,10 +104,16 @@ function SortableFieldRow({ field, label, value, type = 'text', rows = 1, placeh
           type={type}
           value={editing ? draft : value}
           onChange={(e) => setDraft(e.target.value)}
-          onFocus={() => { setEditing(true); setDraft(value); }}
-          onBlur={() => { setEditing(false); onSave(field, draft); }}
+          onFocus={() => {
+            setEditing(true);
+            setDraft(value);
+          }}
+          onBlur={() => {
+            setEditing(false);
+            onSave(field, draft);
+          }}
           className={`flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors ${
-            editing ? 'border-indigo-400 bg-indigo-50' : 'border-slate-300'
+            editing ? "border-indigo-400 bg-indigo-50" : "border-slate-300"
           }`}
         />
       )}
@@ -107,7 +136,9 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
   } = useResumeStore();
   const t = translations[language].form;
   const tEditor = translations[language].editor;
-  const [photoPreview, setPhotoPreview] = useState<string | null>(data.photo || null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(
+    data.photo || null,
+  );
   const [pendingFile, setPendingFile] = useState<File | null>(null);
 
   const fieldLabels: Record<PersonalInfoFieldType, string> = {
@@ -125,48 +156,71 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
     website: t.website,
   };
 
-  const fieldTypes: Record<PersonalInfoFieldType, 'text' | 'email' | 'tel' | 'url'> = {
-    fullName: 'text',
-    title: 'text',
-    email: 'email',
-    phone: 'tel',
-    address: 'text',
-    nationality: 'text',
-    birthDate: 'text',
-    workPermit: 'text',
-    blueCard: 'text',
-    linkedin: 'url',
-    github: 'url',
-    website: 'url',
+  const fieldTypes: Record<
+    PersonalInfoFieldType,
+    "text" | "email" | "tel" | "url"
+  > = {
+    fullName: "text",
+    title: "text",
+    email: "email",
+    phone: "tel",
+    address: "text",
+    nationality: "text",
+    birthDate: "text",
+    workPermit: "text",
+    blueCard: "text",
+    linkedin: "url",
+    github: "url",
+    website: "url",
   };
 
   const fieldRows: Record<PersonalInfoFieldType, number> = {
-    fullName: 1, title: 1,
-    email: 1, phone: 1, address: 1,
-    nationality: 1, birthDate: 1, workPermit: 1, blueCard: 1,
-    linkedin: 1, github: 1, website: 1,
+    fullName: 1,
+    title: 1,
+    email: 1,
+    phone: 1,
+    address: 1,
+    nationality: 1,
+    birthDate: 1,
+    workPermit: 1,
+    blueCard: 1,
+    linkedin: 1,
+    github: 1,
+    website: 1,
   };
 
   const getValue = (field: PersonalInfoFieldType): string => {
-    const v = resumeData.personalInfo[field as keyof typeof resumeData.personalInfo];
-    return typeof v === 'string' ? v : '';
+    const v =
+      resumeData.personalInfo[field as keyof typeof resumeData.personalInfo];
+    return typeof v === "string" ? v : "";
   };
 
-  const handleChange = (field: keyof typeof resumeData.personalInfo, value: string) => {
+  const handleChange = (
+    field: keyof typeof resumeData.personalInfo,
+    value: string,
+  ) => {
     updatePersonalInfo({ [field]: value });
   };
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
-      const oldIndex = personalInfoFieldOrder.indexOf(active.id as PersonalInfoFieldType);
-      const newIndex = personalInfoFieldOrder.indexOf(over.id as PersonalInfoFieldType);
-      reorderPersonalInfoFields(arrayMove(personalInfoFieldOrder, oldIndex, newIndex));
+      const oldIndex = personalInfoFieldOrder.indexOf(
+        active.id as PersonalInfoFieldType,
+      );
+      const newIndex = personalInfoFieldOrder.indexOf(
+        over.id as PersonalInfoFieldType,
+      );
+      reorderPersonalInfoFields(
+        arrayMove(personalInfoFieldOrder, oldIndex, newIndex),
+      );
     }
   };
 
@@ -184,7 +238,7 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
         <h3 className="font-semibold text-slate-700">{tEditor.personalInfo}</h3>
         <button
           onClick={() => {
-            if (window.confirm('重置字段顺序？')) {
+            if (window.confirm("重置字段顺序？")) {
               useResumeStore.getState().resetPersonalInfoFieldOrder();
             }
           }}
@@ -237,9 +291,13 @@ export function PersonalInfoSection({ data, isEditing = true }: Props) {
       <div className="pt-2 border-t border-slate-100">
         <label className="block text-sm text-slate-600 mb-2">{t.avatar}</label>
         <div className="flex items-center gap-4">
-          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-slate-200 bg-slate-100 flex-shrink-0">
+          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-slate-200 bg-slate-100 shrink-0">
             {photoPreview ? (
-              <img src={photoPreview} alt={t.avatar} className="w-full h-full object-cover" />
+              <img
+                src={photoPreview}
+                alt={t.avatar}
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-slate-400">
                 <Upload className="w-7 h-7" />

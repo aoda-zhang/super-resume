@@ -48,7 +48,7 @@ export function PersonalSection({
           {/* Contact fields — fixed 2 columns, content wraps inside each cell */}
           <div
             className="mt-2 grid gap-y-1 text-slate-900"
-            style={{ ...s.body, gridTemplateColumns: "1fr 1fr" }}
+            // style={{ ...s.body, gridTemplateColumns: "1fr 1fr" }}
           >
             {contactFields.map((f) => (
               <div key={f} className="flex items-baseline mr-10">
