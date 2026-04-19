@@ -46,7 +46,7 @@ export function PersonalSection({
       </div>
 
       {/* Bottom: contacts (left) + photo (right, vertically centered) */}
-      <div className="flex justify-between items-center gap-6">
+      <div className="flex justify-between items-center gap-2">
         {/* Left: contact fields */}
         <div className="flex-1 min-w-0">
           <div className="grid gap-y-1 text-slate-900">
@@ -72,7 +72,7 @@ export function PersonalSection({
 
         {/* Right: photo, vertically centered with contacts */}
         {personalInfo.photo && (
-          <div className="shrink-0 mr-4">
+          <div className="shrink-0 mr-0 ml-6">
             <Photo
               src={personalInfo.photo}
               size={140}
