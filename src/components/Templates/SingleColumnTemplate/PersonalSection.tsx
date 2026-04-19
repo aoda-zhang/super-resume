@@ -23,8 +23,19 @@ export function PersonalSection({
 }: PersonalSectionProps) {
   return (
     <header className="mb-6">
-      <div className="flex justify-between items-start">
-        {/* Left: name + title + contacts */}
+      <div className="flex justify-between items-start gap-6">
+        {/* Left: photo */}
+        {personalInfo.photo && (
+          <div className="shrink-0">
+            <Photo
+              src={personalInfo.photo}
+              size={170}
+              className="rounded-full border-2 border-slate-200"
+            />
+          </div>
+        )}
+
+        {/* Right: name + title + contacts */}
         <div className="flex-1 min-w-0">
           {personalInfo.fullName && (
             <h1 style={s.name} className="text-slate-900 mb-1 wrap-break-word">
@@ -45,10 +56,9 @@ export function PersonalSection({
             </p>
           )}
 
-          {/* Contact fields — fixed 2 columns, content wraps inside each cell */}
+          {/* Contact fields */}
           <div
             className="mt-2 grid gap-y-1 text-slate-900"
-            // style={{ ...s.body, gridTemplateColumns: "1fr 1fr" }}
           >
             {contactFields.map((f) => (
               <div key={f} className="flex items-baseline mr-10">
@@ -69,17 +79,6 @@ export function PersonalSection({
             ))}
           </div>
         </div>
-
-        {/* Right: photo */}
-        {personalInfo.photo && (
-          <div className="shrink-0">
-            <Photo
-              src={personalInfo.photo}
-              size={170}
-              className="rounded-full border-2 border-slate-200"
-            />
-          </div>
-        )}
       </div>
     </header>
   );
