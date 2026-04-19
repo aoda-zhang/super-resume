@@ -1,49 +1,51 @@
-# 超级简历 · Super Resume
+# Super Resume
 
-> 专为在德国及德语区找工作设计的简历生成器。内置德国 HR 最熟悉的专业模板，支持中 / 英 / 德三语，一键导出 A4 PDF。
+> A resume builder designed for job seekers targeting Germany and the DACH region. Built with German HR expectations in mind — two-column layouts, photo support, A4 PDF export, and full German language support.
 
-![React](https://img.shields.io/badge/React-19-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![GitHub Pages](https://img.shields.io/badge/部署-GitHub%20Pages-brightgreen)
+![React](https://img.shields.io/badge/React-19-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-brightgreen)
 
----
-
-## 🎯 解决什么问题
-
-申请德国工作时，一份符合当地习惯的简历至关重要：
-
-- 📄 **德国 HR 熟悉的版式** — 两栏时间线、左侧边栏个人信息，符合 Europass 及德企简历惯例
-- 🖼️ **证件照支持** — 德国简历通常附照片，一键上传裁剪
-- 🇩🇪 **德语简历** — 内置德语字段标签，标题、内容、联系方式全德文
-- 📐 **A4 尺寸** — 欧洲标准纸张，导出 PDF 自动适配，不变形
-- 🌍 **中英德三语** — 用中文写好内容，切换语言即可生成对应版本
+[中文文档](./README_CN.md)
 
 ---
 
-## ✨ 功能特点
+## 🎯 Why This Project
+
+When applying for jobs in Germany, a resume that matches local expectations makes a big difference:
+
+- 📄 **German-standard layouts** — Two-column timeline design, sidebar with personal info — the format German recruiters know and expect
+- 🖼️ **Photo support** — German CVs typically include a professional photo; upload and crop with one click
+- 🇩🇪 **German language** — Built-in German labels and field names; generate a full German Lebenslauf
+- 📐 **A4 format** — European standard paper size; exported PDFs are print-ready
+- 🌍 **Trilingual** — Chinese / English / German — write once, generate all three versions
+
+---
+
+## ✨ Features
 
 | | |
 |---|---|
-| 🎨 **所见即所得编辑器** | 左边编辑、右边实时预览，每一步改动即时反映 |
-| 🔀 **拖拽排序** | 用鼠标拖动调整各模块顺序 |
-| 📤 **一键导出 PDF** | 打印样式优化，导出一张干净的 A4 PDF |
-| 💾 **JSON 导入 / 导出** | 数据以 JSON 存储，方便备份或迁移 |
-| 🌍 **三语言支持** | 中文 / English / Deutsch 切换，字段标签自动适配 |
-| 📝 **中英德三语简历内容** | 一份基础内容，生成三个语言版本 |
+| 🎨 **Live Editor** | Split-pane layout: edit on the left, preview on the right |
+| 🔀 **Drag & Drop** | Reorder sections by dragging in the sidebar |
+| 📤 **One-click PDF** | Clean print styles, A4-ready export |
+| 💾 **JSON Import/Export** | Backup your data or migrate easily |
+| 🌍 **Multi-language** | Interface in Chinese / English / German; field labels auto-adapt |
+| 📝 **Trilingual Content** | Write your content once, switch languages to generate different versions |
 
 ---
 
-## 🎯 模板
+## 🎯 Templates
 
-### Single Column · 单栏式
-经典上下布局：顶部放姓名、职位、联系方式，下方按时间顺序排列工作经历、教育背景等。适合大多数职位申请。
+### Single Column
+Classic vertical layout: name, title, contact at the top, followed by experience and education in chronological order. Works well for most applications.
 
-### Two Column · 双栏式
-左侧边栏含照片、个人信息、技能标签；右侧主区域以时间线展示工作经历。**这是德国 HR 最熟悉的 CV 格式**，Europass 及德企招聘网站常用此布局。
+### Two Column
+Left sidebar with photo, personal info, and skills; right main area with timeline-based work experience. **This is the layout German HRs are most familiar with** — commonly used in Europass and German job portals.
 
 ---
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 安装
+### Install & Run
 
 ```bash
 git clone https://github.com/aoda-zhang/super-resume.git
@@ -52,16 +54,16 @@ npm install
 npm run dev
 ```
 
-打开 [http://localhost:5173](http://localhost:5173)，开始编辑简历。
+Open [http://localhost:5173](http://localhost:5173) to start editing.
 
-### 构建生产版本
+### Build for Production
 
 ```bash
 npm run build
 npm run preview
 ```
 
-### 在线使用
+### Use Online
 
 ```
 https://aoda-zhang.github.io/super-resume/
@@ -69,16 +71,16 @@ https://aoda-zhang.github.io/super-resume/
 
 ---
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 src/
 ├── components/
-│   ├── Editor/              # 编辑器主体（左右分栏）
+│   ├── Editor/              # Main editor (split-pane)
 │   │   ├── ResumeWorkspace.tsx
 │   │   ├── SectionEditor.tsx
 │   │   └── MarkdownEditor.tsx
-│   ├── Sections/            # 左侧编辑面板各模块
+│   ├── Sections/            # Sidebar editing panels
 │   │   ├── SummarySection.tsx
 │   │   ├── ExperienceSection.tsx
 │   │   ├── EducationSection.tsx
@@ -86,41 +88,41 @@ src/
 │   │   ├── ProjectsSection.tsx
 │   │   ├── LanguagesSection.tsx
 │   │   └── InterestsSection.tsx
-│   └── Templates/           # 简历模板渲染
+│   └── Templates/           # Resume rendering
 │       ├── SingleColumnTemplate/
 │       ├── shared/
-│       │   ├── SectionRenderers.tsx  # 各条目渲染组件
-│       │   ├── templateStyles.ts      # 共享样式常量
-│       │   └── useTemplateData.ts    # i18n 数据 hook
+│       │   ├── SectionRenderers.tsx
+│       │   ├── templateStyles.ts
+│       │   └── useTemplateData.ts
 │       └── EditableComponents.tsx
 ├── store/
-│   └── resumeStore.ts       # Zustand 全局状态
+│   └── resumeStore.ts       # Zustand state
 ├── types/
-│   └── resume.ts            # TypeScript 类型定义
+│   └── resume.ts            # TypeScript types
 ├── i18n/
 │   └── locales/             # zh.json · en.json · de.json
 └── utils/
-    └── exportPdf.ts         # PDF 导出（window.print）
+    └── exportPdf.ts         # PDF export (window.print)
 ```
 
 ---
 
-## 🛠 技术栈
+## 🛠 Tech Stack
 
 | | |
 |---|---|
-| React 19 | UI 框架 |
-| TypeScript 6 | 类型安全 |
-| Vite 5 | 构建工具 |
-| Tailwind CSS 4 | 样式 |
-| Zustand 5 | 状态管理 |
-| dnd-kit | 拖拽排序 |
+| React 19 | UI framework |
+| TypeScript 6 | Type safety |
+| Vite 5 | Build tool |
+| Tailwind CSS 4 | Styling |
+| Zustand 5 | State management |
+| dnd-kit | Drag and drop |
 
 ---
 
-## 📋 数据格式
+## 📋 Data Format
 
-简历数据统一存储为 JSON，支持导入 / 导出备份：
+Resume data is stored as JSON, supporting import/export for backup:
 
 ```typescript
 interface ResumeData {
