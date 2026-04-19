@@ -1,6 +1,6 @@
-# Super Resume
+# Germany Resume
 
-> A resume builder designed for job seekers targeting Germany and the DACH region. Built with German HR expectations in mind — two-column layouts, photo support, A4 PDF export, and full German language support.
+> A resume builder designed for job seekers targeting Germany and the DACH region. Built with German HR expectations in mind — professional layout, photo support, A4 PDF export, and full German language support.
 
 ![React](https://img.shields.io/badge/React-19-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-brightgreen)
 
@@ -12,7 +12,7 @@
 
 When applying for jobs in Germany, a resume that matches local expectations makes a big difference:
 
-- 📄 **German-standard layouts** — Two-column timeline design, sidebar with personal info — the format German recruiters know and expect
+- 📄 **German-standard layout** — Clean, structured single-column design that German recruiters expect
 - 🖼️ **Photo support** — German CVs typically include a professional photo; upload and crop with one click
 - 🇩🇪 **German language** — Built-in German labels and field names; generate a full German Lebenslauf
 - 📐 **A4 format** — European standard paper size; exported PDFs are print-ready
@@ -33,23 +33,13 @@ When applying for jobs in Germany, a resume that matches local expectations make
 
 ---
 
-## 🎯 Templates
-
-### Single Column
-Classic vertical layout: name, title, contact at the top, followed by experience and education in chronological order. Works well for most applications.
-
-### Two Column
-Left sidebar with photo, personal info, and skills; right main area with timeline-based work experience. **This is the layout German HRs are most familiar with** — commonly used in Europass and German job portals.
-
----
-
 ## 🚀 Quick Start
 
 ### Install & Run
 
 ```bash
-git clone https://github.com/aoda-zhang/super-resume.git
-cd super-resume
+git clone https://github.com/aoda-zhang/germany-resume.git
+cd germany-resume
 npm install
 npm run dev
 ```
@@ -66,7 +56,7 @@ npm run preview
 ### Use Online
 
 ```
-https://aoda-zhang.github.io/super-resume/
+https://aoda-zhang.github.io/germany-resume/
 ```
 
 ---

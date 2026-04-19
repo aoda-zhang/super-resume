@@ -1,6 +1,6 @@
-# 超级简历 · Super Resume
+# 德国简历 · Germany Resume
 
-> 专为在德国及德语区找工作设计的简历生成器。内置德国 HR 最熟悉的专业模板，支持中 / 英 / 德三语，一键导出 A4 PDF。
+> 专为在德国及德语区找工作设计的简历生成器。符合德国 HR 期望的专业布局，支持证件照、A4 PDF 导出、完整德语支持。
 
 ![React](https://img.shields.io/badge/React-19-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![GitHub Pages](https://img.shields.io/badge/部署-GitHub%20Pages-brightgreen)
 
@@ -12,7 +12,7 @@
 
 申请德国工作时，一份符合当地习惯的简历至关重要：
 
-- 📄 **德国 HR 熟悉的版式** — 两栏时间线、左侧边栏个人信息，符合 Europass 及德企简历惯例
+- 📄 **德国标准布局** — 简洁、结构化的单栏设计，德国 HR 熟悉的格式
 - 🖼️ **证件照支持** — 德国简历通常附照片，一键上传裁剪
 - 🇩🇪 **德语简历** — 内置德语字段标签，标题、内容、联系方式全德文
 - 📐 **A4 尺寸** — 欧洲标准纸张，导出 PDF 自动适配，不变形
@@ -33,23 +33,13 @@
 
 ---
 
-## 🎯 模板
-
-### Single Column · 单栏式
-经典上下布局：顶部放姓名、职位、联系方式，下方按时间顺序排列工作经历、教育背景等。适合大多数职位申请。
-
-### Two Column · 双栏式
-左侧边栏含照片、个人信息、技能标签；右侧主区域以时间线展示工作经历。**这是德国 HR 最熟悉的 CV 格式**，Europass 及德企招聘网站常用此布局。
-
----
-
 ## 🚀 快速开始
 
 ### 安装
 
 ```bash
-git clone https://github.com/aoda-zhang/super-resume.git
-cd super-resume
+git clone https://github.com/aoda-zhang/germany-resume.git
+cd germany-resume
 npm install
 npm run dev
 ```
@@ -66,7 +56,7 @@ npm run preview
 ### 在线使用
 
 ```
-https://aoda-zhang.github.io/super-resume/
+https://aoda-zhang.github.io/germany-resume/
 ```
 
 ---
