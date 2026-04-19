@@ -382,7 +382,7 @@ export function LanguageEntry({
   levelStyle,
 }: LanguageEntryProps) {
   return (
-    <span className="inline-flex items-baseline after:content-[','] after:ml-1 last:after:content-['']">
+    <div className="items-baseline">
       <EditableText
         value={lang.name}
         onChange={(v) => onUpdate(lang.id, { name: v })}
@@ -399,6 +399,6 @@ export function LanguageEntry({
         style={levelStyle}
       />
       <span>)</span>
-    </span>
+    </div>
   );
 }
