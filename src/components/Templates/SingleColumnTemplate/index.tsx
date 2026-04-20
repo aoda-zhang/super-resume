@@ -138,15 +138,18 @@ export function SingleColumnTemplate() {
                 {languages.length > 0 && (
                   <div className="mb-3">
                     <h3 className="font-bold text-slate-900 mb-1">Languages</h3>
-                    <LanguagesSection
-                      languages={languages as Language[]}
-                      onUpdate={
-                        updateLanguage as (
-                          id: string,
-                          data: Partial<Language>,
-                        ) => void
-                      }
-                    />
+                    <div className="flex items-start gap-2">
+                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-slate-900 shrink-0" />
+                      <LanguagesSection
+                        languages={languages as Language[]}
+                        onUpdate={
+                          updateLanguage as (
+                            id: string,
+                            data: Partial<Language>,
+                          ) => void
+                        }
+                      />
+                    </div>
                   </div>
                 )}
                 {interests && (
