@@ -55,7 +55,7 @@ export function EducationSection({
               >
                 {edu.field || t.major || "Field of Study"}
               </span>
-              <span className="text-slate-500 shrink-0">
+              <span className="text-slate-900 shrink-0">
                 {edu.degree ? `, ${edu.degree}` : ""}
               </span>
             </div>

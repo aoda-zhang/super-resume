@@ -155,7 +155,7 @@ export function SingleColumnTemplate() {
                 {interests && (
                   <div>
                     <h3 className="font-bold text-slate-900 mb-1">Interests</h3>
-                    <div className="text-slate-800" style={s.body}>
+                    <div className="text-slate-900" style={s.body}>
                       {interests.split("\n").filter(Boolean).map((line, i) => (
                         <div key={i} className="flex items-start gap-2 mb-1">
                           <span className="mt-2 w-1.5 h-1.5 rounded-full bg-slate-900 shrink-0" />

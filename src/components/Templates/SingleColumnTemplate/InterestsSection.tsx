@@ -32,7 +32,7 @@ export function InterestsSection({ interests, t }: InterestsSectionProps) {
         {lines.map((line, i) => (
           <li key={i} className="flex items-start gap-2">
             <span className="mt-2 w-1.5 h-1.5 rounded-full bg-slate-900 shrink-0" />
-            <span className="text-slate-800 leading-relaxed">{line}</span>
+            <span className="text-slate-900 leading-relaxed">{line}</span>
           </li>
         ))}
       </ul>
