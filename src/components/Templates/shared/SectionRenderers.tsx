@@ -375,11 +375,30 @@ export interface LanguageEntryProps {
   separator?: string;
 }
 
+/** Maps CEFR level codes to readable proficiency descriptions */
+const proficiencyMap: Record<string, string> = {
+  A1: 'Beginner',
+  A2: 'Elementary',
+  B1: 'Intermediate',
+  B2: 'Upper-Intermediate',
+  'B2 - C1': 'Advanced',
+  C1: 'Advanced',
+  C2: 'Expert',
+  Native: 'Native',
+  beginner: 'Beginner',
+  intermediate: 'Intermediate',
+  advanced: 'Advanced',
+  expert: 'Expert',
+};
+
+function getProficiency(level: string): string {
+  return proficiencyMap[level] ?? level;
+}
+
 export function LanguageEntry({
   lang,
   onUpdate,
   nameStyle,
-  levelStyle,
 }: LanguageEntryProps) {
   return (
     <div className="items-baseline">
@@ -390,14 +409,24 @@ export function LanguageEntry({
         className="font-medium text-slate-900"
         style={nameStyle}
       />
+      <span> - </span>
+      <span className="italic text-slate-700">
+        <EditableText
+          value={getProficiency(lang.level)}
+          onChange={(v) => onUpdate(lang.id, { level: v })}
+          placeholder="Proficiency"
+          className="italic"
+        />
+      </span>
       <span>&nbsp;(</span>
-      <EditableText
-        value={lang.level}
-        onChange={(v) => onUpdate(lang.id, { level: v })}
-        placeholder="Level"
-        className="text-slate-900"
-        style={levelStyle}
-      />
+      <span className="font-medium text-slate-700">
+        <EditableText
+          value={lang.level}
+          onChange={(v) => onUpdate(lang.id, { level: v })}
+          placeholder="Level"
+          className="font-medium"
+        />
+      </span>
       <span>)</span>
     </div>
   );

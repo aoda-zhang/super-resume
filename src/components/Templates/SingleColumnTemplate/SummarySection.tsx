@@ -19,7 +19,7 @@ export function SummarySection({
   onUpdate,
 }: SummarySectionProps) {
   return (
-    <section className="mb-5">
+    <section className="mb-4">
       <SectionTitle
         label={tEditor.summary}
         sectionType="summary"

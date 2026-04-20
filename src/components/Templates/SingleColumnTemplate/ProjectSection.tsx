@@ -21,7 +21,7 @@ export function ProjectSection({
   if (projects.length === 0) return null;
 
   return (
-    <section className="mb-5">
+    <section className="mb-4">
       <SectionTitle
         label={tEditor.projects}
         sectionType="projects"

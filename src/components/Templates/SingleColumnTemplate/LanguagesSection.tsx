@@ -24,7 +24,7 @@ export function LanguagesSection({
   if (languages.length === 0) return null;
 
   return (
-    <section className="mb-5">
+    <section className="mb-4">
       <SectionTitle
         label={tEditor.languages}
         sectionType="languages"

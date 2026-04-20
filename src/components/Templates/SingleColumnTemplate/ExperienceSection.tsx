@@ -24,7 +24,7 @@ export function ExperienceSection({
   if (experience.length === 0) return null;
 
   return (
-    <section className="mb-5">
+    <section className="mb-4">
       <SectionTitle
         label={tEditor.experience}
         sectionType="experience"
@@ -35,7 +35,7 @@ export function ExperienceSection({
         <div
           key={exp.id}
           data-exp-entry
-          className="grid mb-5"
+          className="grid mb-4"
           style={{ gridTemplateColumns: "170px 1fr", alignItems: "stretch" }}
         >
           {/* Left: time (fixed width) */}

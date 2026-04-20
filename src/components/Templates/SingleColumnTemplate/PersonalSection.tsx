@@ -46,7 +46,7 @@ export function PersonalSection({
       </div>
 
       {/* Bottom: Contact info left, Avatar right */}
-      <div className="flex justify-between items-end gap-6">
+      <div className="flex justify-between items-center gap-6">
         {/* Contact fields at bottom left */}
         <div className="text-slate-900">
           {contactFields.map((f) => (
@@ -72,7 +72,7 @@ export function PersonalSection({
           <div className="shrink-0">
             <Photo
               src={personalInfo.photo}
-              size={150}
+              size={200}
               className="rounded-full border-2 border-slate-200"
             />
           </div>
