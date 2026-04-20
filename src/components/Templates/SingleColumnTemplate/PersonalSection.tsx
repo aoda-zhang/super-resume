@@ -22,8 +22,9 @@ export function PersonalSection({
   onUpdateField,
 }: PersonalSectionProps) {
   return (
-    <header className="mb-6 flex gap-6">
-      <div className="flex-1 min-w-0">
+    <header className="mb-6">
+      {/* Top: Name and Title */}
+      <div className="mb-4">
         {personalInfo.fullName && (
           <h1 style={s.name} className="text-slate-900">
             <EditableText
@@ -34,7 +35,7 @@ export function PersonalSection({
           </h1>
         )}
         {personalInfo.title && (
-          <p style={s.title} className="text-sky-700 mb-3 wrap-break-word">
+          <p style={s.title} className="text-sky-700 wrap-break-word">
             <EditableText
               value={personalInfo.title}
               onChange={(v) => onUpdateField("title", v)}
@@ -42,8 +43,11 @@ export function PersonalSection({
             />
           </p>
         )}
-        {/* two column */}
-        {/* <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-slate-900"> */}
+      </div>
+
+      {/* Bottom: Contact info left, Avatar right */}
+      <div className="flex justify-between items-end gap-6">
+        {/* Contact fields at bottom left */}
         <div className="text-slate-900">
           {contactFields.map((f) => (
             <div key={f} className="flex items-baseline">
@@ -62,16 +66,18 @@ export function PersonalSection({
             </div>
           ))}
         </div>
+
+        {/* Avatar at bottom right */}
+        {personalInfo.photo && (
+          <div className="shrink-0">
+            <Photo
+              src={personalInfo.photo}
+              size={150}
+              className="rounded-full border-2 border-slate-200"
+            />
+          </div>
+        )}
       </div>
-      {personalInfo.photo && (
-        <div className="shrink-0 mr-10">
-          <Photo
-            src={personalInfo.photo}
-            size={200}
-            className="rounded-full border-2 border-slate-200"
-          />
-        </div>
-      )}
     </header>
   );
 }
