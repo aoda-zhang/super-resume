@@ -46,6 +46,7 @@ export function useTemplateData() {
     nationality: t.nationality,
     birthDate: t.birthDate,
     workPermit: t.workPermit,
+    residenceStatus: t.residenceStatus,
     blueCard: t.blueCard,
     linkedin: t.linkedin,
     github: t.github,

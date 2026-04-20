@@ -9,6 +9,7 @@ export interface PersonalInfo {
   nationality?: string;
   birthDate?: string;
   workPermit?: string;
+  residenceStatus?: string;
   blueCard?: string;
   photo?: string; // base64 or URL
   github?: string;

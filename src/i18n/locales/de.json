@@ -44,6 +44,7 @@
     "nationality": "Staatsangehörigkeit",
     "birthDate": "Geburtsdatum",
     "workPermit": "Arbeitserlaubnis",
+    "residenceStatus": "Aufenthaltsstatus",
     "blueCard": "Blaue Karte",
     "school": "Schule/Universität",
     "degree": "Abschluss",

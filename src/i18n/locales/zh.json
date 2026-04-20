@@ -44,6 +44,7 @@
     "nationality": "国籍",
     "birthDate": "出生日期",
     "workPermit": "工作许可",
+    "residenceStatus": "居留状态",
     "blueCard": "蓝卡状态",
     "school": "学校",
     "degree": "学位",

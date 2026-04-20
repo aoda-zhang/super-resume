@@ -18,13 +18,13 @@ interface SectionOrder {
 export type PersonalInfoFieldType =
   | 'fullName' | 'title'
   | 'email' | 'phone' | 'address'
-  | 'nationality' | 'birthDate' | 'workPermit' | 'blueCard'
+  | 'nationality' | 'birthDate' | 'workPermit' | 'residenceStatus' | 'blueCard'
   | 'linkedin' | 'github' | 'website';
 
 export const defaultPersonalInfoFieldOrder: PersonalInfoFieldType[] = [
   'fullName', 'title',
   'email', 'phone', 'address',
-  'nationality', 'birthDate', 'workPermit', 'blueCard',
+  'nationality', 'birthDate', 'workPermit', 'residenceStatus', 'blueCard',
   'linkedin', 'github', 'website',
 ];
 
@@ -37,6 +37,7 @@ export const personalInfoFieldMeta: Record<PersonalInfoFieldType, { rows: number
   nationality: { rows: 1 },
   birthDate: { rows: 1 },
   workPermit: { rows: 1 },
+  residenceStatus: { rows: 1 },
   blueCard: { rows: 1 },
   linkedin: { rows: 1 },
   github: { rows: 1 },
