@@ -188,7 +188,7 @@ export function PhotoCropper({ file, onConfirm, onCancel }: PhotoCropperProps) {
           </div>
         </div>
 
-        {/* Zoom slider */}
+        {/* Zoom slider + size input */}
         <div className="w-full flex items-center gap-3">
           <span className="text-xs text-slate-400 flex-shrink-0">🔍</span>
           <input
@@ -209,7 +209,29 @@ export function PhotoCropper({ file, onConfirm, onCancel }: PhotoCropperProps) {
             }}
             className="flex-1 accent-indigo-600"
           />
-          <span className="text-xs text-slate-500 w-12 text-right">{Math.round(scale * 100)}%</span>
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <input
+              type="number"
+              min={20}
+              max={500}
+              step={5}
+              value={Math.round(scale * 100)}
+              onChange={(e) => {
+                const val = parseInt(e.target.value) || 20;
+                const clamped = Math.max(20, Math.min(500, val));
+                const newScale = clamped / 100;
+                const rect = containerRef.current!.getBoundingClientRect();
+                const mx = rect.width / 2;
+                const my = rect.height / 2;
+                const scaleRatio = newScale / scale;
+                setOffsetX(mx - (mx - offsetX) * scaleRatio);
+                setOffsetY(my - (my - offsetY) * scaleRatio);
+                setScale(newScale);
+              }}
+              className="w-14 text-xs text-right text-slate-600 bg-slate-100 border border-slate-200 rounded px-1.5 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+            />
+            <span className="text-xs text-slate-400">%</span>
+          </div>
         </div>
 
         {/* Hint */}
