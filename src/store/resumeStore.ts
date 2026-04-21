@@ -23,9 +23,10 @@ export type PersonalInfoFieldType =
 
 export const defaultPersonalInfoFieldOrder: PersonalInfoFieldType[] = [
   'fullName', 'title',
-  'email', 'phone', 'address',
-  'nationality', 'birthDate', 'workPermit', 'residenceStatus', 'blueCard',
+  'address', 'phone', 'email',
+  'birthDate', 'nationality',
   'linkedin', 'github', 'website',
+  'workPermit', 'residenceStatus', 'blueCard',
 ];
 
 export const personalInfoFieldMeta: Record<PersonalInfoFieldType, { rows: number }> = {
