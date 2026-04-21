@@ -132,7 +132,7 @@ export function PhotoCropper({ file, onConfirm, onCancel }: PhotoCropperProps) {
     const my = e.clientY - rect.top;
 
     const factor = e.deltaY < 0 ? 1.1 : 0.9;
-    const newScale = Math.max(0.2, Math.min(5, scale * factor));
+    const newScale = Math.max(0.01, Math.min(2, scale * factor));
 
     // Zoom toward mouse position
     const scaleRatio = newScale / scale;
@@ -193,9 +193,9 @@ export function PhotoCropper({ file, onConfirm, onCancel }: PhotoCropperProps) {
           <span className="text-xs text-slate-400 flex-shrink-0">🔍</span>
           <input
             type="range"
-            min={0.2}
-            max={5}
-            step={0.05}
+            min={0.01}
+            max={2}
+            step={0.01}
             value={scale}
             onChange={(e) => {
               const rect = containerRef.current!.getBoundingClientRect();
@@ -212,13 +212,13 @@ export function PhotoCropper({ file, onConfirm, onCancel }: PhotoCropperProps) {
           <div className="flex items-center gap-1 flex-shrink-0">
             <input
               type="number"
-              min={20}
-              max={500}
-              step={5}
+              min={1}
+              max={200}
+              step={1}
               value={Math.round(scale * 100)}
               onChange={(e) => {
-                const val = parseInt(e.target.value) || 20;
-                const clamped = Math.max(20, Math.min(500, val));
+                const val = parseInt(e.target.value) || 1;
+                const clamped = Math.max(1, Math.min(200, val));
                 const newScale = clamped / 100;
                 const rect = containerRef.current!.getBoundingClientRect();
                 const mx = rect.width / 2;
