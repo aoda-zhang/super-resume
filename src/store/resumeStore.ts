@@ -362,7 +362,7 @@ export const useResumeStore = create<ResumeState>()(
       setLanguage: (language) => {
         const labels = {
           zh: { personal: '基本信息', summary: '自我评价', experience: '工作经历', education: '教育经历', projects: '项目经验', skills: '专业技能', languages: '语言能力', interests: '兴趣爱好' },
-          en: { personal: 'Personal Info', summary: 'Profile', experience: 'Work Experience', education: 'Education', projects: 'Projects', skills: 'Skills', languages: 'Languages', interests: 'Interests' },
+          en: { personal: 'Personal Info', summary: 'Professional summary', experience: 'Work Experience', education: 'Education', projects: 'Projects', skills: 'Skills', languages: 'Languages', interests: 'Interests' },
           de: { personal: 'Persönliche Daten', summary: 'Zusammenfassung', experience: 'Berufserfahrung', education: 'Ausbildung', projects: 'Projekte', skills: 'Fähigkeiten', languages: 'Sprachen', interests: 'Hobbys' },
         };
         const sectionOrder = defaultSectionOrder.map(s => ({
