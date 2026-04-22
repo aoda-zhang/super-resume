@@ -35,13 +35,13 @@ export function ResumeWorkspace() {
 
   /**
    * Build PDF filename from name and title.
-   * e.g. "Aoda Zhang" + "Full-Stack Developer" → "aoda-zhang-full-stack-developer.pdf"
+   * Preserves original casing: "Aoda Zhang" + "Full-Stack Developer" → "Aoda-Zhang-Full-Stack-Developer.pdf"
    */
   const buildPdfFileName = (): string => {
     const name = (resumeData.personalInfo.fullName || '').trim();
     const title = (resumeData.personalInfo.title || '').trim();
     const toSlug = (s: string) =>
-      s.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+      s.replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     const parts = [toSlug(name), toSlug(title)].filter(Boolean);
     return parts.length > 0 ? parts.join('-') : 'resume';
   };
