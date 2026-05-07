@@ -17,7 +17,6 @@ body,
 
 [data-resume-preview] > div {
   width: 210mm;
-  min-height: 297mm;
   box-sizing: border-box;
 }
 
@@ -101,13 +100,19 @@ body,
     width: 170px !important;
   }
 
-  p,
   li,
   td {
     break-inside: avoid;
   }
 
   [data-resume-preview] section > [data-section-title] {
+    break-inside: avoid;
+    break-after: avoid;
+  }
+
+  [data-resume-preview] [data-exp-entry] > div:first-child,
+  [data-resume-preview] [data-exp-entry] h3,
+  [data-resume-preview] [data-exp-entry] .font-bold {
     break-inside: avoid;
   }
 
