@@ -11,5 +11,5 @@ export const singleColumnStyles = {
   sectionTitle: { fontSize: "20px", fontWeight: "bold" as const },
   body: { fontSize, fontWeight: "normal" as const },
   label: "font-bold text-slate-900 border-b border-slate-900 pb-1 block mb-3",
-  padding: "24px 36px",
+  padding: "34px",
 };
