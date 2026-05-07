@@ -46,11 +46,17 @@ export function PersonalSection({
       </div>
 
       {/* Bottom: Contact info left, Avatar right */}
-      <div className="flex justify-between items-center gap-6">
+      <div
+        className={`grid gap-6 ${
+          personalInfo.photo
+            ? "grid-cols-[1fr_auto] items-center"
+            : "grid-cols-2"
+        }`}
+      >
         {/* Contact fields at bottom left */}
-        <div className="text-slate-900">
+        <div className="text-slate-900 min-w-0 grid grid-cols-2 gap-x-6 gap-y-1">
           {contactFields.map((f) => (
-            <div key={f} className="flex items-baseline">
+            <div key={f} className="grid grid-cols-[auto_1fr] items-baseline">
               <span className="font-bold shrink-0 whitespace-nowrap pr-1">
                 {fieldLabels[f]}
                 <span>:</span>
@@ -72,7 +78,7 @@ export function PersonalSection({
           <div className="shrink-0">
             <Photo
               src={personalInfo.photo}
-              size={200}
+              size={180}
               className="rounded-full border-2 border-slate-200"
             />
           </div>
