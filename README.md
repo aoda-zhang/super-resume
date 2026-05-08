@@ -1,6 +1,6 @@
-# Germany Resume
+# Simple Power Resume
 
-> A resume builder designed for job seekers targeting Germany and the DACH region. Built with German HR expectations in mind — professional layout, photo support, A4 PDF export, and full German language support.
+> A simple yet powerful open-source resume builder. Create professional, A4-ready resumes with live editing, drag-and-drop, multi-language support, and one-click PDF export.
 
 ![React](https://img.shields.io/badge/React-19-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-brightgreen)
 
@@ -10,33 +10,30 @@
 
 ## 📖 About
 
-When I started applying for jobs in Germany, I quickly realized that German CVs follow a very specific format — one that's quite different from what I was used to. German recruiters expect:
+Simple Power Resume is a clean, intuitive open-source resume builder designed for everyone. Whether you're a developer, designer, or any professional, it helps you create professional, A4-ready resumes with zero hassle.
 
-- A professional photo in the top corner
-- Personal details like nationality and date of birth
-- A clean, structured layout (often with a sidebar)
-- Concise content that fits on 1-2 pages
+Built with simplicity and power in mind, it comes with:
 
-After struggling with generic resume builders that didn't understand these requirements, I built Germany Resume. It's a tool designed specifically for the German job market, with:
+- **Live split-pane editor** — edit on the left, preview on the right in real time
+- **Drag-and-drop sorting** — rearrange resume sections effortlessly
+- **One-click PDF export** — clean, print-ready A4 PDFs in seconds
+- **Multi-language support** — interface in Chinese, English, German; write once, generate multiple versions
+- **JSON import/export** — backup or migrate your resume data easily
 
-- **Localized field names** in German (Vorname, Nachname, Anschrift, etc.)
-- **A4 format** by default — no more US Letter confusion
-- **Photo upload with crop** — because German CVs need that photo
-- **Trilingual support** — write once in Chinese, generate English and German versions
-
-This project is open source and free to use. I hope it helps others on their journey to work in Germany! 🇩🇪
+This project is free, open-source, and MIT licensed. Perfect for anyone who wants a professional resume without the learning curve! 🚀
 
 ---
 
-## 🎯 Why This Project
+## 🎯 Why Simple Power Resume
 
-When applying for jobs in Germany, a resume that matches local expectations makes a big difference:
+A great resume makes a huge difference in your job search. Simple Power Resume stands out because:
 
-- 📄 **German-standard layout** — Clean, structured single-column design that German recruiters expect
-- 🖼️ **Photo support** — German CVs typically include a professional photo; upload and crop with one click
-- 🇩🇪 **German language** — Built-in German labels and field names; generate a full German Lebenslauf
-- 📐 **A4 format** — European standard paper size; exported PDFs are print-ready
-- 🌍 **Trilingual** — Chinese / English / German — write once, generate all three versions
+- 📄 **Professional templates** — Clean, modern layouts that recruiters love, A4 format by default
+- 🖼️ **Photo support** — Optional professional photo upload with crop tool
+- 🌍 **Multi-language** — Built-in Chinese, English, German labels; generate resumes in multiple languages from one dataset
+- 📐 **A4 standard** — European/International standard paper size, no more formatting issues
+- ✏️ **Live editing** — See changes instantly with split-pane preview
+- 💾 **Data portability** — JSON-based storage for easy backup and migration
 
 ---
 
@@ -58,8 +55,8 @@ When applying for jobs in Germany, a resume that matches local expectations make
 ### Install & Run
 
 ```bash
-git clone https://github.com/aoda-zhang/germany-resume.git
-cd germany-resume
+git clone https://github.com/aoda-zhang/simple-power-resume.git
+cd simple-power-resume
 npm install
 npm run dev
 ```
@@ -76,7 +73,7 @@ npm run preview
 ### Use Online
 
 ```
-https://aoda-zhang.github.io/germany-resume/
+https://aoda-zhang.github.io/simple-power-resume/
 ```
 
 ---

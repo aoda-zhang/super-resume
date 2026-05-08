@@ -1,8 +1,8 @@
 {
-  "name": "super-resume",
+  "name": "simple-power-resume",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://aoda-zhang.github.io/germany-resume",
+  "homepage": "https://aoda-zhang.github.io/simple-power-resume",
   "type": "module",
   "scripts": {
     "dev": "vite",
